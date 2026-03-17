@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Старт під ключ — Повний онлайн-запуск за 7 днів</title>
+  <meta name="description" content="Запустіть свій бізнес онлайн за 7 днів. Логотип, сайт, AI чат-бот, реклама та перші ліди — під ключ. Чернігів." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d0d0f;
+      --bg2:       #141418;
+      --bg3:       #1a1a20;
+      --border:    #2a2a35;
+      --orange:    #f97316;
+      --gold:      #f5b942;
+      --gold-lite: #fde68a;
+      --text:      #e8e8f0;
+      --muted:     #8888a0;
+      --radius:    16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── Utils ── */
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(249,115,22,.12); border: 1px solid rgba(249,115,22,.3);
+      color: var(--orange); border-radius: 100px;
+      font-size: 13px; font-weight: 600; padding: 4px 14px;
+      letter-spacing: .4px; text-transform: uppercase;
+    }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      background: linear-gradient(135deg, var(--orange), var(--gold));
+      color: #0d0d0f; font-weight: 800; font-size: 18px;
+      padding: 18px 40px; border-radius: 100px;
+      text-decoration: none; border: none; cursor: pointer;
+      box-shadow: 0 0 40px rgba(249,115,22,.4);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(249,115,22,.6); }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--orange);
+      color: var(--orange);
+      box-shadow: none;
+      font-size: 16px; padding: 14px 32px;
+    }
+    .btn-outline:hover { background: rgba(249,115,22,.08); box-shadow: 0 0 30px rgba(249,115,22,.25); }
+
+    /* ── Noise overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+      opacity: .4;
+    }
+
+    section { position: relative; z-index: 1; }
+
+    /* ════════════════════════════════
+       HERO
+    ════════════════════════════════ */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      padding: 100px 0 80px;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(249,115,22,.18) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 80% 80%, rgba(245,185,66,.08) 0%, transparent 60%);
+    }
+
+    .hero-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    @media(max-width:768px){ .hero-inner { grid-template-columns: 1fr; text-align: center; } }
+
+    .hero-eyebrow { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+    @media(max-width:768px){ .hero-eyebrow { justify-content: center; } }
+
+    .hero-title {
+      font-size: clamp(38px, 6vw, 72px);
+      font-weight: 900; line-height: 1.05; letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+    .hero-title .accent {
+      background: linear-gradient(90deg, var(--orange), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 20px; color: var(--muted); margin-bottom: 40px; max-width: 500px;
+    }
+    @media(max-width:768px){ .hero-sub { margin: 0 auto 40px; } }
+
+    .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+    @media(max-width:768px){ .hero-cta { justify-content: center; } }
+
+    .hero-badge {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 20px; padding: 32px;
+      display: flex; flex-direction: column; gap: 18px;
+    }
+    .hero-badge-row { display: flex; align-items: center; gap: 12px; }
+    .hero-badge-icon {
+      width: 44px; height: 44px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      background: rgba(249,115,22,.12); border: 1px solid rgba(249,115,22,.2);
+      flex-shrink: 0;
+    }
+    .hero-badge-text { font-size: 15px; font-weight: 600; color: var(--text); }
+    .hero-badge-text span { color: var(--muted); font-weight: 400; font-size: 13px; display: block; }
+
+    .timer-bar {
+      margin-top: 8px;
+      background: rgba(249,115,22,.1); border-radius: 100px;
+      height: 6px; overflow: hidden;
+    }
+    .timer-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--orange), var(--gold));
+      border-radius: 100px;
+      width: 0;
+      animation: fillBar 7s linear forwards;
+    }
+    @keyframes fillBar { to { width: 100%; } }
+
+    /* ════════════════════════════════
+       WHAT'S INCLUDED
+    ════════════════════════════════ */
+    #included {
+      padding: 100px 0;
+      background: var(--bg2);
+    }
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-title {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800; letter-spacing: -1px; margin-top: 16px; margin-bottom: 16px;
+    }
+    .section-sub { color: var(--muted); font-size: 18px; max-width: 560px; margin: 0 auto; }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      transition: border-color .25s, transform .25s;
+      position: relative; overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--orange), var(--gold));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .3s;
+    }
+    .card:hover { border-color: rgba(249,115,22,.4); transform: translateY(-4px); }
+    .card:hover::before { transform: scaleX(1); }
+
+    .card-icon { font-size: 36px; margin-bottom: 16px; }
+    .card-title { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .card-desc { color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+    /* ════════════════════════════════
+       HOW IT WORKS
+    ════════════════════════════════ */
+    #how {
+      padding: 100px 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 50%, rgba(245,185,66,.06) 0%, transparent 60%);
+    }
+
+    .steps { display: flex; flex-direction: column; gap: 0; max-width: 700px; margin: 0 auto; }
+
+    .step {
+      display: flex; gap: 24px; align-items: flex-start;
+      padding-bottom: 40px; position: relative;
+    }
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute; left: 23px; top: 52px; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--orange), transparent);
+    }
+
+    .step-num {
+      width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+      background: linear-gradient(135deg, var(--orange), var(--gold));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 18px; color: #0d0d0f;
+      box-shadow: 0 0 20px rgba(249,115,22,.35);
+    }
+    .step-body {}
+    .step-title { font-size: 20px; font-weight: 700; margin-bottom: 8px; padding-top: 10px; }
+    .step-desc { color: var(--muted); font-size: 15px; }
+
+    /* ════════════════════════════════
+       PRICE
+    ════════════════════════════════ */
+    #price {
+      padding: 100px 0;
+      background: var(--bg2);
+    }
+
+    .price-card {
+      max-width: 680px; margin: 0 auto;
+      background: var(--bg3);
+      border: 1px solid rgba(249,115,22,.3);
+      border-radius: 24px; padding: 56px;
+      text-align: center;
+      position: relative; overflow: hidden;
+      box-shadow: 0 0 80px rgba(249,115,22,.12);
+    }
+    .price-card::before {
+      content: '';
+      position: absolute; top: -1px; left: 10%; right: 10%; height: 3px;
+      background: linear-gradient(90deg, transparent, var(--orange), var(--gold), transparent);
+      border-radius: 100px;
+    }
+
+    .price-label { font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 20px; }
+    .price-amount {
+      font-size: clamp(48px, 8vw, 80px); font-weight: 900; letter-spacing: -2px;
+      background: linear-gradient(90deg, var(--orange), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1;
+    }
+    .price-range { font-size: 18px; color: var(--muted); margin: 8px 0 32px; }
+    .price-deadline {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(245,185,66,.1); border: 1px solid rgba(245,185,66,.25);
+      color: var(--gold); border-radius: 100px;
+      font-size: 15px; font-weight: 600; padding: 8px 20px; margin-bottom: 40px;
+    }
+    .price-includes {
+      display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 40px;
+    }
+    .price-pill {
+      background: rgba(249,115,22,.08); border: 1px solid rgba(249,115,22,.2);
+      color: var(--text); border-radius: 100px;
+      font-size: 13px; font-weight: 500; padding: 6px 14px;
+    }
+    .price-note { color: var(--muted); font-size: 13px; margin-top: 20px; }
+
+    /* ════════════════════════════════
+       CTA
+    ════════════════════════════════ */
+    #cta {
+      padding: 100px 0;
+      text-align: center;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(249,115,22,.15) 0%, transparent 65%);
+    }
+    .cta-title { font-size: clamp(32px, 5vw, 60px); font-weight: 900; letter-spacing: -1.5px; margin: 16px 0 20px; }
+    .cta-sub { color: var(--muted); font-size: 18px; margin-bottom: 48px; }
+    .contact-info {
+      display: flex; align-items: center; justify-content: center; gap: 20px;
+      flex-wrap: wrap; margin-top: 32px;
+    }
+    .contact-chip {
+      display: flex; align-items: center; gap: 8px;
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 100px; padding: 10px 20px;
+      font-size: 15px; color: var(--muted);
+    }
+    .contact-chip strong { color: var(--text); }
+
+    /* ════════════════════════════════
+       FOOTER
+    ════════════════════════════════ */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 0; text-align: center;
+      color: var(--muted); font-size: 13px;
+    }
+
+    /* ════════════════════════════════
+       STICKY CTA
+    ════════════════════════════════ */
+    .sticky-cta {
+      position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+      z-index: 100;
+      background: rgba(13,13,15,.85); backdrop-filter: blur(16px);
+      border: 1px solid rgba(249,115,22,.25);
+      border-radius: 100px; padding: 12px 12px 12px 24px;
+      display: flex; align-items: center; gap: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,.6);
+      opacity: 0; transition: opacity .4s;
+    }
+    .sticky-cta.visible { opacity: 1; }
+    .sticky-cta-text { font-size: 15px; font-weight: 600; white-space: nowrap; }
+    .sticky-cta .btn { font-size: 15px; padding: 12px 24px; }
+    @media(max-width:500px){ .sticky-cta-text { display: none; } }
+  </style>
+</head>
+<body>
+
+<!-- ════ HERO ════ -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">
+          <span class="tag">🚀 Старт під ключ</span>
+        </div>
+        <h1 class="hero-title">
+          Повний онлайн&#8209;запуск<br/>
+          <span class="accent">за 7 днів.</span><br/>
+          AI замість менеджера 24/7
+        </h1>
+        <p class="hero-sub">
+          Логотип, сайт, чат-бот, реклама та перші ліди —
+          все разом, без головного болю, за фіксованою ціною.
+        </p>
+        <div class="hero-cta">
+          <a href="https://t.me/твой_ник" class="btn" target="_blank">
+            ✈️ Написати в Telegram
+          </a>
+          <a href="#included" class="btn btn-outline">Що входить?</a>
+        </div>
+      </div>
+
+      <div class="hero-badge">
+        <div class="hero-badge-row">
+          <div class="hero-badge-icon">🎨</div>
+          <div class="hero-badge-text">Логотип + бренд <span>Унікальний фірмовий стиль</span></div>
+        </div>
+        <div class="hero-badge-row">
+          <div class="hero-badge-icon">🌐</div>
+          <div class="hero-badge-text">Сайт + домен <span>Лендинг, що продає</span></div>
+        </div>
+        <div class="hero-badge-row">
+          <div class="hero-badge-icon">🤖</div>
+          <div class="hero-badge-text">AI чат-бот 24/7 <span>Відповідає замість вас</span></div>
+        </div>
+        <div class="hero-badge-row">
+          <div class="hero-badge-icon">🎬</div>
+          <div class="hero-badge-text">Промо-ролик 60–90 сек <span>Для соцмереж та реклами</span></div>
+        </div>
+        <div class="hero-badge-row">
+          <div class="hero-badge-icon">📣</div>
+          <div class="hero-badge-text">Google + Facebook + Ліди <span>Рекламний бюджет включено</span></div>
+        </div>
+        <div>
+          <p style="font-size:13px;color:var(--muted);margin-bottom:6px;">⏱ Запуск за 7 днів — рахунок іде</p>
+          <div class="timer-bar"><div class="timer-fill"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ INCLUDED ════ -->
+<section id="included">
+  <div class="container">
+    <div class="section-header">
+      <span class="tag">📦 Що входить</span>
+      <h2 class="section-title">7 блоків, які запускають ваш бізнес</h2>
+      <p class="section-sub">Не потрібно нічого шукати окремо — все в одному пакеті під ключ</p>
+    </div>
+    <div class="cards-grid">
+      <div class="card">
+        <div class="card-icon">🎨</div>
+        <div class="card-title">Логотип + фірмовий стиль</div>
+        <div class="card-desc">Унікальний логотип, кольорова палітра, шрифти — все, що робить ваш бренд впізнаваним з першого погляду.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🌐</div>
+        <div class="card-title">Сайт (лендинг) + домен</div>
+        <div class="card-desc">Продаючий одностраничник із формою заявки, підключений до домену вашого бізнесу. Мобільна адаптація включена.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🤖</div>
+        <div class="card-title">AI чат-бот 24/7</div>
+        <div class="card-desc">Автоматично відповідає на запитання клієнтів, збирає заявки та передає гарячих лідів вам у Telegram — навіть уночі.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎬</div>
+        <div class="card-title">Промо-ролик 60–90 сек</div>
+        <div class="card-desc">Короткий відеоролик для Instagram Reels, TikTok та таргетованої реклами. Сценарій, монтаж, музика — вже в ціні.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📍</div>
+        <div class="card-title">Google Business аккаунт</div>
+        <div class="card-desc">Реєстрація та наповнення Google My Business: фото, опис, графік роботи. Ваш бізнес з'явиться на картах.</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📣</div>
+        <div class="card-title">Facebook сторінка + таргет</div>
+        <div class="card-desc">Оформлення сторінки, налаштування та запуск першої рекламної кампанії. Рекламний бюджет вже включено в пакет.</div>
+      </div>
+      <div class="card" style="border-color:rgba(245,185,66,.3); background: linear-gradient(135deg, var(--bg3), rgba(245,185,66,.04));">
+        <div class="card-icon">🎯</div>
+        <div class="card-title">Перші ліди</div>
+        <div class="card-desc">Ви отримуєте реальні заявки від потенційних клієнтів ще до завершення 7 днів. Результат — не обіцянка, а частина пакету.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ HOW IT WORKS ════ -->
+<section id="how">
+  <div class="container">
+    <div class="section-header">
+      <span class="tag">⚙️ Як це працює</span>
+      <h2 class="section-title">7 днів від нуля до клієнтів</h2>
+      <p class="section-sub">Простий процес — ви беретесь за свою справу, ми за запуск</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <div class="step-title">День 1 — Знайомство та бриф 📋</div>
+          <div class="step-desc">Спілкуємося у Telegram, ви розповідаєте про бізнес. Збираємо всю інформацію: аудиторія, конкуренти, цілі. Підписуємо договір.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <div class="step-title">Дні 2–3 — Бренд та контент 🎨</div>
+          <div class="step-desc">Розробляємо логотип, фірмовий стиль та сайт. Паралельно знімаємо та монтуємо промо-ролик.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <div class="step-title">Дні 4–5 — Налаштування AI та соцмереж 🤖</div>
+          <div class="step-desc">Підключаємо AI чат-бот, наповнюємо Google Business, оформлюємо Facebook сторінку. Все тестуємо.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <div class="step-title">Дні 6–7 — Запуск реклами та ліди 🚀</div>
+          <div class="step-desc">Запускаємо таргет, вмикаємо AI бота. Перші заявки надходять до вас ще до фіналу 7-го дня.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">✓</div>
+        <div class="step-body">
+          <div class="step-title">Передача та підтримка 🤝</div>
+          <div class="step-desc">Передаємо всі доступи, проводимо коротку інструкцію. Відповідаємо на питання ще 30 днів після запуску.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ PRICE ════ -->
+<section id="price">
+  <div class="container">
+    <div class="section-header">
+      <span class="tag">💰 Ціна</span>
+      <h2 class="section-title">Прозора ціна. Нуль прихованих платежів</h2>
+    </div>
+    <div class="price-card">
+      <p class="price-label">Пакет «Старт під ключ»</p>
+      <div class="price-amount">від 25 000 ₴</div>
+      <p class="price-range">Залежно від ніші та обсягу — від 25 000 до 35 000 грн</p>
+      <div class="price-deadline">⚡ Повний запуск за 7 календарних днів</div>
+      <div class="price-includes">
+        <span class="price-pill">🎨 Логотип + стиль</span>
+        <span class="price-pill">🌐 Сайт + домен</span>
+        <span class="price-pill">🤖 AI чат-бот</span>
+        <span class="price-pill">🎬 Промо-ролик</span>
+        <span class="price-pill">📍 Google Business</span>
+        <span class="price-pill">📣 Facebook + таргет</span>
+        <span class="price-pill">🎯 Перші ліди</span>
+        <span class="price-pill">📞 30 днів підтримки</span>
+      </div>
+      <a href="https://t.me/твой_ник" class="btn" target="_blank" style="font-size:17px;">
+        ✈️ Замовити пакет у Telegram
+      </a>
+      <p class="price-note">🔒 Договір + часткова передоплата · Решта після здачі · Чернігів і онлайн</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════ CTA ════ -->
+<section id="cta">
+  <div class="container">
+    <span class="tag">🔥 Готові стартувати?</span>
+    <h2 class="cta-title">Ваш бізнес може бути онлайн вже через тиждень</h2>
+    <p class="cta-sub">Напишіть зараз — розкажіть про свою ідею, а ми розрахуємо точну ціну</p>
+    <a href="https://t.me/твой_ник" class="btn" target="_blank" style="font-size:20px; padding: 22px 52px;">
+      ✈️ Написати Дмитру в Telegram
+    </a>
+    <div class="contact-info">
+      <div class="contact-chip">👤 <strong>Дмитро</strong></div>
+      <div class="contact-chip">📍 <strong>Чернігів</strong> · Онлайн</div>
+      <div class="contact-chip">✈️ <a href="https://t.me/твой_ник" style="color:var(--gold);text-decoration:none;font-weight:600;">@твой_ник</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 · Старт під ключ · Дмитро, Чернігів</p>
+  </div>
+</footer>
+
+<!-- Sticky CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <span class="sticky-cta-text">Запуск за 7 днів від 25 000 ₴</span>
+  <a href="https://t.me/твой_ник" class="btn" target="_blank">Замовити ✈️</a>
+</div>
+
+<script>
+  // Sticky CTA visibility
+  const cta = document.getElementById('stickyCta');
+  window.addEventListener('scroll', () => {
+    cta.classList.toggle('visible', window.scrollY > 600);
+  });
+</script>
+</body>
+</html>
