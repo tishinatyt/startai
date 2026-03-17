@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Бриф — Старт під ключ | StartAI</title>
+  <meta name="description" content="Заповніть короткий бриф і отримайте рекомендований пакет запуску за 7 днів" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0d0f;
+      --bg2:     #141418;
+      --bg3:     #1a1a20;
+      --border:  #2a2a35;
+      --orange:  #f97316;
+      --gold:    #f5b942;
+      --text:    #e8e8f0;
+      --muted:   #8888a0;
+      --radius:  16px;
+      --green:   #22c55e;
+      --red:     #ef4444;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 40px 16px 80px;
+      background-image:
+        radial-gradient(ellipse 80% 40% at 50% -5%, rgba(249,115,22,.15) 0%, transparent 65%);
+    }
+
+    /* ── Header ── */
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 40px; text-decoration: none;
+    }
+    .logo-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--orange), var(--gold));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .logo-text { font-size: 20px; font-weight: 800; color: var(--text); }
+    .logo-text span { color: var(--orange); }
+
+    /* ── Card ── */
+    .card {
+      width: 100%; max-width: 620px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    /* ── Progress bar ── */
+    .progress-wrap {
+      padding: 24px 32px 0;
+    }
+    .progress-meta {
+      display: flex; justify-content: space-between;
+      font-size: 13px; color: var(--muted); margin-bottom: 10px;
+    }
+    .progress-track {
+      height: 4px; background: var(--bg3); border-radius: 100px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--orange), var(--gold));
+      border-radius: 100px;
+      transition: width .4s cubic-bezier(.4,0,.2,1);
+    }
+
+    /* ── Step ── */
+    .step { display: none; padding: 32px; }
+    .step.active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+
+    .step-label {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(249,115,22,.1); border: 1px solid rgba(249,115,22,.25);
+      color: var(--orange); border-radius: 100px;
+      font-size: 12px; font-weight: 700; padding: 3px 12px;
+      text-transform: uppercase; letter-spacing: .5px;
+      margin-bottom: 16px;
+    }
+    .step-title { font-size: 24px; font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+    .step-sub { color: var(--muted); font-size: 15px; margin-bottom: 28px; }
+
+    /* ── Option buttons ── */
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .opt {
+      display: flex; align-items: center; gap: 14px;
+      background: var(--bg3); border: 1.5px solid var(--border);
+      border-radius: 14px; padding: 16px 20px;
+      cursor: pointer; transition: border-color .2s, background .2s, transform .15s;
+      user-select: none;
+    }
+    .opt:hover { border-color: rgba(249,115,22,.4); background: rgba(249,115,22,.05); transform: translateX(4px); }
+    .opt.selected {
+      border-color: var(--orange);
+      background: rgba(249,115,22,.08);
+    }
+    .opt-icon { font-size: 26px; width: 36px; text-align: center; flex-shrink: 0; }
+    .opt-body {}
+    .opt-title { font-size: 16px; font-weight: 600; }
+    .opt-desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    .opt-check {
+      margin-left: auto; width: 22px; height: 22px; border-radius: 50%;
+      border: 2px solid var(--border); flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: border-color .2s, background .2s;
+    }
+    .opt.selected .opt-check {
+      border-color: var(--orange);
+      background: var(--orange);
+    }
+    .opt.selected .opt-check::after {
+      content: '';
+      width: 8px; height: 5px;
+      border-left: 2px solid #0d0d0f;
+      border-bottom: 2px solid #0d0d0f;
+      transform: rotate(-45deg) translate(1px,-1px);
+      display: block;
+    }
+
+    /* ── Form fields ── */
+    .fields { display: flex; flex-direction: column; gap: 16px; }
+    .field label {
+      display: block; font-size: 13px; font-weight: 600;
+      color: var(--muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: .5px;
+    }
+    .field input {
+      width: 100%; background: var(--bg3); border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 14px 16px;
+      color: var(--text); font-size: 16px; font-family: inherit;
+      outline: none; transition: border-color .2s;
+    }
+    .field input:focus { border-color: var(--orange); }
+    .field input::placeholder { color: var(--muted); }
+
+    /* ── Nav ── */
+    .nav {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-top: 32px; gap: 12px;
+    }
+    .btn-back {
+      background: none; border: 1.5px solid var(--border);
+      color: var(--muted); border-radius: 100px;
+      padding: 12px 24px; font-size: 15px; font-weight: 600;
+      cursor: pointer; transition: border-color .2s, color .2s;
+      font-family: inherit;
+    }
+    .btn-back:hover { border-color: var(--muted); color: var(--text); }
+    .btn-next {
+      background: linear-gradient(135deg, var(--orange), var(--gold));
+      color: #0d0d0f; border: none; border-radius: 100px;
+      padding: 14px 36px; font-size: 16px; font-weight: 800;
+      cursor: pointer; transition: opacity .2s, transform .2s;
+      font-family: inherit; flex: 1; max-width: 280px;
+      box-shadow: 0 0 30px rgba(249,115,22,.3);
+    }
+    .btn-next:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 0 45px rgba(249,115,22,.5); }
+    .btn-next:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+    /* ── Result ── */
+    #result { display: none; padding: 32px; }
+    #result.active { display: block; animation: fadeIn .4s ease; }
+
+    .result-header {
+      text-align: center; margin-bottom: 32px;
+    }
+    .result-icon {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--orange), var(--gold));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 32px; margin: 0 auto 16px;
+      box-shadow: 0 0 40px rgba(249,115,22,.4);
+    }
+    .result-title { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+    .result-sub { color: var(--muted); font-size: 15px; }
+
+    .package-card {
+      background: var(--bg3);
+      border: 1px solid rgba(249,115,22,.3);
+      border-radius: 18px; padding: 24px;
+      margin-bottom: 20px;
+      position: relative; overflow: hidden;
+    }
+    .package-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--orange), var(--gold));
+    }
+    .package-name {
+      font-size: 13px; text-transform: uppercase; letter-spacing: 1px;
+      color: var(--orange); font-weight: 700; margin-bottom: 6px;
+    }
+    .package-title { font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+    .package-price {
+      font-size: 32px; font-weight: 900;
+      background: linear-gradient(90deg, var(--orange), var(--gold));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; margin: 12px 0;
+    }
+    .package-items { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .package-item {
+      background: rgba(249,115,22,.08); border: 1px solid rgba(249,115,22,.18);
+      border-radius: 100px; padding: 4px 12px;
+      font-size: 13px; color: var(--text);
+    }
+
+    .result-note {
+      background: rgba(34,197,94,.07); border: 1px solid rgba(34,197,94,.2);
+      border-radius: 12px; padding: 14px 16px;
+      display: flex; gap: 10px; align-items: flex-start;
+      font-size: 14px; color: var(--muted); margin-bottom: 24px;
+    }
+    .result-note span { color: var(--green); font-size: 18px; margin-top: -1px; }
+
+    .btn-tg {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%;
+      background: linear-gradient(135deg, var(--orange), var(--gold));
+      color: #0d0d0f; font-weight: 800; font-size: 18px;
+      padding: 18px 32px; border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 0 40px rgba(249,115,22,.4);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn-tg:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(249,115,22,.6); }
+
+    /* ── Sending state ── */
+    .sending-overlay {
+      display: none; text-align: center; padding: 20px 0;
+    }
+    .spinner {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 3px solid var(--border);
+      border-top-color: var(--orange);
+      animation: spin .8s linear infinite;
+      margin: 0 auto 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Error ── */
+    .field-error { color: var(--red); font-size: 13px; margin-top: 4px; display: none; }
+
+    /* ── Footer ── */
+    .brief-footer {
+      margin-top: 24px; text-align: center;
+      font-size: 13px; color: var(--muted);
+    }
+    .brief-footer a { color: var(--orange); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<a href="index.html" class="logo">
+  <div class="logo-icon">🚀</div>
+  <div class="logo-text">Start<span>AI</span></div>
+</a>
+
+<div class="card">
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="progressLabel">Крок 1 з 4</span>
+      <span id="progressPct">25%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill" style="width:25%"></div>
+    </div>
+  </div>
+
+  <!-- ════ STEP 1 — Тип бізнесу ════ -->
+  <div class="step active" id="step1">
+    <div class="step-label">Крок 1</div>
+    <h2 class="step-title">Який у вас бізнес? 🏢</h2>
+    <p class="step-sub">Оберіть тип — підберемо оптимальне рішення</p>
+    <div class="options">
+      <div class="opt" data-step="1" data-value="Магазин / e-commerce">
+        <div class="opt-icon">🛍️</div>
+        <div class="opt-body">
+          <div class="opt-title">Магазин / e-commerce</div>
+          <div class="opt-desc">Роздрібна торгівля, інтернет-магазин</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="1" data-value="Послуги">
+        <div class="opt-icon">🤝</div>
+        <div class="opt-body">
+          <div class="opt-title">Послуги</div>
+          <div class="opt-desc">Ремонт, краса, медицина, юридичні та ін.</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="1" data-value="Ресторан / кафе / їжа">
+        <div class="opt-icon">🍽️</div>
+        <div class="opt-body">
+          <div class="opt-title">Ресторан / кафе / їжа</div>
+          <div class="opt-desc">HoReCa, доставка, food-проєкти</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="1" data-value="Виробництво">
+        <div class="opt-icon">🏭</div>
+        <div class="opt-body">
+          <div class="opt-title">Виробництво</div>
+          <div class="opt-desc">Завод, майстерня, b2b-продукт</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="1" data-value="Інше">
+        <div class="opt-icon">💡</div>
+        <div class="opt-body">
+          <div class="opt-title">Інше</div>
+          <div class="opt-desc">Стартап, НКО, особистий бренд тощо</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <div></div>
+      <button class="btn-next" id="next1" disabled onclick="goStep(2)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ════ STEP 2 — Онлайн-присутність ════ -->
+  <div class="step" id="step2">
+    <div class="step-label">Крок 2</div>
+    <h2 class="step-title">Як ви зараз представлені онлайн? 🌐</h2>
+    <p class="step-sub">Це допоможе визначити з чого почати</p>
+    <div class="options">
+      <div class="opt" data-step="2" data-value="Є сайт">
+        <div class="opt-icon">🌐</div>
+        <div class="opt-body">
+          <div class="opt-title">Є сайт</div>
+          <div class="opt-desc">Власний домен або сторінка на конструкторі</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="2" data-value="Є соцмережі (без сайту)">
+        <div class="opt-icon">📱</div>
+        <div class="opt-body">
+          <div class="opt-title">Є соцмережі (без сайту)</div>
+          <div class="opt-desc">Instagram, Facebook, TikTok або інші</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="2" data-value="Нічого немає">
+        <div class="opt-icon">🚫</div>
+        <div class="opt-body">
+          <div class="opt-title">Нічого немає</div>
+          <div class="opt-desc">Запускаємося з нуля</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="goStep(1)">← Назад</button>
+      <button class="btn-next" id="next2" disabled onclick="goStep(3)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ════ STEP 3 — Головна мета ════ -->
+  <div class="step" id="step3">
+    <div class="step-label">Крок 3</div>
+    <h2 class="step-title">Яка головна мета? 🎯</h2>
+    <p class="step-sub">Зосередимося на тому, що найважливіше для вас</p>
+    <div class="options">
+      <div class="opt" data-step="3" data-value="Більше клієнтів">
+        <div class="opt-icon">📈</div>
+        <div class="opt-body">
+          <div class="opt-title">Більше клієнтів</div>
+          <div class="opt-desc">Залучення нових покупців через рекламу та лендинг</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="3" data-value="Впізнаваність бренду">
+        <div class="opt-icon">✨</div>
+        <div class="opt-body">
+          <div class="opt-title">Впізнаваність бренду</div>
+          <div class="opt-desc">Логотип, стиль, присутність у Google та соцмережах</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="3" data-value="Автоматизація продажів">
+        <div class="opt-icon">🤖</div>
+        <div class="opt-body">
+          <div class="opt-title">Автоматизація продажів</div>
+          <div class="opt-desc">AI чат-бот, воронка, заявки без участі менеджера</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="goStep(2)">← Назад</button>
+      <button class="btn-next" id="next3" disabled onclick="goStep(4)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ════ STEP 4 — Контакти ════ -->
+  <div class="step" id="step4">
+    <div class="step-label">Крок 4</div>
+    <h2 class="step-title">Як з вами зв'язатися? 📞</h2>
+    <p class="step-sub">Напишемо протягом кількох годин з пропозицією</p>
+    <div class="fields">
+      <div class="field">
+        <label>Ваше ім'я</label>
+        <input type="text" id="fname" placeholder="Наприклад, Олена" autocomplete="given-name" />
+        <div class="field-error" id="err-fname">Введіть ім'я</div>
+      </div>
+      <div class="field">
+        <label>Телефон</label>
+        <input type="tel" id="fphone" placeholder="+380 XX XXX XX XX" autocomplete="tel" />
+        <div class="field-error" id="err-fphone">Введіть номер телефону</div>
+      </div>
+      <div class="field">
+        <label>Місто</label>
+        <input type="text" id="fcity" placeholder="Наприклад, Чернігів" autocomplete="address-level2" />
+        <div class="field-error" id="err-fcity">Введіть місто</div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="goStep(3)">← Назад</button>
+      <button class="btn-next" id="next4" onclick="submitBrief()">Отримати пропозицію 🚀</button>
+    </div>
+  </div>
+
+  <!-- ════ RESULT ════ -->
+  <div id="result">
+    <div class="result-header">
+      <div class="result-icon">🎉</div>
+      <div class="result-title">Ваш пакет підібрано!</div>
+      <div class="result-sub">На основі ваших відповідей ми рекомендуємо:</div>
+    </div>
+
+    <div class="package-card" id="pkgCard">
+      <div class="package-name" id="pkgName">Пакет</div>
+      <div class="package-title" id="pkgTitle">Старт під ключ</div>
+      <div class="package-price" id="pkgPrice">від 25 000 ₴</div>
+      <div class="package-items" id="pkgItems"></div>
+    </div>
+
+    <div class="result-note">
+      <span>✅</span>
+      <div>Ваш бриф вже відправлено Дмитру — він зв'яжеться з вами найближчим часом для уточнення деталей та точного розрахунку.</div>
+    </div>
+
+    <div class="sending-overlay" id="sendingOverlay">
+      <div class="spinner"></div>
+      <p style="color:var(--muted);font-size:14px;">Відправляємо ваш бриф...</p>
+    </div>
+
+    <a href="https://t.me/cryptomaus" class="btn-tg" target="_blank">
+      ✈️ Написати Дмитру напряму
+    </a>
+  </div>
+
+</div>
+
+<div class="brief-footer">
+  <a href="index.html">← Повернутися на головну</a>
+</div>
+
+<script>
+  const answers = { step1: '', step2: '', step3: '' };
+  const STEPS = 4;
+
+  // ── Option selection ──
+  document.querySelectorAll('.opt').forEach(opt => {
+    opt.addEventListener('click', () => {
+      const step = opt.dataset.step;
+      document.querySelectorAll(`.opt[data-step="${step}"]`).forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+      answers[`step${step}`] = opt.dataset.value;
+      const btn = document.getElementById(`next${step}`);
+      if (btn) btn.disabled = false;
+    });
+  });
+
+  // ── Navigation ──
+  function goStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(`step${n}`);
+    if (target) target.classList.add('active');
+    updateProgress(n);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(n) {
+    const pct = Math.round((n / STEPS) * 100);
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressLabel').textContent = `Крок ${n} з ${STEPS}`;
+    document.getElementById('progressPct').textContent = pct + '%';
+  }
+
+  // ── Contact validation ──
+  function validateContacts() {
+    let ok = true;
+    const name = document.getElementById('fname').value.trim();
+    const phone = document.getElementById('fphone').value.trim();
+    const city = document.getElementById('fcity').value.trim();
+
+    document.getElementById('err-fname').style.display = name ? 'none' : 'block';
+    document.getElementById('err-fphone').style.display = phone ? 'none' : 'block';
+    document.getElementById('err-fcity').style.display = city ? 'none' : 'block';
+
+    if (!name || !phone || !city) ok = false;
+    return ok;
+  }
+
+  ['fname','fphone','fcity'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      const n = document.getElementById('fname').value.trim();
+      const p = document.getElementById('fphone').value.trim();
+      const c = document.getElementById('fcity').value.trim();
+      document.getElementById('next4').disabled = !(n && p && c);
+    });
+  });
+
+  // ── Package logic ──
+  function getPackage() {
+    const biz = answers.step1;
+    const online = answers.step2;
+    const goal = answers.step3;
+
+    // Максимальний пакет: немає нічого або виробництво/ресторан
+    if (online === 'Нічого немає' || biz === 'Виробництво' || biz === 'Ресторан / кафе / їжа') {
+      return {
+        name: 'Максимальний запуск',
+        title: '«Старт під ключ» — Повний',
+        price: 'від 30 000 ₴',
+        range: '30 000 – 35 000 грн',
+        items: ['🎨 Логотип + стиль', '🌐 Сайт + домен', '🤖 AI чат-бот 24/7', '🎬 Промо-ролик', '📍 Google Business', '📣 Facebook + таргет', '🎯 Перші ліди', '📞 30 днів підтримки']
+      };
+    }
+    // Акцент на автоматизацію
+    if (goal === 'Автоматизація продажів') {
+      return {
+        name: 'Автоматизація + лід-генерація',
+        title: '«Старт під ключ» — AI-фокус',
+        price: 'від 27 000 ₴',
+        range: '27 000 – 32 000 грн',
+        items: ['🤖 AI чат-бот 24/7', '🌐 Сайт + домен', '🎨 Логотип + стиль', '📣 Facebook + таргет', '🎯 Перші ліди', '📞 30 днів підтримки']
+      };
+    }
+    // Є соцмережі, мета — більше клієнтів
+    if (online === 'Є соцмережі (без сайту)' && goal === 'Більше клієнтів') {
+      return {
+        name: 'Базовий запуск',
+        title: '«Старт під ключ» — Стандарт',
+        price: 'від 25 000 ₴',
+        range: '25 000 – 28 000 грн',
+        items: ['🌐 Сайт + домен', '🤖 AI чат-бот 24/7', '📣 Таргет + ліди', '🎯 Перші ліди', '📞 30 днів підтримки']
+      };
+    }
+    // За замовчуванням
+    return {
+      name: 'Рекомендований пакет',
+      title: '«Старт під ключ»',
+      price: 'від 25 000 ₴',
+      range: '25 000 – 35 000 грн',
+      items: ['🎨 Логотип + стиль', '🌐 Сайт + домен', '🤖 AI чат-бот 24/7', '🎬 Промо-ролик', '📍 Google Business', '📣 Facebook + таргет', '🎯 Перші ліди']
+    };
+  }
+
+  function renderPackage(pkg) {
+    document.getElementById('pkgName').textContent = pkg.name;
+    document.getElementById('pkgTitle').textContent = pkg.title;
+    document.getElementById('pkgPrice').textContent = pkg.price;
+    const cont = document.getElementById('pkgItems');
+    cont.innerHTML = '';
+    pkg.items.forEach(item => {
+      const span = document.createElement('span');
+      span.className = 'package-item';
+      span.textContent = item;
+      cont.appendChild(span);
+    });
+  }
+
+  // ── Send to Telegram ──
+  async function sendToTelegram(data) {
+    const BOT_TOKEN = '8741925031:AAHacGEzHZFa3OHe81g1C07tTEBEr-jVaHk';
+    const CHAT_ID = '503549265';
+    const pkg = getPackage();
+
+    const text = `🚀 *Новий бриф StartAI*\n\n` +
+      `👤 *Ім'я:* ${data.name}\n` +
+      `📞 *Телефон:* ${data.phone}\n` +
+      `📍 *Місто:* ${data.city}\n\n` +
+      `🏢 *Тип бізнесу:* ${data.step1}\n` +
+      `🌐 *Онлайн-присутність:* ${data.step2}\n` +
+      `🎯 *Головна мета:* ${data.step3}\n\n` +
+      `📦 *Рекомендований пакет:* ${pkg.title}\n` +
+      `💰 *Орієнтовна ціна:* ${pkg.range}`;
+
+    try {
+      await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: CHAT_ID,
+          text: text,
+          parse_mode: 'Markdown'
+        })
+      });
+    } catch (e) {
+      console.error('Telegram send error:', e);
+    }
+  }
+
+  // ── Submit ──
+  async function submitBrief() {
+    if (!validateContacts()) return;
+
+    const data = {
+      name: document.getElementById('fname').value.trim(),
+      phone: document.getElementById('fphone').value.trim(),
+      city: document.getElementById('fcity').value.trim(),
+      step1: answers.step1,
+      step2: answers.step2,
+      step3: answers.step3
+    };
+
+    // Show result immediately, send in background
+    const pkg = getPackage();
+    renderPackage(pkg);
+
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('result').classList.add('active');
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('progressLabel').textContent = 'Готово!';
+    document.getElementById('progressPct').textContent = '100%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Send to Telegram in background
+    sendToTelegram(data);
+  }
+</script>
+</body>
+</html>
