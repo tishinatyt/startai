@@ -253,11 +253,11 @@
 <div class="card">
   <div class="progress-wrap">
     <div class="progress-meta">
-      <span id="progLabel">Крок 1 з 7</span>
-      <span id="progPct">14%</span>
+      <span id="progLabel">Крок 1 з 8</span>
+      <span id="progPct">13%</span>
     </div>
     <div class="progress-track">
-      <div class="progress-fill" id="progFill" style="width:14%"></div>
+      <div class="progress-fill" id="progFill" style="width:13%"></div>
     </div>
   </div>
 
@@ -469,9 +469,54 @@
     </div>
   </div>
 
-  <!-- ═══ КРОК 7 — Контакт замовника ═══ -->
+  <!-- ═══ КРОК 7 — Бюджет ═══ -->
   <div class="step" id="step7">
-    <div class="step-badge">Крок 7 · Ваші контакти</div>
+    <div class="step-badge">Крок 7 · Бюджет</div>
+    <h2 class="step-title">Яку суму готові інвестувати? 💰</h2>
+    <p class="step-sub">Оберіть комфортний діапазон — підберемо оптимальне рішення</p>
+    <div class="goal-grid">
+      <div class="goal-opt" data-step="7" data-value="💚 від 5 000 грн — Економ (сайт + AI бот)">
+        <div class="g-icon">💚</div>
+        <div class="g-body">
+          <div class="g-title">від 5 000 грн — Економ</div>
+          <div class="g-desc">Сайт (лендинг) + AI чат-бот 24/7 · Готово за 1 день</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="goal-opt" data-step="7" data-value="💛 від 15 000 грн — Стандарт">
+        <div class="g-icon">💛</div>
+        <div class="g-body">
+          <div class="g-title">від 15 000 грн — Стандарт</div>
+          <div class="g-desc">Сайт + бот + Google Business + соцмережі</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="goal-opt" data-step="7" data-value="🔥 від 25 000 грн — Бізнес під ключ">
+        <div class="g-icon">🔥</div>
+        <div class="g-body">
+          <div class="g-title">від 25 000 грн — Бізнес під ключ</div>
+          <div class="g-desc">Повний запуск: логотип, сайт, бот, реклама, перші ліди</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="goal-opt" data-step="7" data-value="💬 Обговоримо індивідуально">
+        <div class="g-icon">💬</div>
+        <div class="g-body">
+          <div class="g-title">Обговоримо індивідуально</div>
+          <div class="g-desc">Є особливі вимоги або нестандартна задача</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(6)">← Назад</button>
+      <button class="btn-next" id="next7" disabled onclick="go(8)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 8 — Контакт замовника ═══ -->
+  <div class="step" id="step8">
+    <div class="step-badge">Крок 8 · Ваші контакти</div>
     <h2 class="step-title">Як з вами зв'язатися? 📞</h2>
     <p class="step-sub">Дмитро напише вам протягом кількох годин, щоб уточнити деталі</p>
     <div class="fields">
@@ -497,7 +542,7 @@
       </div>
     </div>
     <div class="nav">
-      <button class="btn-back" onclick="go(6)">← Назад</button>
+      <button class="btn-back" onclick="go(7)">← Назад</button>
       <button class="btn-next" onclick="submitBrief()">🚀 Відправити бриф</button>
     </div>
   </div>
@@ -535,7 +580,7 @@
 </div>
 
 <script>
-const TOTAL = 7;
+const TOTAL = 8;
 const answers = {};
 
 // ── Option selection ──
@@ -609,6 +654,7 @@ async function submitBrief() {
     biz_type:  answers.step1 || '—',
     style:     answers.step6 || '—',
     goal:      answers.step5 || '—',
+    budget:    answers.step7 || '—',
     biz_name:  document.getElementById('f-bizname').value.trim(),
     city:      document.getElementById('f-city').value.trim(),
     biz_phone: document.getElementById('f-bizphone').value.trim(),
@@ -659,6 +705,7 @@ ${d.pains ? '💢 *Болі:* ' + d.pains : ''}
 🎯 *Ціль сайту:* ${d.goal}
 🎨 *Стиль:* ${d.style}
 ${d.refs ? '🔗 *Референси:* ' + d.refs : ''}
+💰 *Бюджет:* ${d.budget}
 
 ━━━━━━━━━━━━━━━━
 👤 *Замовник:* ${d.name}
