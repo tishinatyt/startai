@@ -14,18 +14,18 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg:       #090907;
-      --bg2:      #0f0f0c;
-      --bg3:      #161612;
-      --border:   #252520;
-      --border2:  #333330;
-      --fire:     #ff5500;
-      --ember:    #ff8c00;
-      --gold:     #ffab40;
-      --text:     #f0ebe0;
-      --muted:    #6b6b60;
-      --muted2:   #9a9a8e;
-      --green:    #39d98a;
+      --bg:      #fefcf8;
+      --bg2:     #f7f4ef;
+      --bg3:     #ede9e2;
+      --border:  #e6e1d8;
+      --border2: #cdc8bf;
+      --fire:    #ff5500;
+      --ember:   #ff8800;
+      --gold:    #f59e0b;
+      --text:    #1a1814;
+      --muted:   #9a9590;
+      --muted2:  #6b6660;
+      --green:   #16a34a;
     }
 
     html { scroll-behavior: smooth; }
@@ -39,38 +39,35 @@
       cursor: none;
     }
 
-    /* ── GRAIN OVERLAY ── */
+    /* ── SUBTLE GRAIN ── */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 999; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
       background-size: 180px 180px;
-      opacity: 0.028;
+      opacity: 0.018;
     }
 
     /* ── CUSTOM CURSOR ── */
     #cursor {
       position: fixed; top: 0; left: 0; z-index: 9999;
-      width: 14px; height: 14px; border-radius: 50%;
+      width: 10px; height: 10px; border-radius: 50%;
       background: var(--fire);
       pointer-events: none;
       transform: translate(-50%, -50%);
-      mix-blend-mode: difference;
-      transition: width 0.2s, height 0.2s, background 0.2s;
+      transition: width 0.2s, height 0.2s, opacity 0.2s;
     }
-    #cursor.big { width: 44px; height: 44px; background: var(--fire); opacity: 0.7; }
+    #cursor.big { width: 40px; height: 40px; opacity: 0.18; }
     #cursor-ring {
       position: fixed; top: 0; left: 0; z-index: 9998;
-      width: 36px; height: 36px; border-radius: 50%;
-      border: 1px solid rgba(255,85,0,0.45);
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1.5px solid rgba(255,85,0,0.35);
       pointer-events: none;
       transform: translate(-50%, -50%);
-      transition: transform 0.12s ease-out, width 0.25s, height 0.25s;
     }
 
     /* ── UTILITIES ── */
     .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
-    .mono { font-family: 'DM Mono', monospace; }
 
     .label {
       font-family: 'DM Mono', monospace;
@@ -80,125 +77,116 @@
     }
     .label::before {
       content: '';
-      display: inline-block; width: 20px; height: 1px;
+      display: inline-block; width: 18px; height: 1px;
       background: var(--fire); flex-shrink: 0;
     }
 
     /* ── BUTTONS ── */
     .btn {
-      display: inline-flex; align-items: center; gap: 10px;
+      display: inline-flex; align-items: center; gap: 9px;
       background: var(--fire);
-      color: #090907; font-family: 'Outfit', sans-serif;
-      font-weight: 700; font-size: 15px; letter-spacing: 0.02em;
-      padding: 16px 36px; border-radius: 2px;
+      color: #fff; font-family: 'Outfit', sans-serif;
+      font-weight: 600; font-size: 15px; letter-spacing: 0.01em;
+      padding: 15px 34px; border-radius: 2px;
       text-decoration: none; border: none; cursor: none;
       position: relative; overflow: hidden;
-      transition: transform 0.18s, box-shadow 0.18s;
+      transition: transform 0.18s, box-shadow 0.22s;
     }
     .btn::after {
       content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%);
+      background: linear-gradient(135deg, rgba(255,255,255,0.14) 0%, transparent 55%);
       opacity: 0; transition: opacity 0.2s;
     }
-    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(255,85,0,0.45); }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 36px rgba(255,85,0,0.3); }
     .btn:hover::after { opacity: 1; }
 
-    .btn-ghost {
+    .btn-outline {
       background: transparent;
-      border: 1px solid var(--border2);
+      border: 1.5px solid var(--border2);
       color: var(--muted2);
       box-shadow: none;
     }
-    .btn-ghost:hover { border-color: var(--fire); color: var(--text); box-shadow: none; }
+    .btn-outline:hover {
+      border-color: var(--fire); color: var(--fire);
+      box-shadow: none; transform: translateY(-2px);
+    }
 
     /* ── NAV ── */
     nav {
       position: sticky; top: 0; z-index: 100;
       border-bottom: 1px solid var(--border);
-      background: rgba(9,9,7,0.88); backdrop-filter: blur(16px);
+      background: rgba(254,252,248,0.92);
+      backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
     }
     .nav-inner {
       display: flex; align-items: center; justify-content: space-between;
       height: 60px;
     }
-    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .logo { display: flex; align-items: center; gap: 11px; text-decoration: none; }
     .logo-mark {
-      width: 32px; height: 32px;
+      width: 30px; height: 30px;
       background: var(--fire);
-      clip-path: polygon(0 0, 100% 0, 100% 70%, 70% 100%, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Bebas Neue', sans-serif; font-size: 17px; color: #090907;
-      letter-spacing: 0;
+      font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: #fff;
     }
     .logo-text {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 22px; letter-spacing: 0.08em; color: var(--text);
+      font-size: 21px; letter-spacing: 0.08em; color: var(--text);
     }
     .logo-text em { color: var(--fire); font-style: normal; }
-    .nav-tag {
+    .nav-back {
       font-family: 'DM Mono', monospace;
-      font-size: 11px; letter-spacing: 0.12em; color: var(--muted);
+      font-size: 11px; letter-spacing: 0.1em; color: var(--muted);
       text-decoration: none; transition: color 0.2s;
     }
-    .nav-tag:hover { color: var(--text); }
+    .nav-back:hover { color: var(--fire); }
 
     /* ── HERO ── */
-    #hero {
-      padding: 80px 0 70px; position: relative; overflow: hidden;
-    }
-    .hero-grid {
-      display: grid; grid-template-columns: 1fr 340px; gap: 48px; align-items: start;
-    }
-    @media(max-width:860px){ .hero-grid { grid-template-columns: 1fr; } }
+    #hero { padding: 100px 0 90px; position: relative; overflow: hidden; }
 
     .hero-ghost-num {
-      position: absolute; right: -0.02em; top: -0.1em;
+      position: absolute; right: -0.02em; top: -0.08em;
       font-family: 'Bebas Neue', sans-serif;
       font-size: min(32vw, 340px);
       color: transparent;
-      -webkit-text-stroke: 1px rgba(255,85,0,0.06);
-      pointer-events: none; user-select: none; line-height: 1;
-      z-index: 0;
+      -webkit-text-stroke: 1px rgba(255,85,0,0.07);
+      pointer-events: none; user-select: none; line-height: 1; z-index: 0;
     }
 
-    .hero-left { position: relative; z-index: 1; }
-    .hero-eyebrow { margin-bottom: 28px; }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 320px; gap: 56px; align-items: start;
+      position: relative; z-index: 1;
+    }
+    @media(max-width:860px){ .hero-grid { grid-template-columns: 1fr; } }
 
+    .hero-eyebrow { margin-bottom: 26px; }
     .hero-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(72px, 11vw, 140px);
-      line-height: 0.92; letter-spacing: 0.01em;
-      margin-bottom: 12px;
+      font-size: clamp(68px, 11vw, 136px);
+      line-height: 0.92; letter-spacing: 0.01em; margin-bottom: 10px;
     }
-    .hero-title .line-orange {
-      display: block; color: var(--fire);
-      position: relative; width: fit-content;
-    }
-    .hero-title .line-white { display: block; color: var(--text); }
+    .hero-title .line-fire { display: block; color: var(--fire); }
+    .hero-title .line-dark { display: block; color: var(--text); }
 
     .hero-divider {
-      width: 60px; height: 3px;
+      width: 48px; height: 2px;
       background: linear-gradient(90deg, var(--fire), transparent);
-      margin: 28px 0;
+      margin: 26px 0;
     }
-
-    .hero-sub {
-      font-size: 17px; color: var(--muted2); max-width: 420px;
-      line-height: 1.65;
-    }
+    .hero-sub { font-size: 17px; color: var(--muted2); max-width: 400px; line-height: 1.7; }
     .hero-sub strong { color: var(--text); font-weight: 500; }
-
     .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 36px; }
 
-    /* ── HERO SIDE CARD ── */
-    .hero-side { position: relative; z-index: 1; }
+    /* ── SIDE CARD ── */
     @media(max-width:860px){ .hero-side { display: none; } }
 
     .side-card {
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 3px; padding: 28px;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 3px; padding: 26px;
       position: relative; overflow: hidden;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.04);
     }
     .side-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
@@ -206,70 +194,71 @@
     }
     .side-card-title {
       font-family: 'DM Mono', monospace;
-      font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
-      color: var(--muted); margin-bottom: 20px;
+      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 18px;
     }
     .side-metric {
       display: flex; justify-content: space-between; align-items: baseline;
-      padding: 14px 0; border-bottom: 1px solid var(--border);
+      padding: 13px 0; border-bottom: 1px solid var(--border);
     }
     .side-metric:last-of-type { border-bottom: none; }
     .side-metric-label { font-size: 13px; color: var(--muted2); }
     .side-metric-val {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px; color: var(--fire); letter-spacing: 0.04em;
+      font-size: 26px; color: var(--fire); letter-spacing: 0.04em;
     }
-    .side-metric-val.green { color: var(--green); }
+    .side-metric-val.grn { color: var(--green); }
 
     /* ── SECTION COMMONS ── */
-    section { padding: 96px 0; }
-
-    .sec-header { margin-bottom: 60px; }
+    section { padding: 110px 0; }
+    .sec-header { margin-bottom: 64px; }
     .sec-num {
       font-family: 'DM Mono', monospace;
       font-size: 11px; color: var(--muted); letter-spacing: 0.2em;
-      margin-bottom: 16px; display: block;
+      margin-bottom: 14px; display: block;
     }
     .sec-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(42px, 6vw, 80px);
-      line-height: 0.95; letter-spacing: 0.02em;
+      font-size: clamp(40px, 6vw, 76px);
+      line-height: 0.95; letter-spacing: 0.02em; color: var(--text);
     }
     .sec-title em { color: var(--fire); font-style: normal; }
-    .sec-sub { font-size: 16px; color: var(--muted2); margin-top: 14px; max-width: 460px; }
+    .sec-sub { font-size: 16px; color: var(--muted2); margin-top: 14px; max-width: 440px; line-height: 1.65; }
 
-    /* ── WHAT'S INSIDE ── */
-    #includes { background: var(--bg); }
+    /* ── INCLUDES ── */
+    #includes { background: var(--bg2); }
 
     .inc-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 2px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
     }
     @media(max-width:660px){ .inc-grid { grid-template-columns: 1fr; } }
 
     .inc-card {
-      background: var(--bg2); padding: 36px;
+      background: #fff; border: 1px solid var(--border);
+      border-radius: 3px; padding: 36px;
       position: relative; overflow: hidden;
-      transition: background 0.25s;
+      transition: border-color 0.25s, box-shadow 0.25s, transform 0.25s;
     }
-    .inc-card::after {
-      content: ''; position: absolute;
-      inset: 0; opacity: 0;
-      background: radial-gradient(ellipse 60% 60% at 50% 100%, rgba(255,85,0,0.08) 0%, transparent 70%);
-      transition: opacity 0.4s;
+    .inc-card::before {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--fire), var(--ember));
+      transform: scaleX(0); transform-origin: left; transition: transform 0.35s;
     }
-    .inc-card:hover { background: var(--bg3); }
-    .inc-card:hover::after { opacity: 1; }
+    .inc-card:hover {
+      border-color: rgba(255,85,0,0.2);
+      box-shadow: 0 8px 40px rgba(255,85,0,0.07);
+      transform: translateY(-3px);
+    }
+    .inc-card:hover::before { transform: scaleX(1); }
 
     .inc-top {
       display: flex; align-items: flex-start; justify-content: space-between;
-      margin-bottom: 24px;
+      margin-bottom: 22px;
     }
     .inc-icon-wrap {
-      width: 52px; height: 52px;
-      border: 1px solid var(--border2);
+      width: 48px; height: 48px; border: 1px solid var(--border);
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px;
-      background: var(--bg3);
+      font-size: 22px; background: var(--bg2);
     }
     .inc-idx {
       font-family: 'DM Mono', monospace;
@@ -277,8 +266,8 @@
     }
     .inc-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 32px; letter-spacing: 0.04em;
-      margin-bottom: 18px; color: var(--text);
+      font-size: 30px; letter-spacing: 0.04em;
+      margin-bottom: 16px; color: var(--text);
     }
     .inc-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
     .inc-list li {
@@ -291,120 +280,104 @@
     }
 
     /* ── HOW ── */
-    #how { background: var(--bg2); }
+    #how { background: var(--bg); }
 
     .how-layout {
       display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;
     }
     @media(max-width:760px){ .how-layout { grid-template-columns: 1fr; gap: 48px; } }
 
-    .how-steps { display: flex; flex-direction: column; gap: 0; }
-
     .step {
-      display: grid; grid-template-columns: 40px 1fr; gap: 20px;
-      padding: 24px 0;
-      border-top: 1px solid var(--border);
-      position: relative;
+      display: grid; grid-template-columns: 36px 1fr; gap: 20px;
+      padding: 22px 0; border-top: 1px solid var(--border);
     }
     .step:last-child { border-bottom: 1px solid var(--border); }
-
     .step-num {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 36px; color: var(--border2); line-height: 1;
+      font-size: 34px; color: var(--border2); line-height: 1;
       transition: color 0.25s;
     }
     .step:hover .step-num { color: var(--fire); }
-
-    .step-body {}
-    .step-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .step-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
     .step-desc { font-size: 14px; color: var(--muted2); line-height: 1.6; }
 
     .how-note {
-      background: var(--bg3); border: 1px solid var(--border);
+      background: var(--bg2); border: 1px solid var(--border);
       border-left: 3px solid var(--fire);
-      padding: 28px 24px;
+      padding: 28px 26px; border-radius: 0 3px 3px 0;
     }
     .how-note-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 26px; margin-bottom: 12px; letter-spacing: 0.04em;
+      font-size: 24px; margin-bottom: 12px; letter-spacing: 0.04em; color: var(--text);
     }
-    .how-note-text { font-size: 14px; color: var(--muted2); line-height: 1.7; }
+    .how-note-text { font-size: 14px; color: var(--muted2); line-height: 1.75; }
 
     /* ── PRICE ── */
-    #price { background: var(--bg); position: relative; overflow: hidden; }
+    #price { background: var(--bg2); position: relative; overflow: hidden; }
 
-    #price::before {
+    #price::after {
       content: '';
-      position: absolute; bottom: -60px; left: 50%;
-      transform: translateX(-50%);
-      width: 600px; height: 300px;
-      background: radial-gradient(ellipse, rgba(255,85,0,0.12) 0%, transparent 70%);
-      pointer-events: none;
+      position: absolute; top: 50%; left: -10%;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(255,85,0,0.05) 0%, transparent 70%);
+      pointer-events: none; transform: translateY(-50%);
     }
 
     .price-layout {
       display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+      position: relative; z-index: 1;
     }
     @media(max-width:760px){ .price-layout { grid-template-columns: 1fr; gap: 48px; } }
 
-    .price-left {}
     .price-hero-amount {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(80px, 14vw, 180px);
+      font-size: clamp(80px, 14vw, 172px);
       line-height: 0.88; letter-spacing: 0.01em;
       background: linear-gradient(135deg, var(--fire) 0%, var(--gold) 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin: 20px 0 8px;
+      margin: 18px 0 8px;
     }
     .price-tagline {
       font-family: 'DM Mono', monospace;
-      font-size: 15px; color: var(--muted2); letter-spacing: 0.04em;
+      font-size: 13px; color: var(--muted2); letter-spacing: 0.04em;
       border-left: 2px solid var(--fire); padding-left: 14px;
-      margin-bottom: 32px;
+      margin-bottom: 30px; line-height: 1.6;
     }
 
-    .price-right {}
-    .price-pill-list {
-      display: flex; flex-direction: column; gap: 0; margin-bottom: 32px;
-    }
+    .price-pill-list { display: flex; flex-direction: column; gap: 0; margin-bottom: 28px; }
     .price-pill-item {
-      display: flex; align-items: center; gap: 16px;
-      padding: 16px 0; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; gap: 14px;
+      padding: 15px 0; border-bottom: 1px solid var(--border);
     }
     .price-pill-item:first-child { border-top: 1px solid var(--border); }
     .price-pill-dot {
-      width: 6px; height: 6px; border-radius: 50%;
+      width: 5px; height: 5px; border-radius: 50%;
       background: var(--fire); flex-shrink: 0;
     }
-    .price-pill-text { font-size: 15px; color: var(--text); }
+    .price-pill-text { font-size: 14px; color: var(--text); }
     .price-pill-tag {
       margin-left: auto;
-      font-family: 'DM Mono', monospace;
-      font-size: 11px; letter-spacing: 0.1em;
-      color: var(--green); background: rgba(57,217,138,0.08);
-      border: 1px solid rgba(57,217,138,0.2);
-      padding: 3px 10px; border-radius: 1px;
+      font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.1em;
+      color: var(--green); background: rgba(22,163,74,0.08);
+      border: 1px solid rgba(22,163,74,0.2); padding: 3px 9px; border-radius: 1px;
     }
-
     .price-guarantee {
       font-family: 'DM Mono', monospace;
-      font-size: 12px; color: var(--muted); letter-spacing: 0.06em;
-      margin-top: 20px; line-height: 1.8;
+      font-size: 11px; color: var(--muted); letter-spacing: 0.06em;
+      margin-top: 18px; line-height: 1.9;
     }
 
     /* ── CTA STRIP ── */
     #cta {
-      padding: 80px 0;
-      background: var(--fire);
+      padding: 90px 0; background: var(--fire);
       position: relative; overflow: hidden;
     }
     #cta::before {
       content: 'СТАРТ';
-      position: absolute; right: -0.05em; top: 50%; transform: translateY(-50%);
+      position: absolute; right: -0.04em; top: 50%; transform: translateY(-50%);
       font-family: 'Bebas Neue', sans-serif;
-      font-size: min(28vw, 260px);
-      color: rgba(9,9,7,0.1);
+      font-size: min(28vw, 260px); color: rgba(255,255,255,0.1);
       pointer-events: none; user-select: none; line-height: 1;
     }
 
@@ -412,56 +385,46 @@
       display: flex; align-items: center; justify-content: space-between;
       gap: 32px; flex-wrap: wrap; position: relative; z-index: 1;
     }
-    .cta-text {}
     .cta-title {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(36px, 5vw, 68px);
-      color: #090907; line-height: 0.95; letter-spacing: 0.02em;
-      margin-bottom: 10px;
+      font-size: clamp(36px, 5vw, 66px);
+      color: #fff; line-height: 0.95; letter-spacing: 0.02em; margin-bottom: 10px;
     }
-    .cta-sub { font-size: 16px; color: rgba(9,9,7,0.65); }
+    .cta-sub { font-size: 16px; color: rgba(255,255,255,0.7); }
 
-    .btn-dark {
-      background: #090907; color: var(--fire);
-      font-size: 16px; padding: 18px 40px;
-      box-shadow: none;
+    .btn-white {
+      background: #fff; color: var(--fire);
+      font-size: 15px; padding: 17px 38px; box-shadow: none;
     }
-    .btn-dark:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(0,0,0,0.5); }
+    .btn-white:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    }
 
     /* ── CONTACT ── */
-    #contact {
-      background: var(--bg2);
-      padding: 60px 0;
-    }
-    .contact-row {
-      display: flex; gap: 16px; flex-wrap: wrap; align-items: center;
-    }
+    #contact { background: var(--bg); padding: 56px 0; }
+    .contact-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
     .contact-item {
-      display: flex; align-items: center; gap: 10px;
-      padding: 12px 20px;
-      border: 1px solid var(--border);
-      background: var(--bg3);
-      font-size: 14px; color: var(--muted2);
+      display: flex; align-items: center; gap: 9px;
+      padding: 11px 18px;
+      border: 1px solid var(--border); background: #fff;
+      border-radius: 2px; font-size: 14px; color: var(--muted2);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
     .contact-item strong { color: var(--text); font-weight: 500; }
     .contact-item a { color: var(--fire); text-decoration: none; }
     .contact-item a:hover { text-decoration: underline; }
-    .contact-dot {
+    .status-dot {
       width: 6px; height: 6px; border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 6px var(--green);
-      animation: pulse 2s infinite;
+      background: var(--green); box-shadow: 0 0 6px var(--green);
+      animation: blink 2.2s ease-in-out infinite;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.35} }
 
     /* ── FOOTER ── */
     footer {
       border-top: 1px solid var(--border);
-      padding: 24px 0;
-      background: var(--bg);
+      padding: 24px 0; background: var(--bg);
     }
     .footer-inner {
       display: flex; align-items: center; justify-content: space-between;
@@ -469,58 +432,39 @@
     }
     .footer-wordmark {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 28px; letter-spacing: 0.12em;
-      color: var(--border2);
+      font-size: 26px; letter-spacing: 0.12em; color: var(--border2);
     }
     .footer-meta {
       font-family: 'DM Mono', monospace;
-      font-size: 12px; color: var(--muted); letter-spacing: 0.06em;
+      font-size: 11px; color: var(--muted); letter-spacing: 0.05em;
     }
     .footer-meta a { color: var(--muted2); text-decoration: none; }
     .footer-meta a:hover { color: var(--fire); }
 
     /* ── STICKY BAR ── */
     #sticky {
-      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(80px);
-      z-index: 200; opacity: 0;
-      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s;
-      background: var(--bg2);
-      border: 1px solid var(--border2);
-      padding: 12px 12px 12px 22px;
-      display: flex; align-items: center; gap: 18px;
-      white-space: nowrap;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+      position: fixed; bottom: 20px; left: 50%; z-index: 200;
+      transform: translateX(-50%) translateY(70px);
+      opacity: 0; transition: transform 0.38s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s;
+      background: #fff; border: 1px solid var(--border);
+      box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+      padding: 10px 10px 10px 20px;
+      display: flex; align-items: center; gap: 16px; white-space: nowrap;
     }
     #sticky.show { transform: translateX(-50%) translateY(0); opacity: 1; }
-    .sticky-text {
-      font-size: 14px; font-weight: 500; color: var(--muted2);
-    }
+    .sticky-text { font-size: 13px; color: var(--muted2); }
     .sticky-text strong { color: var(--text); }
     @media(max-width:520px){ .sticky-text { display: none; } }
 
     /* ── REVEAL ANIMATIONS ── */
     .reveal {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.55s ease, transform 0.55s ease;
     }
     .reveal.visible { opacity: 1; transform: none; }
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
-    .reveal-delay-4 { transition-delay: 0.4s; }
-
-    /* ── SCAN LINE HOVER ── */
-    .scanline {
-      position: relative; overflow: hidden;
-    }
-    .scanline::after {
-      content: '';
-      position: absolute; left: 0; top: -100%;
-      width: 100%; height: 100%;
-      background: linear-gradient(to bottom, transparent 40%, rgba(255,85,0,0.04) 50%, transparent 60%);
-      transition: top 0.5s;
-    }
-    .scanline:hover::after { top: 100%; }
   </style>
 </head>
 <body>
@@ -537,7 +481,7 @@
         <div class="logo-mark">S</div>
         <span class="logo-text">Start<em>AI</em></span>
       </a>
-      <a href="index.html" class="nav-tag mono">← Усі пакети</a>
+      <a href="index.html" class="nav-back">← Усі пакети</a>
     </div>
   </div>
 </nav>
@@ -547,28 +491,29 @@
   <div class="hero-ghost-num">01</div>
   <div class="container">
     <div class="hero-grid">
+
       <div class="hero-left">
         <div class="hero-eyebrow reveal">
           <span class="label">Пакет Економ</span>
         </div>
-        <h1 class="hero-title reveal reveal-delay-1">
-          <span class="line-orange">САЙТ</span>
-          <span class="line-white">+ AI БОТ</span>
+        <h1 class="hero-title">
+          <span class="line-fire reveal reveal-delay-1">САЙТ</span>
+          <span class="line-dark reveal reveal-delay-2">+ AI БОТ</span>
         </h1>
         <div class="hero-divider reveal reveal-delay-2"></div>
         <p class="hero-sub reveal reveal-delay-2">
           Мінімум інвестицій. <strong>Максимум присутності.</strong><br/>
-          Сайт і чат-бот що відповідає клієнтам поки ти спиш.
+          Сайт і чат-бот, який відповідає клієнтам поки ти спиш.
         </p>
         <div class="hero-cta reveal reveal-delay-3">
           <a href="client-brief.html" class="btn">Заповнити бриф →</a>
-          <a href="https://t.me/cryptomaus" target="_blank" class="btn btn-ghost">Telegram</a>
+          <a href="https://t.me/cryptomaus" target="_blank" class="btn btn-outline">Telegram</a>
         </div>
       </div>
 
       <div class="hero-side reveal reveal-delay-2">
-        <div class="side-card scanline">
-          <div class="side-card-title">// live stats</div>
+        <div class="side-card">
+          <div class="side-card-title">// показники</div>
           <div class="side-metric">
             <span class="side-metric-label">Вартість</span>
             <span class="side-metric-val">від 5К ₴</span>
@@ -579,7 +524,7 @@
           </div>
           <div class="side-metric">
             <span class="side-metric-label">Бот працює</span>
-            <span class="side-metric-val green">24 / 7</span>
+            <span class="side-metric-val grn">24 / 7</span>
           </div>
           <div class="side-metric">
             <span class="side-metric-label">Приховані платежі</span>
@@ -587,6 +532,7 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -600,10 +546,10 @@
       <p class="sec-sub reveal reveal-delay-1">Все що потрібно для онлайн-присутності — без зайвого</p>
     </div>
     <div class="inc-grid">
-      <div class="inc-card scanline reveal">
+      <div class="inc-card reveal">
         <div class="inc-top">
           <div class="inc-icon-wrap">🌐</div>
-          <span class="inc-idx mono">01/02</span>
+          <span class="inc-idx">01/02</span>
         </div>
         <div class="inc-name">Сайт (лендинг)</div>
         <ul class="inc-list">
@@ -614,10 +560,10 @@
           <li>Деплой на домен або GitHub Pages</li>
         </ul>
       </div>
-      <div class="inc-card scanline reveal reveal-delay-1">
+      <div class="inc-card reveal reveal-delay-1">
         <div class="inc-top">
           <div class="inc-icon-wrap">🤖</div>
-          <span class="inc-idx mono">02/02</span>
+          <span class="inc-idx">02/02</span>
         </div>
         <div class="inc-name">AI Чат-бот 24/7</div>
         <ul class="inc-list">
@@ -676,8 +622,8 @@
         <div class="how-note-text">
           Ми не встановлюємо фіксовану ціну, бо знаємо: кожен бізнес різний. Базова вартість — <strong style="color:var(--text)">від 5 000 грн</strong>. Але якщо відчуваєш що результат коштує більше — платиш більше. Якщо менше — домовляємось. Прозорість замість торгашества.
         </div>
-        <div style="margin-top:20px;">
-          <a href="client-brief.html" class="btn" style="font-size:14px; padding:13px 26px;">Обговорити →</a>
+        <div style="margin-top:22px;">
+          <a href="client-brief.html" class="btn" style="font-size:14px; padding:12px 24px;">Обговорити →</a>
         </div>
       </div>
     </div>
@@ -689,10 +635,10 @@
   <div class="container">
     <div class="price-layout">
       <div class="price-left reveal">
-        <span class="label" style="margin-bottom:20px; display:inline-flex;">Пакет Економ</span>
+        <span class="label" style="margin-bottom:18px; display:inline-flex;">Пакет Економ</span>
         <div class="price-hero-amount">від<br/>5К₴</div>
         <div class="price-tagline">Платиш скільки<br/>вважаєш потрібним</div>
-        <a href="client-brief.html" class="btn" style="font-size:15px;">Заповнити бриф →</a>
+        <a href="client-brief.html" class="btn">Заповнити бриф →</a>
       </div>
 
       <div class="price-right reveal reveal-delay-2">
@@ -723,7 +669,7 @@
             <span class="price-pill-tag">INCLUDED</span>
           </div>
         </div>
-        <div class="price-guarantee mono">
+        <div class="price-guarantee">
           // 50% передоплата · решта після здачі<br/>
           // без прихованих платежів<br/>
           // правки до повного задоволення
@@ -737,11 +683,11 @@
 <section id="cta">
   <div class="container">
     <div class="cta-inner">
-      <div class="cta-text reveal">
+      <div class="reveal">
         <h2 class="cta-title">ТВІЙ БІЗНЕС<br/>ОНЛАЙН ЗАВТРА</h2>
         <p class="cta-sub">Заповни бриф за 10 хвилин — стартуємо сьогодні</p>
       </div>
-      <a href="client-brief.html" class="btn btn-dark reveal reveal-delay-2">
+      <a href="client-brief.html" class="btn btn-white reveal reveal-delay-2">
         Заповнити бриф →
       </a>
     </div>
@@ -753,18 +699,12 @@
   <div class="container">
     <div class="contact-row">
       <div class="contact-item">
-        <div class="contact-dot"></div>
+        <div class="status-dot"></div>
         <strong>Онлайн зараз</strong>
       </div>
-      <div class="contact-item">
-        👤 <strong>Дмитро</strong>
-      </div>
-      <div class="contact-item">
-        📍 <strong>Чернігів</strong>&nbsp;·&nbsp;Онлайн
-      </div>
-      <div class="contact-item">
-        ✈️ <a href="https://t.me/cryptomaus" target="_blank">@cryptomaus</a>
-      </div>
+      <div class="contact-item">👤 <strong>Дмитро</strong></div>
+      <div class="contact-item">📍 <strong>Чернігів</strong>&nbsp;·&nbsp;Онлайн</div>
+      <div class="contact-item">✈️ <a href="https://t.me/cryptomaus" target="_blank">@cryptomaus</a></div>
     </div>
   </div>
 </section>
@@ -774,7 +714,7 @@
   <div class="container">
     <div class="footer-inner">
       <div class="footer-wordmark">STARTAI</div>
-      <div class="footer-meta mono">
+      <div class="footer-meta">
         © 2026 · <a href="index.html">Усі пакети</a> · Чернігів
       </div>
     </div>
@@ -784,7 +724,7 @@
 <!-- STICKY -->
 <div id="sticky">
   <span class="sticky-text">Сайт + AI бот — <strong>від 5 000 ₴</strong></span>
-  <a href="client-brief.html" class="btn" style="font-size:13px; padding:11px 22px;">Бриф →</a>
+  <a href="client-brief.html" class="btn" style="font-size:13px; padding:10px 20px;">Бриф →</a>
 </div>
 
 <script>
@@ -799,27 +739,23 @@
     cur.style.top  = my + 'px';
   });
 
-  function animRing() {
+  (function animRing() {
     rx += (mx - rx) * 0.14;
     ry += (my - ry) * 0.14;
     ring.style.left = rx + 'px';
     ring.style.top  = ry + 'px';
     requestAnimationFrame(animRing);
-  }
-  animRing();
+  })();
 
   document.querySelectorAll('a, button').forEach(el => {
     el.addEventListener('mouseenter', () => cur.classList.add('big'));
     el.addEventListener('mouseleave', () => cur.classList.remove('big'));
   });
 
-  /* ── REVEAL ON SCROLL ── */
-  const observer = new IntersectionObserver((entries) => {
+  /* ── SCROLL REVEAL ── */
+  const observer = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
     });
   }, { threshold: 0.12 });
 
@@ -831,11 +767,10 @@
     sticky.classList.toggle('show', window.scrollY > 600);
   });
 
-  /* ── HERO NUMBER PARALLAX ── */
+  /* ── HERO PARALLAX ── */
   const ghost = document.querySelector('.hero-ghost-num');
   window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    if (ghost) ghost.style.transform = `translateY(${y * 0.25}px)`;
+    if (ghost) ghost.style.transform = `translateY(${window.scrollY * 0.22}px)`;
   }, { passive: true });
 </script>
 </body>
