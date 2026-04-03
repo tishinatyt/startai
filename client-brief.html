@@ -668,7 +668,6 @@ async function submitBrief() {
     services:  document.getElementById('f-services').value.trim(),
     hours:     document.getElementById('f-hours').value.trim(),
     audience:  document.getElementById('f-audience').value.trim(),
-    pains:     document.getElementById('f-pains').value.trim(),
     refs:      document.getElementById('f-refs').value.trim(),
     name:      document.getElementById('f-name').value.trim(),
     phone:     document.getElementById('f-phone').value.trim(),
@@ -706,7 +705,6 @@ ${d.services}
 ${d.hours ? '⏰ *Графік:* ' + d.hours : ''}
 
 👥 *Аудиторія:* ${d.audience}
-${d.pains ? '💢 *Болі:* ' + d.pains : ''}
 
 🎯 *Ціль сайту:* ${d.goal}
 🎨 *Стиль:* ${d.style}
