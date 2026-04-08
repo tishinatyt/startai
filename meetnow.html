@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MeetNow — Знайди своїх людей</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --cream:#FBF8F3;
+  --warm:#F5EFE4;
+  --ink:#1A1614;
+  --muted:#8C7D72;
+  --accent:#E8501A;
+  --accent2:#2D5A3D;
+  --border:#E2D9CE;
+  --r:18px;
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Cabinet Grotesk',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── NOISE TEXTURE ── */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.4;
+}
+
+/* ── LAYOUT ── */
+.wrap{
+  max-width:680px;margin:0 auto;
+  padding:48px 24px 100px;
+  position:relative;z-index:1;
+}
+
+/* ── HEADER ── */
+.brand{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:56px;
+}
+.brand-dot{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;
+}
+.brand-name{
+  font-size:17px;font-weight:800;letter-spacing:-.3px;
+}
+
+/* ── PROGRESS ── */
+.progress-bar{
+  height:3px;background:var(--border);
+  border-radius:100px;margin-bottom:48px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;background:var(--accent);
+  border-radius:100px;
+  transition:width .5s cubic-bezier(.4,0,.2,1);
+}
+.progress-label{
+  font-size:12px;color:var(--muted);
+  margin-bottom:10px;font-weight:500;
+  text-transform:uppercase;letter-spacing:.8px;
+}
+
+/* ── STEP ── */
+.step{display:none;animation:appear .4s ease both}
+.step.active{display:block}
+
+@keyframes appear{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.step-eyebrow{
+  font-family:'Instrument Serif',serif;
+  font-style:italic;
+  font-size:14px;color:var(--accent);
+  margin-bottom:10px;
+}
+.step-title{
+  font-size:clamp(26px,5vw,38px);
+  font-weight:800;line-height:1.1;
+  letter-spacing:-.5px;
+  margin-bottom:8px;
+}
+.step-sub{
+  font-size:15px;color:var(--muted);
+  line-height:1.6;margin-bottom:32px;
+  font-weight:400;
+}
+
+/* ── OPTION CARDS ── */
+.opts{display:flex;flex-direction:column;gap:10px}
+.opts.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.opts.grid3{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+}
+
+.opt{
+  display:flex;align-items:center;gap:14px;
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:var(--r);
+  padding:16px 20px;
+  cursor:pointer;
+  transition:border-color .15s,background .15s,transform .15s;
+  user-select:none;
+  position:relative;
+}
+.opt:hover{
+  border-color:var(--accent);
+  background:rgba(232,80,26,.03);
+  transform:translateY(-1px);
+}
+.opt.selected{
+  border-color:var(--accent);
+  background:rgba(232,80,26,.06);
+}
+.opt-icon{font-size:22px;flex-shrink:0;line-height:1}
+.opt-body{flex:1}
+.opt-label{font-size:15px;font-weight:700;line-height:1.2}
+.opt-desc{font-size:12px;color:var(--muted);margin-top:2px}
+.opt-check{
+  width:22px;height:22px;border-radius:50%;
+  border:2px solid var(--border);
+  flex-shrink:0;margin-left:auto;
+  transition:all .15s;
+  display:flex;align-items:center;justify-content:center;
+}
+.opt.selected .opt-check{
+  border-color:var(--accent);
+  background:var(--accent);
+}
+.opt.selected .opt-check::after{
+  content:'';
+  width:6px;height:4px;
+  border-left:2px solid #fff;
+  border-bottom:2px solid #fff;
+  transform:rotate(-45deg) translate(1px,-1px);
+  display:block;
+}
+
+/* Grid opts — centered */
+.opts.grid .opt,
+.opts.grid3 .opt{
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  padding:20px 12px;
+  gap:8px;
+}
+.opts.grid .opt-check,
+.opts.grid3 .opt-check{
+  position:absolute;top:10px;right:10px;
+  width:18px;height:18px;margin:0;
+}
+.opts.grid .opt-icon,
+.opts.grid3 .opt-icon{font-size:28px}
+.opts.grid .opt-label,
+.opts.grid3 .opt-label{font-size:14px}
+.opts.grid .opt-desc,
+.opts.grid3 .opt-desc{font-size:11px}
+
+/* ── FIELDS ── */
+.fields{display:flex;flex-direction:column;gap:16px}
+.field label{
+  display:block;
+  font-size:11px;font-weight:700;
+  color:var(--muted);
+  text-transform:uppercase;letter-spacing:.7px;
+  margin-bottom:7px;
+}
+.field input{
+  width:100%;
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:12px;
+  padding:14px 16px;
+  font-size:15px;
+  font-family:'Cabinet Grotesk',sans-serif;
+  color:var(--ink);
+  outline:none;
+  transition:border-color .15s;
+}
+.field input:focus{border-color:var(--accent)}
+.field input::placeholder{color:var(--muted)}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:480px){.field-row{grid-template-columns:1fr}}
+
+/* ── NAV ── */
+.nav{
+  display:flex;align-items:center;
+  gap:12px;margin-top:36px;
+}
+.btn-back{
+  background:none;
+  border:1.5px solid var(--border);
+  color:var(--muted);
+  border-radius:100px;
+  padding:13px 22px;
+  font-size:14px;font-weight:700;
+  cursor:pointer;
+  font-family:'Cabinet Grotesk',sans-serif;
+  transition:all .15s;
+  flex-shrink:0;
+}
+.btn-back:hover{border-color:var(--ink);color:var(--ink)}
+.btn-next{
+  flex:1;
+  background:var(--ink);
+  color:#fff;
+  border:none;border-radius:100px;
+  padding:15px;
+  font-size:15px;font-weight:800;
+  cursor:pointer;
+  font-family:'Cabinet Grotesk',sans-serif;
+  transition:background .15s,transform .15s;
+  letter-spacing:-.2px;
+}
+.btn-next:hover:not(:disabled){
+  background:var(--accent);
+  transform:translateY(-1px);
+}
+.btn-next:disabled{opacity:.3;cursor:not-allowed;transform:none}
+
+/* ── RESULT ── */
+#result{display:none;text-align:center;padding:20px 0}
+#result.active{display:block;animation:appear .5s ease}
+.result-circle{
+  width:80px;height:80px;border-radius:50%;
+  background:var(--accent);
+  margin:0 auto 24px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:36px;
+}
+.result-title{
+  font-size:32px;font-weight:800;
+  letter-spacing:-.5px;margin-bottom:12px;
+}
+.result-sub{
+  font-size:16px;color:var(--muted);
+  line-height:1.7;margin-bottom:32px;
+  max-width:440px;margin-left:auto;margin-right:auto;
+}
+.result-card{
+  background:#fff;border:1.5px solid var(--border);
+  border-radius:var(--r);padding:24px;
+  text-align:left;margin-bottom:24px;
+}
+.result-card-title{
+  font-size:11px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.7px;
+  color:var(--muted);margin-bottom:16px;
+}
+.result-row{
+  display:flex;justify-content:space-between;
+  align-items:center;
+  padding:8px 0;
+  border-bottom:1px solid var(--border);
+  font-size:14px;
+}
+.result-row:last-child{border:none}
+.result-row-label{color:var(--muted)}
+.result-row-val{font-weight:700}
+.btn-tg{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;
+  background:var(--accent);
+  color:#fff;
+  border:none;border-radius:100px;
+  padding:17px;
+  font-size:16px;font-weight:800;
+  cursor:pointer;
+  font-family:'Cabinet Grotesk',sans-serif;
+  text-decoration:none;
+  transition:background .15s,transform .15s;
+}
+.btn-tg:hover{background:#c93e10;transform:translateY(-2px)}
+
+/* ── DECORATIVE ── */
+.deco{
+  position:fixed;
+  width:400px;height:400px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(232,80,26,.08) 0%,transparent 70%);
+  pointer-events:none;
+  top:-100px;right:-150px;
+  z-index:0;
+}
+.deco2{
+  position:fixed;
+  width:300px;height:300px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(45,90,61,.06) 0%,transparent 70%);
+  pointer-events:none;
+  bottom:-50px;left:-100px;
+  z-index:0;
+}
+</style>
+</head>
+<body>
+<div class="deco"></div>
+<div class="deco2"></div>
+
+<div class="wrap">
+  <div class="brand">
+    <div class="brand-dot">🤝</div>
+    <div class="brand-name">MeetNow</div>
+  </div>
+
+  <div class="progress-label" id="progLabel">Крок 1 з 14</div>
+  <div class="progress-bar">
+    <div class="progress-fill" id="progFill" style="width:11%"></div>
+  </div>
+
+  <!-- ═══ КРОК 1 — ІМ'Я ═══ -->
+  <div class="step active" id="step1">
+    <div class="step-eyebrow">Знайомство</div>
+    <h1 class="step-title">Як тебе звати?</h1>
+    <p class="step-sub">Це ім'я побачать твої майбутні знайомі за столом</p>
+    <div class="fields">
+      <div class="field">
+        <label>Ім'я *</label>
+        <input type="text" id="f-name" placeholder="Олена або Дмитро" autocomplete="given-name"/>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Телефон *</label>
+          <input type="tel" id="f-phone" placeholder="+380 XX XXX XX XX"/>
+        </div>
+        <div class="field">
+          <label>Telegram</label>
+          <input type="text" id="f-tg" placeholder="@username"/>
+        </div>
+      </div>
+    </div>
+    <div class="nav">
+      <div></div>
+      <button class="btn-next" id="next1" onclick="validateStep1()">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 2 — СТАТЬ ═══ -->
+  <div class="step" id="step2">
+    <div class="step-eyebrow">Про тебе</div>
+    <h1 class="step-title">Твоя стать</h1>
+    <p class="step-sub">Ми намагаємось зробити збалансовані групи</p>
+    <div class="opts">
+      <div class="opt" data-step="2" data-value="Чоловік">
+        <div class="opt-icon">👨</div>
+        <div class="opt-body">
+          <div class="opt-label">Чоловік</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="2" data-value="Жінка">
+        <div class="opt-icon">👩</div>
+        <div class="opt-body">
+          <div class="opt-label">Жінка</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="2" data-value="Не вказувати">
+        <div class="opt-icon">🙂</div>
+        <div class="opt-body">
+          <div class="opt-label">Не вказувати</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(1)">← Назад</button>
+      <button class="btn-next" id="next2" disabled onclick="go(3)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 3 — ВІК ═══ -->
+  <div class="step" id="step3">
+    <div class="step-eyebrow">Про тебе</div>
+    <h1 class="step-title">Твій вік</h1>
+    <p class="step-sub">Підберемо людей схожого покоління</p>
+    <div class="opts grid">
+      <div class="opt" data-step="3" data-value="18–25">
+        <div class="opt-icon">🌱</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">18–25</div>
+      </div>
+      <div class="opt" data-step="3" data-value="26–35">
+        <div class="opt-icon">⚡</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">26–35</div>
+      </div>
+      <div class="opt" data-step="3" data-value="36–45">
+        <div class="opt-icon">🔥</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">36–45</div>
+      </div>
+      <div class="opt" data-step="3" data-value="45+">
+        <div class="opt-icon">🎯</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">45+</div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(2)">← Назад</button>
+      <button class="btn-next" id="next3" disabled onclick="go(4)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 4 — ФОРМАТ ═══ -->
+  <div class="step" id="step4">
+    <div class="step-eyebrow">Зустріч</div>
+    <h1 class="step-title">Який формат?</h1>
+    <p class="step-sub">Де тобі комфортніше знайомитись</p>
+    <div class="opts">
+      <div class="opt" data-step="4" data-value="Вечеря">
+        <div class="opt-icon">🍽️</div>
+        <div class="opt-body">
+          <div class="opt-label">Вечеря в ресторані</div>
+          <div class="opt-desc">Сидимо, їмо, говоримо. Найкраще для знайомства</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="4" data-value="Бар">
+        <div class="opt-icon">🍻</div>
+        <div class="opt-body">
+          <div class="opt-label">Бар або кав'ярня</div>
+          <div class="opt-desc">Легко і без зобов'язань. Можна піти коли хочеш</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="4" data-value="Кава">
+        <div class="opt-icon">☕</div>
+        <div class="opt-body">
+          <div class="opt-label">Денна кава</div>
+          <div class="opt-desc">Швидко, в обід або після роботи</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(3)">← Назад</button>
+      <button class="btn-next" id="next4" disabled onclick="go(5)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 5 — ДЕНЬ ═══ -->
+  <div class="step" id="step5">
+    <div class="step-eyebrow">Зустріч</div>
+    <h1 class="step-title">Коли зручно?</h1>
+    <p class="step-sub">Підберемо групу з таким же розкладом</p>
+    <div class="opts grid">
+      <div class="opt" data-step="5" data-value="Будні">
+        <div class="opt-icon">💼</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Будні</div>
+        <div class="opt-desc">Пн–Пт</div>
+      </div>
+      <div class="opt" data-step="5" data-value="Вихідні">
+        <div class="opt-icon">🏖️</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Вихідні</div>
+        <div class="opt-desc">Сб–Нд</div>
+      </div>
+      <div class="opt" data-step="5" data-value="Будь-який день">
+        <div class="opt-icon">🗓️</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Будь-який</div>
+        <div class="opt-desc">Гнучко</div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(4)">← Назад</button>
+      <button class="btn-next" id="next5" disabled onclick="go(6)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 6 — БЮДЖЕТ ═══ -->
+  <div class="step" id="step6">
+    <div class="step-eyebrow">Зустріч</div>
+    <h1 class="step-title">Бюджет на вечір</h1>
+    <p class="step-sub">Тільки твій рахунок, без депозиту</p>
+    <div class="opts">
+      <div class="opt" data-step="6" data-value="до 200 грн">
+        <div class="opt-icon">🌿</div>
+        <div class="opt-body">
+          <div class="opt-label">до 200 грн</div>
+          <div class="opt-desc">Кава, легкий перекус</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="6" data-value="200–500 грн">
+        <div class="opt-icon">✨</div>
+        <div class="opt-body">
+          <div class="opt-label">200–500 грн</div>
+          <div class="opt-desc">Повноцінна вечеря або бар</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="6" data-value="500+ грн">
+        <div class="opt-icon">🥂</div>
+        <div class="opt-body">
+          <div class="opt-label">500+ грн</div>
+          <div class="opt-desc">Якісний заклад, гарна кухня</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(5)">← Назад</button>
+      <button class="btn-next" id="next6" disabled onclick="go(7)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 7 — РОЗМІР ГРУПИ ═══ -->
+  <div class="step" id="step7">
+    <div class="step-eyebrow">Група</div>
+    <h1 class="step-title">Скільки людей?</h1>
+    <p class="step-sub">Більше — веселіше. Менше — глибше спілкування</p>
+    <div class="opts grid">
+      <div class="opt" data-step="7" data-value="4 особи">
+        <div class="opt-icon">👥</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">4 особи</div>
+        <div class="opt-desc">Тісне коло</div>
+      </div>
+      <div class="opt" data-step="7" data-value="6 осіб">
+        <div class="opt-icon">👨‍👩‍👧‍👦</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">6 осіб</div>
+        <div class="opt-desc">Золота середина</div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(6)">← Назад</button>
+      <button class="btn-next" id="next7" disabled onclick="go(8)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 8 — ВАЙБ ═══ -->
+  <div class="step" id="step8">
+    <div class="step-eyebrow">Група</div>
+    <h1 class="step-title">Який вайб тобі близький?</h1>
+    <p class="step-sub">Підберемо людей зі схожою енергією</p>
+    <div class="opts grid">
+      <div class="opt" data-step="8" data-value="Творчі">
+        <div class="opt-icon">🎨</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Творчі</div>
+        <div class="opt-desc">Мистецтво, музика, ідеї</div>
+      </div>
+      <div class="opt" data-step="8" data-value="Ділові">
+        <div class="opt-icon">🚀</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Ділові</div>
+        <div class="opt-desc">Бізнес, кар'єра, нетворкінг</div>
+      </div>
+      <div class="opt" data-step="8" data-value="Активні">
+        <div class="opt-icon">⚡</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Активні</div>
+        <div class="opt-desc">Спорт, пригоди, рух</div>
+      </div>
+      <div class="opt" data-step="8" data-value="Будь-який">
+        <div class="opt-icon">🌈</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Будь-який</div>
+        <div class="opt-desc">Головне — цікаві люди</div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(7)">← Назад</button>
+      <button class="btn-next" id="next8" disabled onclick="go(9)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 9 — ЛОГІКА vs ЕМОЦІЇ ═══ -->
+  <div class="step" id="step9">
+    <div class="step-eyebrow">Особистість</div>
+    <h1 class="step-title">Як ти зазвичай приймаєш рішення?</h1>
+    <p class="step-sub">Немає правильної відповіді — це для підбору людей зі схожим мисленням</p>
+    <div class="opts">
+      <div class="opt" data-step="9" data-value="Логіка та факти">
+        <div class="opt-icon">🧠</div>
+        <div class="opt-body">
+          <div class="opt-label">Логіка та факти</div>
+          <div class="opt-desc">Аналізую, зважую, роблю висновки</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="9" data-value="Емоції та інтуїція">
+        <div class="opt-icon">❤️</div>
+        <div class="opt-body">
+          <div class="opt-label">Емоції та інтуїція</div>
+          <div class="opt-desc">Слухаю серце, довіряю відчуттям</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="9" data-value="Баланс">
+        <div class="opt-icon">⚖️</div>
+        <div class="opt-body">
+          <div class="opt-label">Залежить від ситуації</div>
+          <div class="opt-desc">Комбіную обидва підходи</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(8)">← Назад</button>
+      <button class="btn-next" id="next9" disabled onclick="go(10)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 10 — ІНТРОВЕРТ/ЕКСТРАВЕРТ ═══ -->
+  <div class="step" id="step10">
+    <div class="step-eyebrow">Особистість</div>
+    <h1 class="step-title">Як ти відновлюєш енергію?</h1>
+    <p class="step-sub">Це впливає на динаміку за столом</p>
+    <div class="opts">
+      <div class="opt" data-step="10" data-value="Екстраверт">
+        <div class="opt-icon">🎉</div>
+        <div class="opt-body">
+          <div class="opt-label">Від спілкування</div>
+          <div class="opt-desc">Люди заряджають мене, я люблю великі компанії</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="10" data-value="Інтроверт">
+        <div class="opt-icon">📚</div>
+        <div class="opt-body">
+          <div class="opt-label">На самоті</div>
+          <div class="opt-desc">Багато людей втомлює, потрібен час для себе</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="10" data-value="Амбіверт">
+        <div class="opt-icon">🌗</div>
+        <div class="opt-body">
+          <div class="opt-label">Амбіверт</div>
+          <div class="opt-desc">Залежить від настрою і компанії</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(9)">← Назад</button>
+      <button class="btn-next" id="next10" disabled onclick="go(11)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 11 — ГУМОР ═══ -->
+  <div class="step" id="step11">
+    <div class="step-eyebrow">Особистість</div>
+    <h1 class="step-title">Який гумор тобі близький?</h1>
+    <p class="step-sub">Щоб за столом всім було весело</p>
+    <div class="opts">
+      <div class="opt" data-step="11" data-value="Інтелектуальний">
+        <div class="opt-icon">🎭</div>
+        <div class="opt-body">
+          <div class="opt-label">Інтелектуальний</div>
+          <div class="opt-desc">Іронія, сарказм, гра слів</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="11" data-value="Абсурдний">
+        <div class="opt-icon">🤪</div>
+        <div class="opt-body">
+          <div class="opt-label">Абсурдний та дурний</div>
+          <div class="opt-desc">Мемний, несподіваний, безглуздий</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="11" data-value="Ситуаційний">
+        <div class="opt-icon">😄</div>
+        <div class="opt-body">
+          <div class="opt-label">Ситуаційний</div>
+          <div class="opt-desc">Жартую про те що відбувається навколо</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="11" data-value="Самоіронія">
+        <div class="opt-icon">🙃</div>
+        <div class="opt-body">
+          <div class="opt-label">Самоіронія</div>
+          <div class="opt-desc">Можу посміятись над собою</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(10)">← Назад</button>
+      <button class="btn-next" id="next11" disabled onclick="go(12)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 12 — ЦІННОСТІ ═══ -->
+  <div class="step" id="step12">
+    <div class="step-eyebrow">Особистість</div>
+    <h1 class="step-title">Що для тебе зараз найважливіше?</h1>
+    <p class="step-sub">Вибери одне — це твій головний фокус у житті</p>
+    <div class="opts grid">
+      <div class="opt" data-step="12" data-value="Кар'єра та гроші">
+        <div class="opt-icon">💼</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Кар'єра</div>
+        <div class="opt-desc">Зростання та фінанси</div>
+      </div>
+      <div class="opt" data-step="12" data-value="Сім'я та стосунки">
+        <div class="opt-icon">👨‍👩‍👧</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Сім'я</div>
+        <div class="opt-desc">Близькі та любов</div>
+      </div>
+      <div class="opt" data-step="12" data-value="Здоров'я та спорт">
+        <div class="opt-icon">💪</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Здоров'я</div>
+        <div class="opt-desc">Тіло та енергія</div>
+      </div>
+      <div class="opt" data-step="12" data-value="Пригоди та досвід">
+        <div class="opt-icon">🌍</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Пригоди</div>
+        <div class="opt-desc">Нові місця та враження</div>
+      </div>
+      <div class="opt" data-step="12" data-value="Творчість та саморозвиток">
+        <div class="opt-icon">✨</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Розвиток</div>
+        <div class="opt-desc">Навчання та творчість</div>
+      </div>
+      <div class="opt" data-step="12" data-value="Свобода та баланс">
+        <div class="opt-icon">🕊️</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Свобода</div>
+        <div class="opt-desc">Час та незалежність</div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(11)">← Назад</button>
+      <button class="btn-next" id="next12" disabled onclick="go(13)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 13 — РОЗМОВА ═══ -->
+  <div class="step" id="step13">
+    <div class="step-eyebrow">Особистість</div>
+    <h1 class="step-title">Про що тобі цікаво говорити?</h1>
+    <p class="step-sub">Вибери до 2 тем — саме про це і поговоримо</p>
+    <div class="opts grid">
+      <div class="opt multi" data-step="13" data-value="Бізнес та стартапи">
+        <div class="opt-icon">🚀</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Бізнес</div>
+      </div>
+      <div class="opt multi" data-step="13" data-value="Подорожі">
+        <div class="opt-icon">✈️</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Подорожі</div>
+      </div>
+      <div class="opt multi" data-step="13" data-value="Психологія та люди">
+        <div class="opt-icon">🧩</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Психологія</div>
+      </div>
+      <div class="opt multi" data-step="13" data-value="Мистецтво та культура">
+        <div class="opt-icon">🎨</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Мистецтво</div>
+      </div>
+      <div class="opt multi" data-step="13" data-value="Технології та AI">
+        <div class="opt-icon">🤖</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Технології</div>
+      </div>
+      <div class="opt multi" data-step="13" data-value="Спорт та здоров'я">
+        <div class="opt-icon">⚽</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Спорт</div>
+      </div>
+      <div class="opt multi" data-step="13" data-value="Кіно та серіали">
+        <div class="opt-icon">🎬</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Кіно</div>
+      </div>
+      <div class="opt multi" data-step="13" data-value="Їжа та ресторани">
+        <div class="opt-icon">🍷</div>
+        <div class="opt-check"></div>
+        <div class="opt-label">Їжа</div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(12)">← Назад</button>
+      <button class="btn-next" id="next13" disabled onclick="go(14)">Далі →</button>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 14 — МІСТО ═══ -->
+  <div class="step" id="step14">
+    <div class="step-eyebrow">Останній крок</div>
+    <h1 class="step-title">Де живеш?</h1>
+    <p class="step-sub">Поки що ми стартуємо в Чернігові 🌿</p>
+    <div class="opts">
+      <div class="opt selected" data-step="14" data-value="Чернігів">
+        <div class="opt-icon">📍</div>
+        <div class="opt-body">
+          <div class="opt-label">Чернігів</div>
+          <div class="opt-desc">Доступно зараз</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="14" data-value="Київ (незабаром)">
+        <div class="opt-icon">⏳</div>
+        <div class="opt-body">
+          <div class="opt-label">Київ</div>
+          <div class="opt-desc">Незабаром — потрапиш у список очікування</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="14" data-value="Інше місто">
+        <div class="opt-icon">🗺️</div>
+        <div class="opt-body">
+          <div class="opt-label">Інше місто</div>
+          <div class="opt-desc">Повідомимо коли прийдемо до вас</div>
+        </div>
+        <div class="opt-check"></div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="go(13)">← Назад</button>
+      <button class="btn-next" id="next14" onclick="submitForm()">Зареєструватись 🎉</button>
+    </div>
+  </div>
+
+  <!-- ═══ RESULT ═══ -->
+  <div id="result">
+    <div class="result-circle">🎉</div>
+    <h1 class="result-title">Ти в списку!</h1>
+    <p class="result-sub">
+      Ми підберемо тобі групу і надішлемо деталі в Telegram.<br>
+      Зазвичай це займає 2–3 дні.
+    </p>
+    <div class="result-card">
+      <div class="result-card-title">Твої дані</div>
+      <div class="result-row">
+        <span class="result-row-label">Формат</span>
+        <span class="result-row-val" id="r-format">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-row-label">Коли</span>
+        <span class="result-row-val" id="r-day">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-row-label">Група</span>
+        <span class="result-row-val" id="r-size">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-row-label">Бюджет</span>
+        <span class="result-row-val" id="r-budget">—</span>
+      </div>
+      <div class="result-row">
+        <span class="result-row-label">Місто</span>
+        <span class="result-row-val" id="r-city">—</span>
+      </div>
+    </div>
+    <a href="https://t.me/cryptomaus" class="btn-tg" target="_blank">
+      ✈️ Написати нам в Telegram
+    </a>
+  </div>
+</div>
+
+<script>
+const TOTAL = 14;
+const answers = { step14: 'Чернігів' };
+const multiAnswers = { step13: [] };
+
+// ── Auto-enable step14 button ──
+document.getElementById('next14').disabled = false;
+
+// ── Option clicks — single select ──
+document.querySelectorAll('.opt:not(.multi)').forEach(el => {
+  el.addEventListener('click', () => {
+    const step = el.dataset.step;
+    document.querySelectorAll(`.opt:not(.multi)[data-step="${step}"]`).forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    answers[`step${step}`] = el.dataset.value;
+    const btn = document.getElementById(`next${step}`);
+    if (btn) btn.disabled = false;
+  });
+});
+
+// ── Multi-select (step 13 — теми) ──
+document.querySelectorAll('.opt.multi').forEach(el => {
+  el.addEventListener('click', () => {
+    const step = el.dataset.step;
+    const val = el.dataset.value;
+    const arr = multiAnswers[`step${step}`];
+    if (el.classList.contains('selected')) {
+      el.classList.remove('selected');
+      const idx = arr.indexOf(val);
+      if (idx > -1) arr.splice(idx, 1);
+    } else {
+      if (arr.length >= 2) {
+        // Знімаємо перший вибраний
+        const first = document.querySelector(`.opt.multi[data-step="${step}"].selected`);
+        if (first) { first.classList.remove('selected'); arr.shift(); }
+      }
+      el.classList.add('selected');
+      arr.push(val);
+    }
+    const btn = document.getElementById(`next${step}`);
+    if (btn) btn.disabled = arr.length === 0;
+  });
+});
+
+// ── Progress ──
+function updateProgress(n) {
+  const pct = Math.round((n / TOTAL) * 100);
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('progLabel').textContent = `Крок ${n} з ${TOTAL}`;
+}
+
+// ── Navigation ──
+function go(n) {
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  const t = document.getElementById(`step${n}`);
+  if (t) { t.classList.remove('active'); void t.offsetWidth; t.classList.add('active'); }
+  updateProgress(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── Step 1 validation ──
+function validateStep1() {
+  const name = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  if (!name || !phone) {
+    if (!name) document.getElementById('f-name').style.borderColor = '#E8501A';
+    if (!phone) document.getElementById('f-phone').style.borderColor = '#E8501A';
+    return;
+  }
+  answers.name = name;
+  answers.phone = phone;
+  answers.tg = document.getElementById('f-tg').value.trim();
+  go(2);
+}
+
+['f-name','f-phone','f-tg'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    this.style.borderColor = '';
+  });
+});
+
+// ── Submit ──
+async function submitForm() {
+  document.getElementById('r-format').textContent = answers.step4 || '—';
+  document.getElementById('r-day').textContent = answers.step5 || '—';
+  document.getElementById('r-size').textContent = answers.step7 || '—';
+  document.getElementById('r-budget').textContent = answers.step6 || '—';
+  document.getElementById('r-city').textContent = answers.step14 || '—';
+
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('progFill').style.width = '100%';
+  document.getElementById('progLabel').textContent = 'Готово!';
+  document.getElementById('result').style.display = 'block';
+  document.getElementById('result').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  sendTelegram();
+}
+
+async function sendTelegram() {
+  const BOT = '8741925031:AAHacGEzHZFa3OHe81g1C07tTEBEr-jVaHk';
+  const CHAT = '503549265';
+  const a = answers;
+  const topics = multiAnswers.step13.join(', ') || '—';
+  const text =
+`🤝 *Нова анкета MeetNow*
+
+👤 *Ім'я:* ${a.name || '—'}
+📞 *Телефон:* ${a.phone || '—'}
+${a.tg ? `✈️ *Telegram:* ${a.tg}` : ''}
+
+⚧ *Стать:* ${a.step2 || '—'}
+🎂 *Вік:* ${a.step3 || '—'}
+📍 *Місто:* ${a.step14 || '—'}
+
+🍽️ *Формат:* ${a.step4 || '—'}
+📅 *Коли:* ${a.step5 || '—'}
+💰 *Бюджет:* ${a.step6 || '—'}
+👥 *Група:* ${a.step7 || '—'}
+✨ *Вайб:* ${a.step8 || '—'}
+
+🧠 *Рішення:* ${a.step9 || '—'}
+🌗 *Енергія:* ${a.step10 || '—'}
+😄 *Гумор:* ${a.step11 || '—'}
+💎 *Цінності:* ${a.step12 || '—'}
+💬 *Теми:* ${topics}`;
+
+  try {
+    await fetch(`https://api.telegram.org/bot${BOT}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: CHAT, text, parse_mode: 'Markdown' })
+    });
+  } catch(e) { console.error(e); }
+}
+</script>
+</body>
+</html>
