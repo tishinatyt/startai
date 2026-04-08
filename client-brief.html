@@ -557,7 +557,7 @@
     </div>
     <div class="nav">
       <button class="btn-back" onclick="go(7)">← Назад</button>
-      <button type="button" onclick="ttq.track('SubmitForm'); submitForm()">Відправити</button>
+      <button type="button" class="btn-next" onclick="submitBrief()">Відправити</button>
     </div>
   </div>
 
@@ -732,6 +732,7 @@ ${d.notes ? '📝 *Нотатки:* ' + d.notes : ''}`;
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ chat_id: CHAT, text, parse_mode: 'Markdown' })
     });
+    if (typeof ttq !== 'undefined') ttq.track('SubmitForm');
   } catch (e) { console.error('Telegram error:', e); }
 }
 </script>
