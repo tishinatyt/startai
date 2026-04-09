@@ -326,12 +326,34 @@ body::before{
     <div class="brand-name">MeetNow</div>
   </div>
 
-  <div class="progress-label" id="progLabel">Крок 1 з 14</div>
+  <div class="progress-label" id="progLabel" style="visibility:hidden">Крок 1 з 14</div>
   <div class="progress-bar">
     <div class="progress-fill" id="progFill" style="width:11%"></div>
   </div>
 
-  <!-- ═══ КРОК 1 — ІМ'Я ═══ -->
+  <!-- ═══ INTRO ═══ -->
+  <div class="step active" id="step0">
+    <div style="text-align:center;padding:12px 0 8px">
+      <div style="font-size:56px;margin-bottom:16px">👥</div>
+      <h2 class="step-title" style="font-size:24px;margin-bottom:12px">Цей тест потрібен щоб зрозуміти кого додати в твою групу</h2>
+      <p class="step-sub" style="margin-bottom:32px">ШІ аналізує відповіді і підбирає 4–6 людей саме для тебе — за характером, інтересами і вайбом</p>
+      <div style="background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:14px;padding:16px 20px;text-align:left;margin-bottom:28px">
+        <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#166534;font-weight:600;margin-bottom:10px">
+          <span>✅</span> Що аналізує ШІ:
+        </div>
+        <div style="display:flex;flex-direction:column;gap:7px;font-size:13px;color:#15803d">
+          <div>🧠 Тип мислення та характер</div>
+          <div>😄 Стиль гумору та енергетика</div>
+          <div>💬 Спільні теми для розмови</div>
+          <div>🎯 Інтереси та цінності</div>
+        </div>
+      </div>
+      <button class="btn-next" style="width:100%" onclick="go(1)">Почати тест →</button>
+      <p style="font-size:12px;color:#9ca3af;margin-top:12px">⏱ Займе ~3 хвилини</p>
+    </div>
+  </div>
+
+  <!-- ═══ КРОК 1 — Ім'я ═══ -->
   <div class="step active" id="step1">
     <div class="step-eyebrow">Знайомство</div>
     <h1 class="step-title">Як тебе звати?</h1>
@@ -975,7 +997,13 @@ function go(n) {
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
   const t = document.getElementById(`step${n}`);
   if (t) { t.classList.remove('active'); void t.offsetWidth; t.classList.add('active'); }
-  updateProgress(n);
+  if (n === 0) {
+    document.getElementById('progLabel').style.visibility = 'hidden';
+    document.getElementById('progFill').style.width = '0%';
+  } else {
+    document.getElementById('progLabel').style.visibility = 'visible';
+    updateProgress(n);
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
