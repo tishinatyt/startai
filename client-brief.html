@@ -3,737 +3,250 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Бриф клієнта — StartAI</title>
-  <meta name="description" content="Заповніть бриф — і ми розпочнемо роботу над вашим сайтом та AI чат-ботом" />
+  <title>Дізнатись вартість сайту — StartAI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script>
+  !function (w, d, t) {
+    w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
+    ttq.load('D7B05V3C77UEG1PVCFCG');
+    ttq.page();
+  }(window, document, 'ttq');
+  </script>
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:      #0d0d0f;
-      --bg2:     #141418;
-      --bg3:     #1a1a20;
-      --bg4:     #1f1f28;
-      --border:  #2a2a35;
-      --orange:  #f97316;
-      --gold:    #f5b942;
-      --text:    #e8e8f0;
-      --muted:   #8888a0;
-      --green:   #22c55e;
-      --red:     #ef4444;
-      --radius:  14px;
-    }
-
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 32px 16px 80px;
-      background-image: radial-gradient(ellipse 70% 35% at 50% 0%, rgba(249,115,22,.13) 0%, transparent 60%);
-    }
-
-    /* ── Header ── */
-    .header {
-      display: flex; align-items: center; justify-content: space-between;
-      max-width: 680px; margin: 0 auto 32px;
-    }
-    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-icon {
-      width: 36px; height: 36px; border-radius: 9px;
-      background: linear-gradient(135deg, var(--orange), var(--gold));
-      display: flex; align-items: center; justify-content: center; font-size: 18px;
-    }
-    .logo-text { font-size: 18px; font-weight: 800; color: var(--text); }
-    .logo-text span { color: var(--orange); }
-    .back-link {
-      font-size: 13px; color: var(--muted); text-decoration: none;
-      display: flex; align-items: center; gap: 4px;
-      transition: color .2s;
-    }
-    .back-link:hover { color: var(--text); }
-
-    /* ── Card ── */
-    .card {
-      max-width: 680px; margin: 0 auto;
-      background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 20px; overflow: hidden;
-    }
-
-    /* ── Progress ── */
-    .progress-wrap { padding: 20px 28px 0; }
-    .progress-meta {
-      display: flex; justify-content: space-between;
-      font-size: 12px; color: var(--muted); margin-bottom: 8px;
-    }
-    .progress-track { height: 4px; background: var(--bg3); border-radius: 100px; overflow: hidden; }
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--orange), var(--gold));
-      border-radius: 100px;
-      transition: width .4s cubic-bezier(.4,0,.2,1);
-    }
-
-    /* ── Step ── */
-    .step { display: none; padding: 24px 28px 28px; }
-    .step.active { display: block; animation: fadeUp .3s ease; }
-    @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-
-    .step-badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      background: rgba(249,115,22,.1); border: 1px solid rgba(249,115,22,.22);
-      color: var(--orange); border-radius: 100px;
-      font-size: 11px; font-weight: 700; padding: 3px 11px;
-      text-transform: uppercase; letter-spacing: .6px; margin-bottom: 14px;
-    }
-    .step-title { font-size: 22px; font-weight: 800; line-height: 1.2; margin-bottom: 6px; }
-    .step-sub { font-size: 14px; color: var(--muted); margin-bottom: 22px; }
-
-    /* ── Option grid ── */
-    .opts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-      gap: 10px; margin-bottom: 4px;
-    }
-    .opts-grid.cols-2 { grid-template-columns: 1fr 1fr; }
-
-    .opt {
-      display: flex; align-items: center; gap: 12px;
-      background: var(--bg3); border: 1.5px solid var(--border);
-      border-radius: var(--radius); padding: 14px 16px;
-      cursor: pointer; transition: border-color .2s, background .2s, transform .15s;
-      user-select: none;
-    }
-    .opt:hover { border-color: rgba(249,115,22,.4); background: rgba(249,115,22,.05); transform: translateY(-1px); }
-    .opt.selected { border-color: var(--orange); background: rgba(249,115,22,.08); }
-    .opt-icon { font-size: 22px; flex-shrink: 0; }
-    .opt-label { font-size: 14px; font-weight: 600; }
-    .opt-check {
-      margin-left: auto; width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
-      border: 2px solid var(--border); transition: all .2s;
-    }
-    .opt.selected .opt-check {
-      border-color: var(--orange); background: var(--orange);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .opt.selected .opt-check::after {
-      content: '';
-      width: 7px; height: 4px;
-      border-left: 2px solid #0d0d0f; border-bottom: 2px solid #0d0d0f;
-      transform: rotate(-45deg) translate(1px,-1px); display: block;
-    }
-
-    /* ── Style opts (bigger) ── */
-    .style-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-    }
-    .style-opt {
-      background: var(--bg3); border: 1.5px solid var(--border);
-      border-radius: var(--radius); padding: 16px;
-      cursor: pointer; transition: border-color .2s, background .2s, transform .15s;
-      user-select: none; text-align: center;
-    }
-    .style-opt:hover { border-color: rgba(249,115,22,.4); transform: translateY(-1px); }
-    .style-opt.selected { border-color: var(--orange); background: rgba(249,115,22,.08); }
-    .style-opt .s-icon { font-size: 28px; margin-bottom: 8px; }
-    .style-opt .s-name { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
-    .style-opt .s-desc { font-size: 12px; color: var(--muted); }
-
-    /* ── Goal opts ── */
-    .goal-grid { display: flex; flex-direction: column; gap: 8px; }
-    .goal-opt {
-      display: flex; align-items: center; gap: 14px;
-      background: var(--bg3); border: 1.5px solid var(--border);
-      border-radius: var(--radius); padding: 14px 16px;
-      cursor: pointer; transition: border-color .2s, background .2s;
-      user-select: none;
-    }
-    .goal-opt:hover { border-color: rgba(249,115,22,.4); background: rgba(249,115,22,.05); }
-    .goal-opt.selected { border-color: var(--orange); background: rgba(249,115,22,.08); }
-    .goal-opt .g-icon { font-size: 22px; flex-shrink: 0; }
-    .goal-opt .g-body {}
-    .goal-opt .g-title { font-size: 14px; font-weight: 700; }
-    .goal-opt .g-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
-    .goal-opt .opt-check { margin-left: auto; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); flex-shrink: 0; transition: all .2s; }
-    .goal-opt.selected .opt-check { border-color: var(--orange); background: var(--orange); display: flex; align-items: center; justify-content: center; }
-    .goal-opt.selected .opt-check::after { content: ''; width: 7px; height: 4px; border-left: 2px solid #0d0d0f; border-bottom: 2px solid #0d0d0f; transform: rotate(-45deg) translate(1px,-1px); display: block; }
-
-    /* ── Form fields ── */
-    .fields { display: flex; flex-direction: column; gap: 14px; }
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    @media(max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
-
-    .field label {
-      display: block; font-size: 11px; font-weight: 700;
-      color: var(--muted); margin-bottom: 6px;
-      text-transform: uppercase; letter-spacing: .6px;
-    }
-    .field input, .field textarea {
-      width: 100%; background: var(--bg3); border: 1.5px solid var(--border);
-      border-radius: 11px; padding: 12px 14px;
-      color: var(--text); font-size: 15px; font-family: inherit;
-      outline: none; transition: border-color .2s; resize: none;
-    }
-    .field input:focus, .field textarea:focus { border-color: var(--orange); }
-    .field input::placeholder, .field textarea::placeholder { color: var(--muted); }
-    .field-hint { font-size: 11px; color: var(--muted); margin-top: 4px; }
-    .field-err { font-size: 12px; color: var(--red); margin-top: 4px; display: none; }
-
-    /* ── Nav ── */
-    .nav { display: flex; gap: 10px; margin-top: 24px; }
-    .btn-back {
-      background: none; border: 1.5px solid var(--border); color: var(--muted);
-      border-radius: 100px; padding: 12px 22px; font-size: 14px; font-weight: 600;
-      cursor: pointer; transition: all .2s; font-family: inherit; flex-shrink: 0;
-    }
-    .btn-back:hover { border-color: var(--muted); color: var(--text); }
-    .btn-next {
-      flex: 1; background: linear-gradient(135deg, var(--orange), var(--gold));
-      color: #0d0d0f; border: none; border-radius: 100px;
-      padding: 14px; font-size: 15px; font-weight: 800;
-      cursor: pointer; transition: opacity .2s, transform .2s; font-family: inherit;
-      box-shadow: 0 0 28px rgba(249,115,22,.3);
-    }
-    .btn-next:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 0 40px rgba(249,115,22,.5); }
-    .btn-next:disabled { opacity: .35; cursor: not-allowed; transform: none; }
-
-    /* ── Result ── */
-    #result { display: none; padding: 36px 28px; text-align: center; }
-    #result.active { display: block; animation: fadeUp .4s ease; }
-    .result-icon {
-      width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 20px;
-      background: linear-gradient(135deg, var(--orange), var(--gold));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 32px; box-shadow: 0 0 40px rgba(249,115,22,.4);
-    }
-    .result-title { font-size: 26px; font-weight: 800; margin-bottom: 10px; }
-    .result-sub { color: var(--muted); font-size: 15px; line-height: 1.6; margin-bottom: 28px; }
-    .result-steps {
-      background: var(--bg3); border: 1px solid var(--border);
-      border-radius: var(--radius); padding: 20px; text-align: left; margin-bottom: 24px;
-    }
-    .result-step { display: flex; gap: 12px; align-items: flex-start; padding: 8px 0; }
-    .result-step:not(:last-child) { border-bottom: 1px solid var(--border); }
-    .rs-num {
-      width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
-      background: linear-gradient(135deg, var(--orange), var(--gold));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 800; color: #0d0d0f;
-    }
-    .rs-text { font-size: 14px; padding-top: 4px; }
-    .rs-text strong { color: var(--text); }
-    .rs-text span { color: var(--muted); font-size: 13px; }
-    .btn-tg {
-      display: flex; align-items: center; justify-content: center; gap: 8px;
-      width: 100%; background: linear-gradient(135deg, var(--orange), var(--gold));
-      color: #0d0d0f; font-weight: 800; font-size: 17px;
-      padding: 17px; border-radius: 100px; text-decoration: none;
-      box-shadow: 0 0 36px rgba(249,115,22,.4);
-      transition: transform .2s, box-shadow .2s;
-    }
-    .btn-tg:hover { transform: translateY(-2px); box-shadow: 0 0 54px rgba(249,115,22,.6); }
-
-    /* ── Char counter ── */
-    .char-count { font-size: 11px; color: var(--muted); text-align: right; margin-top: 4px; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#f8f8f6;--white:#fff;--orange:#f97316;--gold:#f5b942;--ink:#111;--muted:#6b6b6b;--border:#e5e5e5;--red:#dc2626;--r:16px}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;padding-bottom:60px}
+    .hero{background:linear-gradient(135deg,#111 0%,#1f1f28 100%);padding:32px 20px 40px;text-align:center;color:white}
+    .hero-logo{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:24px}
+    .hero-logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--orange),var(--gold));display:flex;align-items:center;justify-content:center;font-size:16px}
+    .hero-logo-text{font-size:18px;font-weight:800;color:white}
+    .hero-logo-text span{color:var(--orange)}
+    .hero h1{font-size:clamp(22px,6vw,34px);font-weight:800;line-height:1.2;margin-bottom:12px}
+    .hero h1 span{color:var(--orange)}
+    .hero p{font-size:14px;color:rgba(255,255,255,.65);line-height:1.6;max-width:380px;margin:0 auto 20px}
+    .badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+    .badge{display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:100px;padding:5px 12px;font-size:12px;color:rgba(255,255,255,.8);font-weight:500}
+    .progress-wrap{max-width:480px;margin:0 auto;padding:20px 16px 0}
+    .progress-top{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:8px;font-weight:500}
+    .progress-track{height:4px;background:var(--border);border-radius:100px;overflow:hidden}
+    .progress-fill{height:100%;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:100px;transition:width .4s cubic-bezier(.4,0,.2,1)}
+    .card{max-width:480px;margin:16px 16px 0;background:var(--white);border-radius:20px;box-shadow:0 2px 20px rgba(0,0,0,.08);overflow:hidden}
+    @media(min-width:520px){.card{margin-left:auto;margin-right:auto}}
+    .step{display:none;padding:28px 20px 24px}
+    .step.active{display:block;animation:up .3s ease}
+    @keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+    .step-num{font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+    .step-title{font-size:22px;font-weight:800;line-height:1.2;margin-bottom:6px}
+    .step-sub{font-size:14px;color:var(--muted);line-height:1.5;margin-bottom:22px}
+    .opts{display:flex;flex-direction:column;gap:10px}
+    .opts-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .opt{display:flex;align-items:center;gap:12px;background:var(--bg);border:2px solid var(--border);border-radius:var(--r);padding:14px 16px;cursor:pointer;transition:all .15s;user-select:none}
+    .opt:active{transform:scale(.98)}
+    .opt.selected{border-color:var(--orange);background:#fff7ed}
+    .opt-icon{font-size:22px;flex-shrink:0}
+    .opt-body{flex:1}
+    .opt-label{font-size:14px;font-weight:700;line-height:1.2}
+    .opt-desc{font-size:12px;color:var(--muted);margin-top:2px}
+    .opt-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:all .15s}
+    .opt.selected .opt-check{border-color:var(--orange);background:var(--orange);display:flex;align-items:center;justify-content:center}
+    .opt.selected .opt-check::after{content:'';width:6px;height:4px;border-left:2px solid white;border-bottom:2px solid white;transform:rotate(-45deg) translate(1px,-1px)}
+    .opts-grid .opt{flex-direction:column;align-items:flex-start;padding:16px 14px;gap:6px;position:relative}
+    .opts-grid .opt-check{position:absolute;top:10px;right:10px;width:18px;height:18px}
+    .opts-grid .opt-icon{font-size:26px}
+    .opts-grid .opt-label{font-size:13px}
+    .fields{display:flex;flex-direction:column;gap:14px}
+    .field label{display:block;font-size:11px;font-weight:700;color:var(--muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px}
+    .field input{width:100%;background:var(--bg);border:2px solid var(--border);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:16px;font-family:inherit;outline:none;transition:border-color .15s;-webkit-appearance:none}
+    .field input:focus{border-color:var(--orange);background:white}
+    .field input::placeholder{color:#bbb}
+    .field-err{font-size:12px;color:var(--red);margin-top:4px;display:none}
+    .nav{display:flex;gap:10px;margin-top:24px}
+    .btn-back{background:none;border:2px solid var(--border);color:var(--muted);border-radius:100px;padding:14px 20px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;flex-shrink:0}
+    .btn-back:hover{border-color:var(--ink);color:var(--ink)}
+    .btn-next{flex:1;background:linear-gradient(135deg,var(--orange),var(--gold));color:white;border:none;border-radius:100px;padding:16px;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 20px rgba(249,115,22,.35)}
+    .btn-next:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 28px rgba(249,115,22,.45)}
+    .btn-next:disabled{opacity:.35;cursor:not-allowed;transform:none}
+    #result{display:none;padding:36px 20px;text-align:center}
+    #result.active{display:block;animation:up .4s ease}
+    .result-icon{width:72px;height:72px;border-radius:50%;margin:0 auto 20px;background:linear-gradient(135deg,var(--orange),var(--gold));display:flex;align-items:center;justify-content:center;font-size:32px}
+    .result-title{font-size:24px;font-weight:800;margin-bottom:10px}
+    .result-sub{color:var(--muted);font-size:15px;line-height:1.6;margin-bottom:24px}
+    .result-steps{background:var(--bg);border-radius:var(--r);padding:16px;text-align:left;margin-bottom:24px}
+    .result-step{display:flex;gap:12px;align-items:flex-start;padding:10px 0}
+    .result-step:not(:last-child){border-bottom:1px solid var(--border)}
+    .rs-num{width:28px;height:28px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--orange),var(--gold));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:white}
+    .rs-text{font-size:13px;padding-top:4px;line-height:1.5}
+    .rs-text strong{display:block;margin-bottom:2px}
+    .rs-text span{color:var(--muted)}
+    .btn-tg{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:linear-gradient(135deg,var(--orange),var(--gold));color:white;font-weight:800;font-size:16px;padding:17px;border-radius:100px;text-decoration:none;box-shadow:0 4px 20px rgba(249,115,22,.35)}
+    .social-proof{max-width:480px;margin:14px auto 0;padding:0 16px;display:flex;gap:8px;align-items:center;font-size:12px;color:var(--muted)}
+    .stars{color:#f59e0b}
   </style>
-<!-- TikTok Pixel Code Start -->
-<script>
-!function (w, d, t) {
-  w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie","holdConsent","revokeConsent","grantConsent"],ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e},ttq.load=function(e,n){var r="https://analytics.tiktok.com/i18n/pixel/events.js",o=n&&n.partner;ttq._i=ttq._i||{},ttq._i[e]=[],ttq._i[e]._u=r,ttq._t=ttq._t||{},ttq._t[e]=+new Date,ttq._o=ttq._o||{},ttq._o[e]=n||{};n=document.createElement("script");n.type="text/javascript",n.async=!0,n.src=r+"?sdkid="+e+"&lib="+t;e=document.getElementsByTagName("script")[0];e.parentNode.insertBefore(n,e)};
-  ttq.load('D7B05V3C77UEG1PVCFCG');
-  ttq.page();
-}(window, document, 'ttq');
-</script>
-<!-- TikTok Pixel Code End -->
 </head>
 <body>
 
-<div class="header">
-  <a href="index.html" class="logo">
-    <div class="logo-icon">🚀</div>
-    <div class="logo-text">Start<span>AI</span></div>
-  </a>
-  <a href="index.html" class="back-link">← На головну</a>
+<div class="hero">
+  <div class="hero-logo">
+    <div class="hero-logo-icon">🚀</div>
+    <div class="hero-logo-text">Start<span>AI</span></div>
+  </div>
+  <h1>Сайт + AI бот<br>для бізнесу <span>за 1 день</span></h1>
+  <p>Залиште заявку — Дмитро зателефонує та розкаже вартість під ваш бізнес</p>
+  <div class="badges">
+    <div class="badge">⚡ Готово за 1 день</div>
+    <div class="badge">🤖 AI бот 24/7</div>
+    <div class="badge">✅ Без передоплати</div>
+  </div>
 </div>
 
-
+<div class="progress-wrap">
+  <div class="progress-top">
+    <span id="progLabel">Крок 1 з 3</span>
+    <span id="progPct">33%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progFill" style="width:33%"></div>
+  </div>
+</div>
 
 <div class="card">
-  <div class="progress-wrap">
-    <div class="progress-meta">
-      <span id="progLabel">Крок 1 з 8</span>
-      <span id="progPct">13%</span>
-    </div>
-    <div class="progress-track">
-      <div class="progress-fill" id="progFill" style="width:13%"></div>
-    </div>
-  </div>
 
-  <!-- ═══ КРОК 1 — Тип бізнесу ═══ -->
   <div class="step active" id="step1">
-    <div class="step-badge">Крок 1 · Основне</div>
+    <div class="step-num">Крок 1 · Швидко та просто</div>
     <h2 class="step-title">Який у вас бізнес? 🏢</h2>
-    <p class="step-sub">Оберіть тип — підлаштуємо сайт та бота саме під вас</p>
+    <p class="step-sub">Оберіть — підберемо найкраще рішення</p>
     <div class="opts-grid">
-      <div class="opt" data-step="1" data-value="Магазин / e-commerce">
-        <div class="opt-icon">🛍️</div><div class="opt-label">Магазин</div><div class="opt-check"></div>
-      </div>
-      <div class="opt" data-step="1" data-value="Послуги">
-        <div class="opt-icon">🤝</div><div class="opt-label">Послуги</div><div class="opt-check"></div>
-      </div>
-      <div class="opt" data-step="1" data-value="Кафе / ресторан / їжа">
-        <div class="opt-icon">🍽️</div><div class="opt-label">Кафе / ресторан</div><div class="opt-check"></div>
-      </div>
-      <div class="opt" data-step="1" data-value="Юрист / адвокат">
-        <div class="opt-icon">⚖️</div><div class="opt-label">Юрист / адвокат</div><div class="opt-check"></div>
-      </div>
-      <div class="opt" data-step="1" data-value="Медицина / краса">
-        <div class="opt-icon">🏥</div><div class="opt-label">Медицина / краса</div><div class="opt-check"></div>
-      </div>
-      <div class="opt" data-step="1" data-value="Інше">
-        <div class="opt-icon">💡</div><div class="opt-label">Інше</div><div class="opt-check"></div>
-      </div>
+      <div class="opt" data-step="1" data-value="Послуги"><div class="opt-icon">🤝</div><div class="opt-label">Послуги</div><div class="opt-check"></div></div>
+      <div class="opt" data-step="1" data-value="Магазин"><div class="opt-icon">🛍️</div><div class="opt-label">Магазин</div><div class="opt-check"></div></div>
+      <div class="opt" data-step="1" data-value="Кафе / ресторан"><div class="opt-icon">🍽️</div><div class="opt-label">Кафе / ресторан</div><div class="opt-check"></div></div>
+      <div class="opt" data-step="1" data-value="Медицина / краса"><div class="opt-icon">💆</div><div class="opt-label">Медицина / краса</div><div class="opt-check"></div></div>
+      <div class="opt" data-step="1" data-value="Юрист / адвокат"><div class="opt-icon">⚖️</div><div class="opt-label">Юрист</div><div class="opt-check"></div></div>
+      <div class="opt" data-step="1" data-value="Інше"><div class="opt-icon">💡</div><div class="opt-label">Інше</div><div class="opt-check"></div></div>
     </div>
-    <div class="nav">
-      <div></div>
-      <button class="btn-next" id="next1" disabled onclick="go(2)">Далі →</button>
-    </div>
+    <div class="nav"><div></div><button class="btn-next" id="next1" disabled onclick="go(2)">Далі →</button></div>
   </div>
 
-  <!-- ═══ КРОК 2 — Інформація про бізнес ═══ -->
   <div class="step" id="step2">
-    <div class="step-badge">Крок 2 · Контакти бізнесу</div>
-    <h2 class="step-title">Розкажіть про свій бізнес 📋</h2>
-    <p class="step-sub">Ці дані підуть на сайт та в налаштування бота</p>
-    <div class="fields">
-      <div class="field">
-        <label>Назва бізнесу *</label>
-        <input type="text" id="f-bizname" placeholder="Наприклад: Адвокат Захаров або Піцерія Буон" maxlength="80" />
-        <div class="field-err" id="err-bizname">Введіть назву бізнесу</div>
+    <div class="step-num">Крок 2 · Майже готово</div>
+    <h2 class="step-title">Який бюджет? 💰</h2>
+    <p class="step-sub">Підберемо оптимальне рішення</p>
+    <div class="opts">
+      <div class="opt" data-step="2" data-value="Безкоштовно (акція)">
+        <div class="opt-icon">🎁</div>
+        <div class="opt-body"><div class="opt-label" style="color:#f59e0b">Безкоштовно (акція)</div><div class="opt-desc">Сайт + бот безкоштовно — обмежена кількість</div></div>
+        <div class="opt-check"></div>
       </div>
-      <div class="field-row">
-        <div class="field">
-          <label>Місто *</label>
-          <input type="text" id="f-city" placeholder="Чернігів" />
-          <div class="field-err" id="err-city">Введіть місто</div>
-        </div>
-        <div class="field">
-          <label>Телефон бізнесу *</label>
-          <input type="tel" id="f-bizphone" placeholder="+380 XX XXX XX XX" />
-          <div class="field-err" id="err-bizphone">Введіть телефон</div>
-        </div>
+      <div class="opt" data-step="2" data-value="від 5 000 грн — Економ">
+        <div class="opt-icon">💚</div>
+        <div class="opt-body"><div class="opt-label">від 5 000 грн — Економ</div><div class="opt-desc">Лендінг + AI бот 24/7 · Готово за 1 день</div></div>
+        <div class="opt-check"></div>
       </div>
-      <div class="field">
-        <label>Сайт (якщо є)</label>
-        <input type="url" id="f-site" placeholder="https://example.com або немає" />
-        <div class="field-hint">Вкажіть, якщо вже є сайт — врахуємо при дизайні</div>
+      <div class="opt" data-step="2" data-value="від 15 000 грн — Стандарт">
+        <div class="opt-icon">💛</div>
+        <div class="opt-body"><div class="opt-label">від 15 000 грн — Стандарт</div><div class="opt-desc">Сайт + бот + Google Business + соцмережі</div></div>
+        <div class="opt-check"></div>
+      </div>
+      <div class="opt" data-step="2" data-value="від 25 000 грн — Бізнес">
+        <div class="opt-icon">🔥</div>
+        <div class="opt-body"><div class="opt-label">від 25 000 грн — Бізнес</div><div class="opt-desc">Повний запуск: сайт, бот, реклама, перші ліди</div></div>
+        <div class="opt-check"></div>
       </div>
     </div>
-    <div class="nav">
-      <button class="btn-back" onclick="go(1)">← Назад</button>
-      <button class="btn-next" id="next2" onclick="validateStep2()">Далі →</button>
-    </div>
+    <div class="nav"><button class="btn-back" onclick="go(1)">← Назад</button><button class="btn-next" id="next2" disabled onclick="go(3)">Далі →</button></div>
   </div>
 
-  <!-- ═══ КРОК 3 — Послуги та ціни ═══ -->
   <div class="step" id="step3">
-    <div class="step-badge">Крок 3 · Послуги</div>
-    <h2 class="step-title">Ваші послуги та ціни 💼</h2>
-    <p class="step-sub">Перелічіть основні послуги — бот буде розповідати про них клієнтам</p>
+    <div class="step-num">Крок 3 · Останній</div>
+    <h2 class="step-title">Як з вами зв'язатись? 📞</h2>
+    <p class="step-sub">Дмитро зателефонує протягом кількох годин</p>
     <div class="fields">
-      <div class="field">
-        <label>Послуги та ціни *</label>
-        <textarea id="f-services" rows="7"
-          placeholder="Консультація — 500 грн
-Складання договору — від 1000 грн
-Представництво в суді — від 3000 грн
-..."></textarea>
-        <div class="char-count"><span id="sc">0</span> / 1000</div>
-        <div class="field-err" id="err-services">Додайте хоча б одну послугу</div>
-      </div>
-      <div class="field">
-        <label>Режим роботи</label>
-        <input type="text" id="f-hours" placeholder="Пн-Пт 9:00-18:00, Сб за записом" />
-      </div>
+      <div class="field"><label>Ваше ім'я *</label><input type="text" id="f-name" placeholder="Олена або Максим" autocomplete="given-name"/><div class="field-err" id="err-name">Введіть ваше ім'я</div></div>
+      <div class="field"><label>Телефон *</label><input type="tel" id="f-phone" placeholder="+380 XX XXX XX XX" autocomplete="tel"/><div class="field-err" id="err-phone">Введіть номер телефону</div></div>
+      <div class="field"><label>Назва бізнесу</label><input type="text" id="f-biz" placeholder="Наприклад: Студія краси Алла"/></div>
     </div>
-    <div class="nav">
-      <button class="btn-back" onclick="go(2)">← Назад</button>
-      <button class="btn-next" onclick="validateStep3()">Далі →</button>
-    </div>
+    <div class="nav"><button class="btn-back" onclick="go(2)">← Назад</button><button class="btn-next" id="next3" onclick="submitBrief()">Отримати пропозицію 🚀</button></div>
   </div>
 
-  <!-- ═══ КРОК 4 — Цільова аудиторія ═══ -->
-  <div class="step" id="step4">
-    <div class="step-badge">Крок 4 · Аудиторія</div>
-    <h2 class="step-title">Хто ваші клієнти? 👥</h2>
-    <p class="step-sub">Чим точніше опишете — тим влучніше налаштуємо рекламу та бота</p>
-    <div class="fields">
-      <div class="field">
-        <label>Опишіть вашого типового клієнта *</label>
-        <textarea id="f-audience" rows="5"
-          placeholder="Наприклад: Фізичні особи 25-55 років, які мають проблеми з нерухомістю, трудові спори або сімейні питання. Живуть у Чернігові та обл."></textarea>
-        <div class="char-count"><span id="ac">0</span> / 500</div>
-        <div class="field-err" id="err-audience">Опишіть вашу аудиторію</div>
-      </div>
-    </div>
-    <div class="nav">
-      <button class="btn-back" onclick="go(3)">← Назад</button>
-      <button class="btn-next" onclick="validateStep4()">Далі →</button>
-    </div>
-  </div>
-
-  <!-- ═══ КРОК 5 — Ціль сайту ═══ -->
-  <div class="step" id="step5">
-    <div class="step-badge">Крок 5 · Ціль</div>
-    <h2 class="step-title">Що має робити сайт? 🎯</h2>
-    <p class="step-sub">Оберіть головну дію, яку ви хочете від відвідувача</p>
-    <div class="goal-grid">
-      <div class="goal-opt" data-step="5" data-value="Залишити заявку онлайн">
-        <div class="g-icon">📝</div>
-        <div class="g-body">
-          <div class="g-title">Залишити заявку онлайн</div>
-          <div class="g-desc">Форма або чат-бот збирає ім'я і телефон</div>
-        </div>
-        <div class="opt-check"></div>
-      </div>
-      <div class="goal-opt" data-step="5" data-value="Зателефонувати">
-        <div class="g-icon">📞</div>
-        <div class="g-body">
-          <div class="g-title">Зателефонувати</div>
-          <div class="g-desc">Кнопка «Подзвонити» на першому екрані</div>
-        </div>
-        <div class="opt-check"></div>
-      </div>
-      <div class="goal-opt" data-step="5" data-value="Записатися на прийом">
-        <div class="g-icon">📅</div>
-        <div class="g-body">
-          <div class="g-title">Записатися на прийом</div>
-          <div class="g-desc">Вибір дати та часу, підтвердження в Telegram</div>
-        </div>
-        <div class="opt-check"></div>
-      </div>
-      <div class="goal-opt" data-step="5" data-value="Написати в Telegram / WhatsApp">
-        <div class="g-icon">✈️</div>
-        <div class="g-body">
-          <div class="g-title">Написати в месенджер</div>
-          <div class="g-desc">Кнопка Telegram або WhatsApp</div>
-        </div>
-        <div class="opt-check"></div>
-      </div>
-      <div class="goal-opt" data-step="5" data-value="Зробити замовлення / покупку">
-        <div class="g-icon">🛒</div>
-        <div class="g-body">
-          <div class="g-title">Зробити замовлення</div>
-          <div class="g-desc">Кошик, оплата, форма замовлення</div>
-        </div>
-        <div class="opt-check"></div>
-      </div>
-    </div>
-    <div class="nav">
-      <button class="btn-back" onclick="go(4)">← Назад</button>
-      <button class="btn-next" id="next5" disabled onclick="go(6)">Далі →</button>
-    </div>
-  </div>
-
-  <!-- ═══ КРОК 6 — Стиль ═══ -->
-  <div class="step" id="step6">
-    <div class="step-badge">Крок 6 · Дизайн</div>
-    <h2 class="step-title">Який стиль сайту? 🎨</h2>
-    <p class="step-sub">Оберіть напрямок — дизайнер врахує ваші побажання</p>
-    <div class="style-grid">
-      <div class="style-opt" data-step="6" data-value="Сучасний / технологічний">
-        <div class="s-icon">🌑</div>
-        <div class="s-name">Сучасний</div>
-        <div class="s-desc">Темний фон, акценти, анімації</div>
-      </div>
-      <div class="style-opt" data-step="6" data-value="Класичний / діловий">
-        <div class="s-icon">🏛️</div>
-        <div class="s-name">Класичний</div>
-        <div class="s-desc">Білий фон, строгість, довіра</div>
-      </div>
-      <div class="style-opt" data-step="6" data-value="Яскравий / емоційний">
-        <div class="s-icon">🌈</div>
-        <div class="s-name">Яскравий</div>
-        <div class="s-desc">Кольори, енергія, молодіжний</div>
-      </div>
-      <div class="style-opt" data-step="6" data-value="Мінімалізм">
-        <div class="s-icon">◻️</div>
-        <div class="s-name">Мінімалізм</div>
-        <div class="s-desc">Чисто, просто, без зайвого</div>
-      </div>
-    </div>
-    <div class="field" style="margin-top:14px;">
-      <label>Приклади сайтів які подобаються (необов'язково)</label>
-      <input type="text" id="f-refs" placeholder="https://... або назва компанії" />
-    </div>
-    <div class="nav">
-      <button class="btn-back" onclick="go(5)">← Назад</button>
-      <button class="btn-next" id="next6" disabled onclick="go(7)">Далі →</button>
-    </div>
-  </div>
-
-  <!-- ═══ КРОК 7 — Бюджет ═══ -->
-  <div class="step" id="step7">
-    <div class="step-badge">Крок 7 · Бюджет</div>
-    <h2 class="step-title">Яку суму готові інвестувати? 💰</h2>
-    <p class="step-sub">Оберіть комфортний діапазон — підберемо оптимальне рішення</p>
-    <div class="goal-grid">
-      <div class="goal-opt" data-step="7" data-value="🎁 Безкоштовно (акція)" style="border-color: #f59e0b; background: rgba(245,158,11,.06);">
-        <div class="g-icon">🎁</div>
-        <div class="g-body">
-          <div class="g-title" style="color: #f59e0b;">Безкоштовно (акція)</div>
-          <div class="g-desc">Спеціальна пропозиція — сайт + бот безкоштовно</div>
-        </div>
-        <div class="opt-check"></div>
-      </div>
-      <div class="goal-opt" data-step="7" data-value="💚 від 5 000 грн — Економ (сайт + AI бот)">
-        <div class="g-icon">💚</div>
-        <div class="g-body">
-          <div class="g-title">від 5 000 грн — Економ</div>
-          <div class="g-desc">Сайт (лендинг) + AI чат-бот 24/7 · Готово за 1 день</div>
-        </div>
-        <div class="opt-check"></div>
-      </div>
-      <div class="goal-opt" data-step="7" data-value="💛 від 15 000 грн — Стандарт">
-        <div class="g-icon">💛</div>
-        <div class="g-body">
-          <div class="g-title">від 15 000 грн — Стандарт</div>
-          <div class="g-desc">Сайт + бот + Google Business + соцмережі</div>
-        </div>
-        <div class="opt-check"></div>
-      </div>
-      <div class="goal-opt" data-step="7" data-value="🔥 від 25 000 грн — Бізнес під ключ">
-        <div class="g-icon">🔥</div>
-        <div class="g-body">
-          <div class="g-title">від 25 000 грн — Бізнес під ключ</div>
-          <div class="g-desc">Повний запуск: логотип, сайт, бот, реклама, перші ліди</div>
-        </div>
-        <div class="opt-check"></div>
-      </div>
-      <div class="goal-opt" data-step="7" data-value="💬 Обговоримо індивідуально">
-        <div class="g-icon">💬</div>
-        <div class="g-body">
-          <div class="g-title">Обговоримо індивідуально</div>
-          <div class="g-desc">Є особливі вимоги або нестандартна задача</div>
-        </div>
-        <div class="opt-check"></div>
-      </div>
-    </div>
-    <div class="nav">
-      <button class="btn-back" onclick="go(6)">← Назад</button>
-      <button class="btn-next" id="next7" disabled onclick="go(8)">Далі →</button>
-    </div>
-  </div>
-
-  <!-- ═══ КРОК 8 — Контакт замовника ═══ -->
-  <div class="step" id="step8">
-    <div class="step-badge">Крок 8 · Ваші контакти</div>
-    <h2 class="step-title">Як з вами зв'язатися? 📞</h2>
-    <p class="step-sub">Дмитро напише вам протягом кількох годин, щоб уточнити деталі</p>
-    <div class="fields">
-      <div class="field-row">
-        <div class="field">
-          <label>Ваше ім'я *</label>
-          <input type="text" id="f-name" placeholder="Олена" />
-          <div class="field-err" id="err-name">Введіть ім'я</div>
-        </div>
-        <div class="field">
-          <label>Ваш телефон *</label>
-          <input type="tel" id="f-phone" placeholder="+380 XX XXX XX XX" />
-          <div class="field-err" id="err-phone">Введіть телефон</div>
-        </div>
-      </div>
-      <div class="field">
-        <label>Telegram (необов'язково)</label>
-        <input type="text" id="f-tg" placeholder="@username або +380..." />
-      </div>
-      <div class="field">
-        <label>Додаткові побажання</label>
-        <textarea id="f-notes" rows="3" placeholder="Будь-що важливе, що ми маємо знати..."></textarea>
-      </div>
-    </div>
-    <div class="nav">
-      <button class="btn-back" onclick="go(7)">← Назад</button>
-      <button type="button" class="btn-next" onclick="submitBrief()">Відправити 🚀</button>
-    </div>
-  </div>
-
-  <!-- ═══ RESULT ═══ -->
   <div id="result">
     <div class="result-icon">🎉</div>
-    <div class="result-title">Бриф отримано!</div>
-    <div class="result-sub">
-      Дмитро вже бачить ваш бриф і зв'яжеться з вами найближчим часом.<br>
-      Ось що відбудеться далі:
-    </div>
+    <div class="result-title">Заявку отримано!</div>
+    <div class="result-sub">Дмитро вже бачить вашу заявку і зателефонує найближчим часом</div>
     <div class="result-steps">
-      <div class="result-step">
-        <div class="rs-num">1</div>
-        <div class="rs-text"><strong>Дзвінок або повідомлення</strong><br><span>Уточнимо деталі та погодимо ціну — зазвичай протягом 2–3 годин</span></div>
-      </div>
-      <div class="result-step">
-        <div class="rs-num">2</div>
-        <div class="rs-text"><strong>Договір та передоплата 50%</strong><br><span>Офіційно фіксуємо умови і строки</span></div>
-      </div>
-      <div class="result-step">
-        <div class="rs-num">3</div>
-        <div class="rs-text"><strong>7 днів роботи</strong><br><span>Сайт, бот, реклама — здаємо повністю готовим</span></div>
-      </div>
-      <div class="result-step">
-        <div class="rs-num">4</div>
-        <div class="rs-text"><strong>Здача та решта 50%</strong><br><span>Ви перевіряєте, вносите правки — ми здаємо ключі</span></div>
-      </div>
+      <div class="result-step"><div class="rs-num">1</div><div class="rs-text"><strong>Дзвінок або повідомлення</strong><span>Уточнимо деталі та озвучимо ціну — зазвичай 2–3 години</span></div></div>
+      <div class="result-step"><div class="rs-num">2</div><div class="rs-text"><strong>Договір та передоплата 50%</strong><span>Офіційно фіксуємо умови і строки</span></div></div>
+      <div class="result-step"><div class="rs-num">3</div><div class="rs-text"><strong>Сайт + бот готові за 1 день</strong><span>Здаємо повністю готовим з інструкцією</span></div></div>
     </div>
-    <a href="https://t.me/cryptomaus" class="btn-tg" target="_blank">
-      ✈️ Написати Дмитру напряму
-    </a>
+    <a href="https://t.me/cryptomaus" class="btn-tg" target="_blank">✈️ Написати Дмитру напряму</a>
   </div>
+</div>
+
+<div class="social-proof">
+  <span class="stars">★★★★★</span>
+  <span>Більше 20 клієнтів вже запустили сайти з StartAI</span>
 </div>
 
 <script>
-const TOTAL = 8;
 const answers = {};
-
-// ── Option selection ──
-document.querySelectorAll('.opt, .goal-opt, .style-opt').forEach(el => {
+document.querySelectorAll('.opt').forEach(el => {
   el.addEventListener('click', () => {
     const step = el.dataset.step;
-    document.querySelectorAll(`[data-step="${step}"]`).forEach(o => o.classList.remove('selected'));
+    document.querySelectorAll('[data-step="'+step+'"]').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
-    answers[`step${step}`] = el.dataset.value;
-    const btn = document.getElementById(`next${step}`);
-    if (btn) btn.disabled = false;
+    answers['step'+step] = el.dataset.value;
+    const btn = document.getElementById('next'+step);
+    if(btn) btn.disabled = false;
   });
 });
 
-// ── Char counters ──
-document.getElementById('f-services').addEventListener('input', function() {
-  document.getElementById('sc').textContent = this.value.length;
-});
-document.getElementById('f-audience').addEventListener('input', function() {
-  document.getElementById('ac').textContent = this.value.length;
-});
-
-// ── Navigation ──
 function go(n) {
   document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-  const t = document.getElementById(`step${n}`);
-  if (t) t.classList.add('active');
-  const pct = Math.round((n / TOTAL) * 100);
-  document.getElementById('progFill').style.width = pct + '%';
-  document.getElementById('progLabel').textContent = `Крок ${n} з ${TOTAL}`;
-  document.getElementById('progPct').textContent = pct + '%';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  const t = document.getElementById('step'+n);
+  if(t){t.classList.remove('active');void t.offsetWidth;t.classList.add('active');}
+  const pct = Math.round((n/3)*100);
+  document.getElementById('progFill').style.width = pct+'%';
+  document.getElementById('progLabel').textContent = 'Крок '+n+' з 3';
+  document.getElementById('progPct').textContent = pct+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
-// ── Step 2 validation ──
-function validateStep2() {
-  let ok = true;
-  [['f-bizname','err-bizname'],['f-city','err-city'],['f-bizphone','err-bizphone']].forEach(([id, err]) => {
-    const v = document.getElementById(id).value.trim();
-    document.getElementById(err).style.display = v ? 'none' : 'block';
-    if (!v) ok = false;
-  });
-  if (ok) go(3);
-}
-
-// ── Step 3 validation ──
-function validateStep3() {
-  const v = document.getElementById('f-services').value.trim();
-  document.getElementById('err-services').style.display = v ? 'none' : 'block';
-  if (v) go(4);
-}
-
-// ── Step 4 validation ──
-function validateStep4() {
-  const v = document.getElementById('f-audience').value.trim();
-  document.getElementById('err-audience').style.display = v ? 'none' : 'block';
-  if (v) go(5);
-}
-
-// ── Submit ──
 async function submitBrief() {
-  let ok = true;
-  [['f-name','err-name'],['f-phone','err-phone']].forEach(([id, err]) => {
-    const v = document.getElementById(id).value.trim();
-    document.getElementById(err).style.display = v ? 'none' : 'block';
-    if (!v) ok = false;
-  });
-  if (!ok) return;
+  const name = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  document.getElementById('err-name').style.display = name?'none':'block';
+  document.getElementById('err-phone').style.display = phone?'none':'block';
+  document.getElementById('f-name').style.borderColor = name?'':'#dc2626';
+  document.getElementById('f-phone').style.borderColor = phone?'':'#dc2626';
+  if(!name||!phone) return;
 
-  const data = {
-    biz_type:  answers.step1 || '—',
-    style:     answers.step6 || '—',
-    goal:      answers.step5 || '—',
-    budget:    answers.step7 || '—',
-    biz_name:  document.getElementById('f-bizname').value.trim(),
-    city:      document.getElementById('f-city').value.trim(),
-    biz_phone: document.getElementById('f-bizphone').value.trim(),
-    site:      document.getElementById('f-site').value.trim(),
-    services:  document.getElementById('f-services').value.trim(),
-    hours:     document.getElementById('f-hours').value.trim(),
-    audience:  document.getElementById('f-audience').value.trim(),
-    refs:      document.getElementById('f-refs').value.trim(),
-    name:      document.getElementById('f-name').value.trim(),
-    phone:     document.getElementById('f-phone').value.trim(),
-    tg:        document.getElementById('f-tg').value.trim(),
-    notes:     document.getElementById('f-notes').value.trim(),
-  };
-
-  // Show result immediately
-  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('progFill').style.width='100%';
+  document.getElementById('progLabel').textContent='Готово!';
+  document.getElementById('progPct').textContent='100%';
+  document.getElementById('result').style.display='block';
   document.getElementById('result').classList.add('active');
-  document.getElementById('progFill').style.width = '100%';
-  document.getElementById('progLabel').textContent = 'Готово!';
-  document.getElementById('progPct').textContent = '100%';
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  window.scrollTo({top:0,behavior:'smooth'});
 
-  // Send to Telegram in background
-  sendTelegram(data);
-}
-
-async function sendTelegram(d) {
-  const BOT = '8741925031:AAHacGEzHZFa3OHe81g1C07tTEBEr-jVaHk';
-  const CHAT = '503549265';
-
-  const text =
-`📋 *Новий бриф клієнта — StartAI*
-
-🏢 *Тип бізнесу:* ${d.biz_type}
-📛 *Назва:* ${d.biz_name}
-📍 *Місто:* ${d.city}
-📞 *Тел. бізнесу:* ${d.biz_phone}
-🌐 *Сайт зараз:* ${d.site || 'немає'}
-
-💼 *Послуги:*
-${d.services}
-${d.hours ? '⏰ *Графік:* ' + d.hours : ''}
-
-👥 *Аудиторія:* ${d.audience}
-
-🎯 *Ціль сайту:* ${d.goal}
-🎨 *Стиль:* ${d.style}
-${d.refs ? '🔗 *Референси:* ' + d.refs : ''}
-💰 *Бюджет:* ${d.budget}
-
-━━━━━━━━━━━━━━━━
-👤 *Замовник:* ${d.name}
-📞 *Телефон:* ${d.phone}
-${d.tg ? '✈️ *Telegram:* ' + d.tg : ''}
-${d.notes ? '📝 *Нотатки:* ' + d.notes : ''}`;
-
+  const biz = document.getElementById('f-biz').value.trim();
+  const BOT='8741925031:AAHacGEzHZFa3OHe81g1C07tTEBEr-jVaHk';
+  const CHAT='503549265';
+  const text='🔥 *Нова заявка — StartAI*\n\n🏢 *Бізнес:* '+(answers.step1||'—')+'\n💰 *Бюджет:* '+(answers.step2||'—')+(biz?'\n📛 *Назва:* '+biz:'')+'\n\n👤 *Ім\'я:* '+name+'\n📞 *Телефон:* '+phone;
   try {
-    await fetch(`https://api.telegram.org/bot${BOT}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: CHAT, text, parse_mode: 'Markdown' })
+    await fetch('https://api.telegram.org/bot'+BOT+'/sendMessage',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({chat_id:CHAT,text,parse_mode:'Markdown'})
     });
-    if (typeof ttq !== 'undefined') ttq.track('SubmitForm');
-  } catch (e) { console.error('Telegram error:', e); }
+    if(typeof ttq!=='undefined') ttq.track('SubmitForm');
+  } catch(e){console.error(e);}
 }
+
+['f-name','f-phone'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',function(){
+    this.style.borderColor='';
+    const err=document.getElementById('err-'+id.replace('f-',''));
+    if(err) err.style.display='none';
+  });
+});
 </script>
 </body>
 </html>
