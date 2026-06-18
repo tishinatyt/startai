@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Бриф на розробку сайту — StartAI</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@700;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0D0D0F;
+    --bg2: #141417;
+    --bg3: #1C1C21;
+    --border: rgba(255,255,255,0.08);
+    --border2: rgba(255,255,255,0.14);
+    --text: #F0EEF8;
+    --muted: #8A88A0;
+    --accent: #7B5CF5;
+    --accent2: #9B7DFF;
+    --accent-glow: rgba(123,92,245,0.18);
+    --success: #22C55E;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 64px 24px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%;
+    transform: translateX(-50%);
+    width: 500px; height: 300px;
+    background: radial-gradient(ellipse, rgba(123,92,245,0.22) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-glow);
+    border: 1px solid rgba(123,92,245,0.3);
+    color: var(--accent2);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    letter-spacing: 0.03em;
+  }
+
+  .hero h1 {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(28px, 6vw, 48px);
+    font-weight: 800;
+    line-height: 1.15;
+    margin-bottom: 14px;
+    background: linear-gradient(135deg, #F0EEF8 30%, var(--accent2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero p {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 460px;
+    margin: 0 auto;
+  }
+
+  /* Progress */
+  .progress-wrap {
+    max-width: 620px;
+    margin: 0 auto 40px;
+    padding: 0 24px;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 8px;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+
+  .progress-label {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  /* Form */
+  .form-wrap {
+    max-width: 620px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .section-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .field { margin-bottom: 18px; }
+
+  .field label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+
+  .field .hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  .req { color: var(--accent2); margin-left: 2px; }
+
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  textarea,
+  select {
+    width: 100%;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    padding: 12px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    appearance: none;
+  }
+
+  input::placeholder, textarea::placeholder { color: var(--muted); }
+
+  input:focus, textarea:focus, select:focus {
+    border-color: var(--accent);
+    background: var(--bg2);
+  }
+
+  textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
+
+  .row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  /* Chips */
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip {
+    padding: 7px 16px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.15s;
+    user-select: none;
+  }
+
+  .chip:hover { border-color: var(--border2); color: var(--text); }
+
+  .chip.active {
+    background: var(--accent-glow);
+    border-color: rgba(123,92,245,0.5);
+    color: var(--accent2);
+    font-weight: 500;
+  }
+
+  /* Select arrow */
+  .select-wrap { position: relative; }
+  .select-wrap::after {
+    content: '↓';
+    position: absolute;
+    right: 14px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+    font-size: 13px;
+  }
+
+  select option { background: #1C1C21; }
+
+  /* Card */
+  .card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-bottom: 18px;
+  }
+
+  /* Submit */
+  .submit-section { text-align: center; padding-top: 8px; }
+
+  .submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 16px 40px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .submit-btn:hover { background: var(--accent2); }
+  .submit-btn:active { transform: scale(0.98); }
+
+  .submit-note {
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  /* Success */
+  .success-screen {
+    display: none;
+    text-align: center;
+    padding: 80px 24px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .success-icon {
+    width: 64px; height: 64px;
+    background: rgba(34,197,94,0.15);
+    border: 1px solid rgba(34,197,94,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 28px;
+  }
+
+  .success-screen h2 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .success-screen p {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .tg-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    background: #2AABEE;
+    color: #fff;
+    text-decoration: none;
+    padding: 14px 32px;
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+
+  .tg-btn:hover { opacity: 0.88; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  @media (max-width: 520px) {
+    .row-2 { grid-template-columns: 1fr; }
+    .hero { padding: 48px 20px 36px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div id="main">
+  <div class="hero">
+    <div class="badge">✦ StartAI — сайт + AI бот + Telegram</div>
+    <h1>Бриф на розробку сайту</h1>
+    <p>Заповніть форму — це допоможе підготувати рішення саме під ваш бізнес</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">Заповнено 0%</div>
+  </div>
+
+  <div class="form-wrap">
+
+    <div class="section">
+      <div class="section-title">Про бізнес</div>
+      <div class="field">
+        <label>Назва компанії або ПІБ <span class="req">*</span></label>
+        <input type="text" id="f_name" placeholder="Наприклад: Затишний куточок" oninput="updateProgress()" />
+      </div>
+      <div class="row-2">
+        <div class="field">
+          <label>Сфера діяльності <span class="req">*</span></label>
+          <input type="text" id="f_sphere" placeholder="Готель, салон, кафе..." oninput="updateProgress()" />
+        </div>
+        <div class="field">
+          <label>Місто</label>
+          <input type="text" id="f_city" placeholder="Чернігів" oninput="updateProgress()" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Чим ви відрізняєтесь від конкурентів?</label>
+        <div class="hint">Що клієнти цінують у вас найбільше</div>
+        <textarea id="f_diff" placeholder="Наприклад: затишна атмосфера, індивідуальний підхід, швидкий сервіс..." oninput="updateProgress()"></textarea>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Ваші клієнти</div>
+      <div class="field">
+        <label>Хто ваш типовий клієнт?</label>
+        <div class="hint">Вік, стать, рід занять, звідки приїжджають</div>
+        <textarea id="f_clients" placeholder="Наприклад: жінки 25–45 років, туристи з Києва, сім'ї з дітьми..." oninput="updateProgress()"></textarea>
+      </div>
+      <div class="field">
+        <label>Яку проблему ви вирішуєте для клієнта?</label>
+        <textarea id="f_problem" placeholder="Наприклад: допомагаємо відпочити від міського шуму, знайти затишне місце..." oninput="updateProgress()"></textarea>
+      </div>
+      <div class="field">
+        <label>Як клієнти зараз вас знаходять?</label>
+        <div class="chips" id="findChips">
+          <div class="chip" onclick="toggleChip(this)">Сарафанне радіо</div>
+          <div class="chip" onclick="toggleChip(this)">Google Maps</div>
+          <div class="chip" onclick="toggleChip(this)">Instagram</div>
+          <div class="chip" onclick="toggleChip(this)">Facebook</div>
+          <div class="chip" onclick="toggleChip(this)">OLX / дошки</div>
+          <div class="chip" onclick="toggleChip(this)">Booking.com</div>
+          <div class="chip" onclick="toggleChip(this)">Існуючий сайт</div>
+          <div class="chip" onclick="toggleChip(this)">Інше</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Реклама та маркетинг</div>
+      <div class="field">
+        <label>Яку рекламу ви зараз використовуєте?</label>
+        <div class="chips" id="adsChips">
+          <div class="chip" onclick="toggleChip(this)">Не використовую</div>
+          <div class="chip" onclick="toggleChip(this)">Google Ads</div>
+          <div class="chip" onclick="toggleChip(this)">Facebook / Instagram Ads</div>
+          <div class="chip" onclick="toggleChip(this)">TikTok Ads</div>
+          <div class="chip" onclick="toggleChip(this)">SEO просування</div>
+          <div class="chip" onclick="toggleChip(this)">Таргетована реклама</div>
+          <div class="chip" onclick="toggleChip(this)">Флаєри / офлайн</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Готовий рекламний бюджет на місяць</label>
+        <div class="select-wrap">
+          <select id="f_budget" onchange="updateProgress()">
+            <option value="">Оберіть бюджет</option>
+            <option>До 10 000 грн</option>
+            <option>10 000 — 20 000 грн</option>
+            <option>20 000 — 50 000 грн</option>
+            <option>50 000 — 100 000 грн</option>
+            <option>Понад 100 000 грн</option>
+            <option>Ще не визначився</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Сайт та функціонал</div>
+      <div class="field">
+        <label>Що має робити сайт?</label>
+        <div class="chips" id="siteChips">
+          <div class="chip" onclick="toggleChip(this)">Розповісти про послуги</div>
+          <div class="chip" onclick="toggleChip(this)">Приймати заявки / бронювання</div>
+          <div class="chip" onclick="toggleChip(this)">Показати портфоліо / фото</div>
+          <div class="chip" onclick="toggleChip(this)">AI чат-бот 24/7</div>
+          <div class="chip" onclick="toggleChip(this)">Заявки в Telegram</div>
+          <div class="chip" onclick="toggleChip(this)">Онлайн-оплата</div>
+          <div class="chip" onclick="toggleChip(this)">Каталог товарів</div>
+          <div class="chip" onclick="toggleChip(this)">Відгуки клієнтів</div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Сайти які вам подобаються</label>
+        <div class="hint">Посилання на 1–3 сайти, які подобаються по дизайну або зручності</div>
+        <textarea id="f_refs" placeholder="https://..." style="min-height:70px" oninput="updateProgress()"></textarea>
+      </div>
+      <div class="field">
+        <label>Які матеріали вже є?</label>
+        <div class="chips" id="materialsChips">
+          <div class="chip" onclick="toggleChip(this)">Логотип</div>
+          <div class="chip" onclick="toggleChip(this)">Фотографії</div>
+          <div class="chip" onclick="toggleChip(this)">Готові тексти</div>
+          <div class="chip" onclick="toggleChip(this)">Фірмові кольори</div>
+          <div class="chip" onclick="toggleChip(this)">Нічого немає</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-title">Контакти</div>
+      <div class="row-2">
+        <div class="field">
+          <label>Ваше ім'я <span class="req">*</span></label>
+          <input type="text" id="f_contact_name" placeholder="Як до вас звертатись" oninput="updateProgress()" />
+        </div>
+        <div class="field">
+          <label>Telegram або телефон <span class="req">*</span></label>
+          <input type="text" id="f_contact" placeholder="@username або +380..." oninput="updateProgress()" />
+        </div>
+      </div>
+      <div class="field">
+        <label>Коли хочете запустити сайт?</label>
+        <div class="select-wrap">
+          <select id="f_deadline">
+            <option value="">Оберіть терміни</option>
+            <option>Якнайшвидше</option>
+            <option>Протягом тижня</option>
+            <option>Протягом місяця</option>
+            <option>Не поспішаю</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Додаткові побажання</label>
+        <textarea id="f_extra" placeholder="Будь-яка інформація яка може бути корисною..." oninput="updateProgress()"></textarea>
+      </div>
+    </div>
+
+    <div class="submit-section">
+      <button class="submit-btn" onclick="submitForm()">
+        Надіслати бриф →
+      </button>
+      <div class="submit-note">Дмитро зв'яжеться з вами протягом кількох годин</div>
+    </div>
+
+  </div>
+</div>
+
+<div class="success-screen" id="successScreen">
+  <div class="success-icon">✓</div>
+  <h2>Бриф отримано!</h2>
+  <p>Дякую! Я вже бачу ваші відповіді і зв'яжусь з вами найближчим часом щоб обговорити деталі.</p>
+  <a href="https://t.me/cryptomaus" class="tg-btn">Написати в Telegram</a>
+</div>
+
+<div class="footer">
+  StartAI — сайт + AI бот + Telegram система заявок &nbsp;·&nbsp; @cryptomaus
+</div>
+
+<script>
+function toggleChip(el) {
+  el.classList.toggle('active');
+  updateProgress();
+}
+
+function updateProgress() {
+  const required = ['f_name','f_sphere','f_contact_name','f_contact'];
+  const optional = ['f_city','f_diff','f_clients','f_problem','f_refs','f_extra'];
+  const selects = ['f_budget','f_deadline'];
+
+  let filled = 0;
+  const total = required.length + optional.length + selects.length;
+
+  required.forEach(id => {
+    if (document.getElementById(id)?.value.trim()) filled++;
+  });
+  optional.forEach(id => {
+    if (document.getElementById(id)?.value.trim()) filled++;
+  });
+  selects.forEach(id => {
+    if (document.getElementById(id)?.value) filled++;
+  });
+
+  const chips = document.querySelectorAll('.chip.active').length;
+  const chipBonus = Math.min(chips, 4);
+  const pct = Math.round(((filled + chipBonus * 0.5) / (total + 2)) * 100);
+  const clamped = Math.min(pct, 100);
+
+  document.getElementById('progressFill').style.width = clamped + '%';
+  document.getElementById('progressLabel').textContent = 'Заповнено ' + clamped + '%';
+}
+
+async function submitForm() {
+  const name = document.getElementById('f_name').value.trim();
+  const sphere = document.getElementById('f_sphere').value.trim();
+  const contactName = document.getElementById('f_contact_name').value.trim();
+  const contact = document.getElementById('f_contact').value.trim();
+
+  if (!name || !sphere || !contactName || !contact) {
+    alert('Будь ласка, заповніть обов\'язкові поля: назва, сфера, ваше ім\'я та контакт.');
+    return;
+  }
+
+  const btn = document.querySelector('.submit-btn');
+  btn.textContent = 'Надсилаємо...';
+  btn.disabled = true;
+
+  const getChips = id => Array.from(document.querySelectorAll('#' + id + ' .chip.active')).map(c => c.textContent).join(', ') || 'не вказано';
+
+  const lines = [
+    '📋 Новий бриф із сайту',
+    '',
+    '🏢 Бізнес',
+    'Назва: ' + name,
+    'Сфера: ' + sphere,
+    'Місто: ' + (document.getElementById('f_city').value.trim() || '—'),
+    'Відмінність: ' + (document.getElementById('f_diff').value.trim() || '—'),
+    '',
+    '👥 Клієнти',
+    'Хто клієнт: ' + (document.getElementById('f_clients').value.trim() || '—'),
+    'Проблема: ' + (document.getElementById('f_problem').value.trim() || '—'),
+    'Як знаходять: ' + getChips('findChips'),
+    '',
+    '📣 Реклама',
+    'Використовує: ' + getChips('adsChips'),
+    'Бюджет/міс: ' + (document.getElementById('f_budget').value || '—'),
+    '',
+    '💻 Сайт',
+    'Функціонал: ' + getChips('siteChips'),
+    'Матеріали: ' + getChips('materialsChips'),
+    'Референси: ' + (document.getElementById('f_refs').value.trim() || '—'),
+    '',
+    '📞 Контакт',
+    "Ім'я: " + contactName,
+    "Зв'язок: " + contact,
+    'Терміни: ' + (document.getElementById('f_deadline').value || '—'),
+    'Побажання: ' + (document.getElementById('f_extra').value.trim() || '—'),
+  ];
+
+  try {
+    await fetch('https://api.telegram.org/bot8653243055:AAFFb5sDuhZGP2tkXnzxkKlkx0obbRTKkKI/sendMessage', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({chat_id: '503549265', text: lines.join('\n')})
+    });
+  } catch(e) { console.error(e); }
+
+  document.getElementById('main').style.display = 'none';
+  document.getElementById('successScreen').style.display = 'block';
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+</script>
+</body>
+</html>
