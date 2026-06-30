@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Start schlüsselfertig — Kompletter Online-Start in 7 Tagen</title>
+<meta name="description" content="Starten Sie Ihr Geschäft online in 7 Tagen. Logo, Website, KI-Chatbot, Werbung und erste Leads — alles aus einer Hand.">
+<style>
+  :root{
+    --ink:#13110f;
+    --paper:#f6f2ea;
+    --paper-dim:#ece5d6;
+    --rust:#c1531f;
+    --rust-dim:#9c4117;
+    --olive:#5c5a3f;
+    --line:#d8cfba;
+    --gold:#b9893f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Iowan Old Style','Georgia',serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono{
+    font-family:'JetBrains Mono','Courier New',monospace;
+    letter-spacing:0.02em;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+
+  /* HEADER */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(246,242,234,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1080px;margin:0 auto;padding:16px 28px;
+    display:flex;justify-content:space-between;align-items:center;
+  }
+  .brand{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;font-size:15px;letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+  .brand span{color:var(--rust);}
+  .nav-cta{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    border:1px solid var(--ink);
+    padding:8px 16px;
+    transition:all .2s ease;
+  }
+  .nav-cta:hover{background:var(--ink);color:var(--paper);}
+
+  /* HERO */
+  .hero{
+    padding:88px 0 64px;
+    border-bottom:1px solid var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .eyebrow{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;color:var(--rust-dim);
+    text-transform:uppercase;letter-spacing:0.12em;
+    margin-bottom:22px;
+    display:inline-block;
+    border-bottom:1px solid var(--rust-dim);
+    padding-bottom:4px;
+  }
+  h1{
+    font-size:clamp(40px,6.4vw,76px);
+    font-weight:400;
+    line-height:1.02;
+    letter-spacing:-0.02em;
+    max-width:880px;
+  }
+  h1 em{
+    font-style:italic;
+    color:var(--rust);
+  }
+  .hero-sub{
+    margin-top:28px;
+    font-size:19px;
+    max-width:560px;
+    color:#3a352d;
+  }
+  .hero-ctas{
+    margin-top:38px;
+    display:flex;gap:14px;flex-wrap:wrap;
+  }
+  .btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;
+    padding:15px 26px;
+    border:1px solid var(--ink);
+    transition:all .2s ease;
+    display:inline-block;
+  }
+  .btn-solid{background:var(--ink);color:var(--paper);}
+  .btn-solid:hover{background:var(--rust);border-color:var(--rust);}
+  .btn-ghost:hover{background:var(--ink);color:var(--paper);}
+
+  /* TICKER STRIP */
+  .strip{
+    margin-top:64px;
+    border-top:1px solid var(--line);
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+  }
+  .strip-item{
+    padding:22px 18px;
+    border-right:1px solid var(--line);
+    font-size:13px;
+  }
+  .strip-item:last-child{border-right:none;}
+  .strip-item .ic{font-size:20px;display:block;margin-bottom:8px;}
+  .strip-item b{display:block;font-weight:600;margin-bottom:4px;}
+  .strip-item span.small{color:#6b6555;font-size:12px;}
+
+  .countdown-bar{
+    margin-top:0;
+    background:var(--ink);
+    color:var(--paper);
+    text-align:center;
+    padding:11px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    letter-spacing:0.03em;
+  }
+
+  /* SECTION GENERIC */
+  section{padding:96px 0;border-bottom:1px solid var(--line);}
+  .sec-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;color:var(--rust-dim);
+    text-transform:uppercase;letter-spacing:0.1em;
+    margin-bottom:14px;
+  }
+  h2{
+    font-size:clamp(28px,4vw,44px);
+    font-weight:400;
+    letter-spacing:-0.01em;
+    max-width:680px;
+    line-height:1.1;
+  }
+  .sec-note{
+    margin-top:16px;
+    max-width:520px;
+    color:#5a5446;
+    font-size:16px;
+  }
+
+  /* BLOCKS GRID */
+  .grid7{
+    margin-top:56px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .block{
+    background:var(--paper);
+    padding:34px 28px;
+    min-height:200px;
+    display:flex;flex-direction:column;
+  }
+  .block .ic{font-size:26px;margin-bottom:18px;}
+  .block h3{font-size:19px;font-weight:600;margin-bottom:10px;}
+  .block p{font-size:14.5px;color:#5a5446;}
+  .block.accent{background:var(--ink);color:var(--paper);}
+  .block.accent p{color:#cfc8b8;}
+
+  /* PROCESS */
+  .process{margin-top:56px;}
+  .step{
+    display:grid;
+    grid-template-columns:90px 1fr;
+    gap:28px;
+    padding:30px 0;
+    border-top:1px solid var(--line);
+  }
+  .step:last-child{border-bottom:1px solid var(--line);}
+  .step-num{
+    font-family:'JetBrains Mono',monospace;
+    font-size:14px;color:var(--rust);
+    padding-top:4px;
+  }
+  .step h3{font-size:20px;font-weight:600;margin-bottom:8px;}
+  .step p{color:#5a5446;font-size:15px;max-width:560px;}
+
+  /* PRICE */
+  .price-card{
+    margin-top:56px;
+    border:1px solid var(--ink);
+    padding:50px 44px;
+    background:var(--paper-dim);
+    position:relative;
+  }
+  .price-card::before{
+    content:"";
+    position:absolute;top:10px;left:10px;right:-10px;bottom:-10px;
+    border:1px solid var(--rust);
+    z-index:-1;
+  }
+  .price-top{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    flex-wrap:wrap;gap:20px;
+    border-bottom:1px solid var(--line);
+    padding-bottom:28px;margin-bottom:28px;
+  }
+  .price-name{font-family:'JetBrains Mono',monospace;font-size:14px;text-transform:uppercase;letter-spacing:0.08em;color:var(--rust-dim);margin-bottom:10px;}
+  .price-num{font-size:52px;}
+  .price-from{font-size:14px;color:#6b6555;margin-top:6px;}
+  .price-feat{
+    display:flex;flex-wrap:wrap;gap:10px 22px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    margin-bottom:32px;
+  }
+  .price-feat span{white-space:nowrap;}
+  .price-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
+  .price-fine{font-size:13px;color:#6b6555;}
+
+  /* CTA FINAL */
+  .final{
+    text-align:center;
+    padding:110px 0;
+    border-bottom:none;
+  }
+  .final h2{margin:0 auto;max-width:640px;}
+  .final .sec-note{margin-left:auto;margin-right:auto;}
+  .final .btn{margin-top:36px;font-size:15px;padding:18px 34px;}
+
+  footer{
+    padding:46px 0 30px;
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:18px;
+  }
+  .footer-id{font-family:'JetBrains Mono',monospace;font-size:13px;}
+  .footer-id b{display:block;font-size:15px;font-weight:600;font-family:'Iowan Old Style',serif;}
+  .footer-copy{font-size:12.5px;color:#8a8472;font-family:'JetBrains Mono',monospace;}
+
+  .sticky-cta{
+    position:fixed;left:0;right:0;bottom:0;z-index:60;
+    background:var(--ink);color:var(--paper);
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 22px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:13px;
+    transform:translateY(100%);
+    transition:transform .3s ease;
+  }
+  .sticky-cta.show{transform:translateY(0);}
+  .sticky-cta a{border:1px solid var(--paper);padding:8px 16px;}
+  .sticky-cta a:hover{background:var(--rust);border-color:var(--rust);}
+
+  @media(max-width:760px){
+    .strip{grid-template-columns:repeat(2,1fr);}
+    .strip-item:nth-child(2n){border-right:none;}
+    .grid7{grid-template-columns:1fr;}
+    .step{grid-template-columns:50px 1fr;}
+    .price-card{padding:34px 22px;}
+    section{padding:64px 0;}
+    .hero{padding:64px 0 40px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="brand">Start<span>AI</span></div>
+    <a class="nav-cta" href="https://t.me/cryptomaus">Telegram schreiben</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">🚀 Start schlüsselfertig</span>
+    <h1>Kompletter Online&#8209;Start in 7 Tagen. <em>KI</em> statt Mitarbeiter, 24/7.</h1>
+    <p class="hero-sub">Logo, Website, Chatbot, Werbung und die ersten Leads — alles aus einer Hand, ohne Kopfschmerzen, zum Festpreis.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-solid" href="https://t.me/cryptomaus">✈️ In Telegram schreiben</a>
+      <a class="btn btn-ghost" href="#preis">📋 Preis ansehen</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="strip">
+      <div class="strip-item"><span class="ic">🎨</span><b>Logo + Marke</b><span class="small">Eigener Stil von Anfang an</span></div>
+      <div class="strip-item"><span class="ic">🌐</span><b>Website + Domain</b><span class="small">Landingpage, die verkauft</span></div>
+      <div class="strip-item"><span class="ic">🤖</span><b>KI-Chatbot 24/7</b><span class="small">Antwortet statt Ihnen</span></div>
+      <div class="strip-item"><span class="ic">🎬</span><b>Promo-Video 60–90 Sek</b><span class="small">Für Social Media & Ads</span></div>
+      <div class="strip-item"><span class="ic">📣</span><b>Google + Facebook + Leads</b><span class="small">Werbebudget inklusive</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="countdown-bar">⏱ Start in 7 Tagen — die Uhr läuft</div>
+
+<section id="leistungen">
+  <div class="wrap">
+    <div class="sec-label">📦 Leistungsumfang</div>
+    <h2>7 Bausteine, die Ihr Geschäft online bringen</h2>
+    <p class="sec-note">Sie müssen nichts einzeln zusammensuchen — alles steckt in einem schlüsselfertigen Paket.</p>
+
+    <div class="grid7">
+      <div class="block">
+        <span class="ic">🎨</span>
+        <h3>Logo + Corporate Design</h3>
+        <p>Ein eigenes Logo, Farbpalette und Schriften — alles, was Ihre Marke auf den ersten Blick wiedererkennbar macht.</p>
+      </div>
+      <div class="block">
+        <span class="ic">🌐</span>
+        <h3>Website (Landingpage) + Domain</h3>
+        <p>Eine verkaufsstarke One-Page-Website mit Anfrageformular, verbunden mit Ihrer eigenen Domain. Mobil optimiert.</p>
+      </div>
+      <div class="block">
+        <span class="ic">🤖</span>
+        <h3>KI-Chatbot 24/7</h3>
+        <p>Beantwortet Kundenfragen automatisch, sammelt Anfragen und schickt Ihnen heiße Leads direkt auf Telegram — auch nachts.</p>
+      </div>
+      <div class="block">
+        <span class="ic">🎬</span>
+        <h3>Promo-Video 60–90 Sek</h3>
+        <p>Ein kurzes Video für Instagram Reels, TikTok und bezahlte Werbung. Drehbuch, Schnitt, Musik — bereits im Preis.</p>
+      </div>
+      <div class="block">
+        <span class="ic">📍</span>
+        <h3>Google-Unternehmensprofil</h3>
+        <p>Anlage und Befüllung Ihres Google-Business-Profils: Fotos, Beschreibung, Öffnungszeiten. Ihr Betrieb erscheint auf der Karte.</p>
+      </div>
+      <div class="block">
+        <span class="ic">📣</span>
+        <h3>Facebook-Seite + Werbeanzeigen</h3>
+        <p>Gestaltung der Seite, Einrichtung und Start Ihrer ersten Werbekampagne. Das Werbebudget ist im Paket bereits enthalten.</p>
+      </div>
+      <div class="block accent">
+        <span class="ic">🎯</span>
+        <h3>Erste Leads</h3>
+        <p>Sie erhalten echte Anfragen von potenziellen Kunden — noch bevor die 7 Tage vorbei sind. Ein Ergebnis, kein Versprechen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="ablauf">
+  <div class="wrap">
+    <div class="sec-label">⚙️ So funktioniert's</div>
+    <h2>7 Tage vom Nullpunkt bis zu echten Kunden</h2>
+    <p class="sec-note">Ein einfacher Prozess: Sie kümmern sich um Ihr Geschäft, wir um den Start.</p>
+
+    <div class="process">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div>
+          <h3>Tag 1 — Kennenlernen & Briefing 📋</h3>
+          <p>Wir sprechen auf Telegram, Sie erzählen von Ihrem Geschäft. Wir sammeln alle Infos: Zielgruppe, Wettbewerb, Ziele. Vertrag wird unterschrieben.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div>
+          <h3>Tag 2–3 — Marke & Inhalte 🎨</h3>
+          <p>Wir entwickeln Logo, Corporate Design und Website. Parallel drehen und schneiden wir das Promo-Video.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div>
+          <h3>Tag 4–5 — KI & Social Media einrichten 🤖</h3>
+          <p>Wir richten den KI-Chatbot ein, befüllen Google Business und gestalten die Facebook-Seite. Alles wird getestet.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div>
+          <h3>Tag 6–7 — Werbung starten & Leads 🚀</h3>
+          <p>Wir starten die Werbeanzeigen und aktivieren den KI-Bot. Die ersten Anfragen erreichen Sie noch vor Ende des 7. Tages.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">✓</div>
+        <div>
+          <h3>Übergabe & Support 🤝</h3>
+          <p>Wir übergeben alle Zugänge und geben eine kurze Einweisung. 30 Tage nach dem Start beantworten wir weiter Ihre Fragen.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="preis">
+  <div class="wrap">
+    <div class="sec-label">💰 Preis</div>
+    <h2>Transparenter Preis. Null versteckte Kosten</h2>
+
+    <div class="price-card">
+      <div class="price-top">
+        <div>
+          <div class="price-name">Paket „Start schlüsselfertig“</div>
+          <div class="price-num">ab 650 €</div>
+          <div class="price-from">Je nach Branche und Umfang — 650 bis 900 €</div>
+        </div>
+        <div class="mono" style="font-size:14px;color:var(--rust-dim);">⚡ Voller Start in 7 Kalendertagen</div>
+      </div>
+      <div class="price-feat">
+        <span>🎨 Logo + Design</span>
+        <span>🌐 Website + Domain</span>
+        <span>🤖 KI-Chatbot</span>
+        <span>🎬 Promo-Video</span>
+        <span>📍 Google Business</span>
+        <span>📣 Facebook + Ads</span>
+        <span>🎯 Erste Leads</span>
+        <span>📞 30 Tage Support</span>
+      </div>
+      <div class="price-ctas">
+        <a class="btn btn-solid" href="https://t.me/cryptomaus">✈️ Über Telegram bestellen</a>
+        <a class="btn btn-ghost" href="https://t.me/cryptomaus">📋 Briefing ausfüllen</a>
+      </div>
+      <div class="price-fine">🔒 Vertrag + Teilanzahlung · Restzahlung nach Abnahme · Remote, weltweit</div>
+    </div>
+  </div>
+</section>
+
+<section class="final" id="kontakt" style="border-bottom:1px solid var(--line);">
+  <div class="wrap">
+    <div class="sec-label">🔥 Bereit zu starten?</div>
+    <h2>Ihr Geschäft kann schon in einer Woche online sein</h2>
+    <p class="sec-note">Schreiben Sie jetzt — erzählen Sie von Ihrer Idee, wir berechnen den genauen Preis.</p>
+    <a class="btn btn-solid" href="https://t.me/cryptomaus">✈️ Dmytro auf Telegram schreiben</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px;width:100%;">
+    <div class="footer-id">
+      <b>👤 Dmytro</b>
+      📍 Online · weltweit erreichbar · ✈️ <a href="https://t.me/cryptomaus">@cryptomaus</a>
+    </div>
+    <div class="footer-copy">© 2026 · Start schlüsselfertig · Dmytro</div>
+  </div>
+</footer>
+
+<div class="sticky-cta" id="stickyCta">
+  <span>Start in 7 Tagen ab 650 €</span>
+  <a href="https://t.me/cryptomaus">Bestellen ✈️</a>
+</div>
+
+<script>
+  const sticky = document.getElementById('stickyCta');
+  const priceSection = document.getElementById('preis');
+  window.addEventListener('scroll', () => {
+    const trigger = window.innerHeight * 1.2;
+    if (window.scrollY > trigger) {
+      sticky.classList.add('show');
+    } else {
+      sticky.classList.remove('show');
+    }
+  });
+</script>
+
+</body>
+</html>
