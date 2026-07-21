@@ -182,10 +182,14 @@
     }
 
     .hero-grid {
-      display: grid; grid-template-columns: 1fr 320px; gap: 56px; align-items: start;
+      display: grid; grid-template-columns: 1fr 360px; gap: 48px; align-items: start;
       position: relative; z-index: 1;
     }
-    @media(max-width:860px){ .hero-grid { grid-template-columns: 1fr; } }
+    @media(max-width:960px){ .hero-grid { grid-template-columns: 1fr 300px; gap: 36px; } }
+    @media(max-width:860px){ .hero-grid { grid-template-columns: 1fr; gap: 48px; } }
+
+    /* prevent grid-item blowout */
+    .hero-left, .hero-side { min-width: 0; }
 
     .hero-eyebrow { margin-bottom: 26px; }
     .hero-title {
@@ -210,16 +214,28 @@
     .hero-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 36px; }
 
     /* ── SIDE (hero right column) ── */
-    @media(max-width:860px){ .hero-side { display: none; } }
+    /* show image on mobile too; only hide the metrics card */
+    @media(max-width:860px){
+      .hero-side .side-card { display: none; }
+      .hero-side { text-align: center; }
+    }
 
     /* ── HERO IMAGE — float (transform-only → GPU) ── */
     .hero-laptop-img {
-      width: 100%; display: block;
+      width: 100%;
+      height: auto;          /* natural 1:1 ratio — no cropping ever */
+      display: block;
       border-radius: 12px; margin-bottom: 16px;
-      object-fit: cover;
+      /* object-fit removed: height:auto already keeps full image visible */
       box-shadow: 0 8px 40px rgba(0,0,0,0.55), 0 0 40px rgba(46,111,242,0.14);
       will-change: transform;
       animation: float 4.5s ease-in-out infinite;
+    }
+    @media(max-width:860px){
+      .hero-laptop-img {
+        max-width: 420px;        /* cap on mobile so it's not too big */
+        margin-left: auto; margin-right: auto;
+      }
     }
     @keyframes float {
       0%, 100% { transform: translateY(0px);   }
