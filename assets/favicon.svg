@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="StartAI">
+  <rect width="64" height="64" rx="16" fill="#0b1224"/>
+  <path d="M18 20c0-5 4-9 10-9h18v9H29c-2 0-3 1-3 3s1 3 3 3h7c8 0 13 5 13 13 0 9-6 14-15 14H17v-9h17c4 0 6-2 6-5 0-2-2-4-5-4h-7c-6 0-10-3-10-9v-6Z" fill="#2e6ff2"/>
+  <circle cx="48" cy="16" r="5" fill="#17a589"/>
+</svg>

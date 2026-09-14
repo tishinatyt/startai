@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tishinatyt.github.io/startai/sitemap.xml
