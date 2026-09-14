@@ -296,6 +296,7 @@
     html{scroll-behavior:auto;}
     *{transition:none !important;}
   }
+  #leistungen, #ablauf, #preis, #faq, .final, footer { content-visibility:auto; contain-intrinsic-size:700px; }
 </style>
 </head>
 <body>
@@ -504,7 +505,7 @@
     } else {
       sticky.classList.remove('show');
     }
-  });
+  }, { passive: true });
 </script>
 
 </body>

@@ -6,6 +6,7 @@
 <title>MeetNow — Знайди своїх. ШІ знає як.</title>
 <meta name="description" content="AI підбирає тобі групу з 4-6 людей за характером. Ти просто приходиш на вечерю."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,700;0,900;1,300;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -358,6 +359,7 @@ footer{
 .reveal.visible{opacity:1;transform:none}
 /* Hero elements visible immediately */
 .hero .reveal{opacity:1;transform:none}
+section:not(.hero), footer { content-visibility:auto; contain-intrinsic-size:700px; }
 </style>
 </head>
 <body>

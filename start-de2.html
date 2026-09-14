@@ -452,6 +452,7 @@
     *{transition:none !important;}
     [data-reveal]{opacity:1;transform:none;}
   }
+  #leistungen, #ablauf, #preis, #faq, .final, footer { content-visibility:auto; contain-intrinsic-size:700px; }
 </style>
 </head>
 <body>
@@ -720,7 +721,7 @@
   window.addEventListener('scroll', () => {
     const trigger = window.innerHeight * 1.2;
     sticky.classList.toggle('show', window.scrollY > trigger);
-  });
+  }, { passive: true });
 
   const revealEls = document.querySelectorAll('[data-reveal]');
   const io = new IntersectionObserver((entries) => {

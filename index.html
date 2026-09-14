@@ -324,6 +324,7 @@
     }
     .contact-chip strong { color: var(--text); }
     .grant-note { margin: -18px 0 30px; color: var(--gold-lite); font-size: 14px; font-weight: 600; }
+    #included, #how, #price, #cta, .seo-faq, footer { content-visibility:auto; contain-intrinsic-size:700px; }
     .seo-faq { padding: 90px 0; background: var(--bg2); }
     .faq-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:32px; }
     .faq-item { border:1px solid var(--border); border-radius:var(--radius); background:var(--card); padding:24px; }
@@ -798,7 +799,7 @@
   const cta = document.getElementById('stickyCta');
   window.addEventListener('scroll', () => {
     cta.classList.toggle('visible', window.scrollY > 600);
-  });
+  }, { passive: true });
 </script>
 </body>
 </html>
