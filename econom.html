@@ -185,6 +185,10 @@
       pointer-events: none;
       will-change: transform;
     }
+    @media (pointer: coarse) {
+      body, a, button { cursor: auto; }
+      #cursor, #cursor-ring { display: none; }
+    }
 
     /* ── UTILITIES ── */
     .container { max-width: 1100px; margin: 0 auto; padding: 0 28px; }
@@ -529,7 +533,7 @@
     .how-note-text { font-size: 14px; color: var(--muted2); line-height: 1.75; }
     .grant-note { margin-top: 18px; max-width: 520px; color: var(--text); font-size: 14px; font-weight: 500; }
     .grant-note span { display: inline-block; margin-right: 8px; color: var(--green); font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
-    #faq { padding: 88px 0; }
+    #faq { padding: 88px 0; content-visibility: auto; contain-intrinsic-size: 620px; }
     .faq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 34px; }
     .faq-item { padding: 24px; border: 1px solid var(--border2); background: rgba(15,25,50,.7); }
     .faq-item h3 { margin-bottom: 8px; font-size: 17px; color: var(--text); }
@@ -1023,21 +1027,28 @@
   /* ── CURSOR — translate3d avoids layout reflow on every mousemove ── */
   const cur = document.getElementById('cursor');
   const ring = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
+  let mx = 0, my = 0, rx = 0, ry = 0, ringFrame = 0;
   /* half-sizes for centering without left/top offset tricks */
   const CUR_HALF = 5, RING_HALF = 16;
 
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cur.style.transform = `translate3d(${mx - CUR_HALF}px,${my - CUR_HALF}px,0)`;
-  }, { passive: true });
-
-  (function animRing() {
+  function animRing() {
     rx += (mx - rx) * 0.14;
     ry += (my - ry) * 0.14;
     ring.style.transform = `translate3d(${rx - RING_HALF}px,${ry - RING_HALF}px,0)`;
-    requestAnimationFrame(animRing);
-  })();
+    if (Math.abs(mx - rx) > 0.2 || Math.abs(my - ry) > 0.2) {
+      ringFrame = requestAnimationFrame(animRing);
+    } else {
+      ringFrame = 0;
+    }
+  }
+
+  if (matchMedia('(pointer: fine)').matches) {
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cur.style.transform = `translate3d(${mx - CUR_HALF}px,${my - CUR_HALF}px,0)`;
+      if (!ringFrame) ringFrame = requestAnimationFrame(animRing);
+    }, { passive: true });
+  }
 
   /* CSS :hover handles the scale — only need class for dot-size change */
   document.querySelectorAll('a, button').forEach(el => {
@@ -1057,7 +1068,7 @@
   const sticky = document.getElementById('sticky');
   window.addEventListener('scroll', () => {
     sticky.classList.toggle('show', window.scrollY > 600);
-  });
+  }, { passive: true });
 
   /* ── HERO PARALLAX ── */
   const ghost = document.querySelector('.hero-ghost-num');
