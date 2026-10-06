@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Redirecting…</title>
+<script>
+(function () {
+  var l = window.location;
+  var svoyaBase = '/startai/svoya/';
+  if (l.pathname.indexOf(svoyaBase) === 0) {
+    try {
+      sessionStorage.setItem('svoya:redirect', l.pathname + l.search + l.hash);
+    } catch (_) {}
+    l.replace(l.protocol + '//' + l.host + svoyaBase);
+    return;
+  }
+})();
+</script>
+</head>
+<body></body>
+</html>
