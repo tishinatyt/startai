@@ -185,6 +185,21 @@
 
 <script>
 const answers = {};
+const briefParams = new URLSearchParams(location.search);
+const bizLabels = { services:'Послуги', shop:'Магазин', food:'Кафе/їжа', beauty:'Краса/медицина', law:'Юрист', build:'Будівництво/ремонт', other:'Інше' };
+const bizOptionValues = { services:'Послуги', shop:'Магазин', food:'Кафе / ресторан', beauty:'Медицина / краса', law:'Юрист / адвокат', other:'Інше' };
+const goalLabels = { leads:'Заявки', sell:'Продажі онлайн', bot:'Відповіді 24/7', maps:'Google Карти', ads:'Реклама' };
+const urlBiz = briefParams.get('biz');
+if (urlBiz) {
+  const wanted = bizOptionValues[urlBiz] || bizOptionValues.other;
+  const options = Array.from(document.querySelectorAll('.opt[data-step="1"]'));
+  const selected = options.find(el => el.dataset.value === wanted) || options.find(el => el.dataset.value === bizOptionValues.other);
+  if (selected) {
+    selected.classList.add('selected');
+    answers.step1 = selected.dataset.value;
+    document.getElementById('next1').disabled = false;
+  }
+}
 const calcParam=new URLSearchParams(location.search).get('calc');
 const fmtPrice=n=>Math.round(n).toLocaleString('uk-UA').replace(/\u00a0/g,' ')+' грн';
 function decodeQuote(value){if(!value)return null;const sel=new Map();value.split(',').forEach(t=>{const m=t.match(/^(b|bot|catalog|domain|google|ads|m|sup|p(\d+))$/);if(m)sel.set(m[1],m[2]?Number(m[2]):1)});if(!sel.has('b'))return null;const P=window.STARTAI_PRICES,keys={b:'base',bot:'bot',catalog:'catalog',domain:'domain',google:'google',ads:'ads',m:'adsMonthly',sup:'support'};let once=0,monthly=0;const items=[];sel.forEach((v,t)=>{const k=t[0]==='p'?'page':keys[t];if(!k)return;const n=k==='page'?Math.min(10,Math.max(1,v)):1,x=P[k],sum=x.price*n;if(x.kind==='monthly')monthly+=sum;else once+=sum;items.push({name:x.name+(k==='page'?' × '+n:''),subtotal:sum,kind:x.kind})});return{items,once,monthly,advance:once/2}}
@@ -233,9 +248,16 @@ async function submitBrief() {
   window.scrollTo({top:0,behavior:'smooth'});
 
   const biz = document.getElementById('f-biz').value.trim();
+  const contextLines = [];
+  if (urlBiz) contextLines.push('🏷️ *Тип бізнесу:* ' + (bizLabels[urlBiz] || bizLabels.other));
+  const selectedGoals = (briefParams.get('goals') || '').split(',').map(id => goalLabels[id]).filter(Boolean);
+  if (selectedGoals.length) contextLines.push('🎯 *Цілі:* ' + selectedGoals.join(', '));
+  const adBudget = Number(briefParams.get('adbudget'));
+  if (Number.isFinite(adBudget) && adBudget > 0) contextLines.push('📣 *Рекламний бюджет:* ' + Math.round(adBudget).toLocaleString('uk-UA').replace(/\u00a0/g, ' ') + ' грн/міс');
+  const contextText = contextLines.length ? '\n\n' + contextLines.join('\n') : '';
   const BOT='8741925031:AAHacGEzHZFa3OHe81g1C07tTEBEr-jVaHk';
   const CHAT='503549265';
-  const text='🔥 *Нова заявка — StartAI*\n\n🏢 *Бізнес:* '+(answers.step1||'—')+'\n💰 *Бюджет:* '+(quote?'Розрахунок з калькулятора':answers.step2||'—')+(biz?'\n📛 *Назва:* '+biz:'')+'\n\n👤 *Ім\'я:* '+name+'\n📞 *Телефон:* '+phone+(quote?'\n\n🧾 *Ваш розрахунок:*\n'+quote.items.map(i=>'• '+i.name+' — '+fmtPrice(i.subtotal)+(i.kind==='monthly'?' / міс':'')).join('\n')+'\nРазово: '+fmtPrice(quote.once)+(quote.monthly?'\nЩомісяця: '+fmtPrice(quote.monthly):'')+'\nПередоплата 50%: '+fmtPrice(quote.advance):'');
+  const text='🔥 *Нова заявка — StartAI*\n\n🏢 *Бізнес:* '+(answers.step1||'—')+'\n💰 *Бюджет:* '+(quote?'Розрахунок з калькулятора':answers.step2||'—')+(biz?'\n📛 *Назва:* '+biz:'')+'\n\n👤 *Ім\'я:* '+name+'\n📞 *Телефон:* '+phone+contextText+(quote?'\n\n🧾 *Ваш розрахунок:*\n'+quote.items.map(i=>'• '+i.name+' — '+fmtPrice(i.subtotal)+(i.kind==='monthly'?' / міс':'')).join('\n')+'\nРазово: '+fmtPrice(quote.once)+(quote.monthly?'\nЩомісяця: '+fmtPrice(quote.monthly):'')+'\nПередоплата 50%: '+fmtPrice(quote.advance):'');
   try {
     await fetch('https://api.telegram.org/bot'+BOT+'/sendMessage',{
       method:'POST',headers:{'Content-Type':'application/json'},

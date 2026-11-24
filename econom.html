@@ -496,21 +496,6 @@
 
     /* ── HOW ── */
     #kalkulyator { background: var(--bg2); }
-    .calc-panel { max-width:920px; margin:0 auto; padding:clamp(20px,4vw,42px); background:rgba(15,25,50,.92); border:1px solid rgba(46,111,242,.25); }
-    .calc-list { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    .calc-option { min-width:0; display:flex; align-items:flex-start; gap:12px; padding:16px; border:1px solid rgba(46,111,242,.2); background:rgba(255,255,255,.025); }
-    .calc-option input { width:20px; height:20px; margin-top:2px; accent-color:var(--fire); flex:0 0 auto; }
-    .calc-option label { cursor:pointer; flex:1; color:var(--text); font-size:14px; line-height:1.45; }
-    .calc-option small { display:block; color:var(--muted2); margin-top:4px; }
-    .calc-price { white-space:nowrap; color:var(--fire); font-weight:700; font-size:14px; }
-    .calc-qty { width:68px; margin-left:8px; padding:6px; color:var(--text); background:var(--bg); border:1px solid var(--border2); }
-    .calc-summary { margin-top:24px; padding:20px; border-left:3px solid var(--fire); background:rgba(46,111,242,.08); }
-    .calc-summary p { margin:5px 0; color:var(--muted2); }
-    .calc-summary strong { color:var(--text); }
-    .calc-actions { margin-top:20px; display:flex; flex-wrap:wrap; gap:12px; }
-    .calc-option:focus-within, .calc-qty:focus-visible { outline:2px solid var(--fire); outline-offset:2px; }
-    @media(max-width:660px){ .calc-list { grid-template-columns:1fr; } }
-    @media(prefers-reduced-motion:reduce){ #kalkulyator *, #kalkulyator *::before { scroll-behavior:auto; transition:none; } }
     #how { background: transparent; position: relative; }
     #how::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
@@ -550,7 +535,7 @@
     .how-note-text { font-size: 14px; color: var(--muted2); line-height: 1.75; }
     .grant-note { margin-top: 18px; max-width: 520px; color: var(--text); font-size: 14px; font-weight: 500; }
     .grant-note span { display: inline-block; margin-right: 8px; color: var(--green); font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; }
-    #includes, #kalkulyator, #how, #price, #cta, #faq, #contact, footer { content-visibility: auto; contain-intrinsic-size: 700px; }
+    #includes, #how, #price, #cta, #faq, #contact, footer { content-visibility: auto; contain-intrinsic-size: 700px; }
     #faq { padding: 88px 0; }
     .faq-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin-top: 34px; }
     .faq-item { padding: 24px; border: 1px solid var(--border2); background: rgba(15,25,50,.7); }
@@ -771,6 +756,7 @@
     }
     @media (prefers-reduced-motion: reduce) { .neon-sign { animation: none; } }
   </style>
+  <link rel="stylesheet" href="assets/calculator.css" />
 </head>
 <body>
 
@@ -919,8 +905,8 @@
 </section>
 
 <!-- COST CALCULATOR -->
-<section id="kalkulyator"><div class="container"><div class="sec-header"><span class="sec-num">// 02 — розрахунок</span><h2 class="sec-title reveal">ОБЕРИ <em>ПОТРІБНЕ</em></h2><p class="sec-sub reveal reveal-delay-1">Фіксовані ціни без прихованих платежів. Сума оновлюється одразу.</p></div>
-<div class="calc-panel reveal"><div class="calc-list" id="calcOptions" aria-label="Послуги калькулятора"></div><div class="calc-summary" aria-live="polite" aria-atomic="true"><p>Разово: <strong id="calcOnce">10 000 грн</strong></p><p id="calcMonthlyRow" hidden>Щомісяця: <strong id="calcMonthly">0 грн</strong></p><p>Передоплата 50%: <strong id="calcAdvance">5 000 грн</strong>, решта після здачі</p></div><div class="calc-actions"><a id="calcOrder" class="btn btn-pulse" href="client-brief.html?calc=b">Замовити за цим розрахунком →</a></div></div></div></section>
+<section id="kalkulyator"><div class="container"><div class="sec-header"><span class="sec-num">// 02 — розрахунок</span><h2 class="sec-title">РОЗУМНИЙ <em>КАЛЬКУЛЯТОР</em></h2><p class="sec-sub">5 коротких питань — і ви бачите точну ціну та що саме вам потрібно.</p></div>
+<div id="smartCalc"></div></div></section>
 
 <!-- HOW IT WORKS -->
 <section id="how">
@@ -1128,5 +1114,6 @@
     counterEls.forEach(el => counterObs.observe(el));
   }
 </script>
+<script src="assets/calculator.js" defer></script>
 </body>
 </html>
