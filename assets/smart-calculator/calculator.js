@@ -30,13 +30,13 @@
   ];
 
   var SHORT = { base: 'Сайт-лендинг', bot: 'AI чат-бот 24/7', page: 'Додаткові сторінки', catalog: 'Каталог з кошиком', domain: 'Домен + SSL', google: 'Профіль Google Business', ads: 'Запуск Google Ads', adsMonthly: 'Ведення реклами', support: 'Підтримка та правки' };
-  var s = { step: 0, biz: null, has: [], goals: [], pages: 0, ads: null, budget: 8000, check: null, adsMonthly: true, support: false, off: {} };
-  var STEPS = 5;
+  var s = { step: 0, biz: null, has: [], goals: [], pages: 0, ads: null, budget: 8000, check: null, adsMonthly: true, support: false, off: {}, name: '', phone: '', sent: false, sending: false, error: false };
+  var STEPS = 3;
 
   function fmt(n) { return Math.round(n).toLocaleString('uk-UA').replace(/ /g, ' ') + ' грн'; }
   function has(arr, id) { return arr.indexOf(id) !== -1; }
   function biz() { for (var i = 0; i < BIZ.length; i++) if (BIZ[i].id === s.biz) return BIZ[i]; return BIZ[0]; }
-  function wantsAds() { return s.ads === null ? has(s.goals, 'ads') : s.ads; }
+  function wantsAds() { return has(s.goals, 'ads'); }
   function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
   /* --- рекомендація --- */
@@ -100,9 +100,9 @@
   }
   function stepHtml() {
     switch (s.step) {
-      case 0: return head('Крок 1 з 5', 'Який у вас бізнес?', 'Від цього залежить, що саме порадимо.') + chips(BIZ, s.biz, false, 'Тип бізнесу');
-      case 1: return head('Крок 2 з 5', 'Що у вас уже є?', 'Можна обрати кілька. Не будемо продавати те, що вже працює.') + chips(HAS, s.has, true, 'Що вже є');
-      case 2: return head('Крок 3 з 5', 'Що для вас головне?', 'Оберіть усе, що важливо, — калькулятор підбере інструменти.') + chips(GOALS, s.goals, true, 'Цілі');
+      case 0: return head('Крок 1 з 3', 'Який у вас бізнес?', 'Від цього залежить, що саме порадимо.') + chips(BIZ, s.biz, false, 'Тип бізнесу');
+      case 1: return head('Крок 2 з 3', 'Що у вас уже є?', 'Можна обрати кілька. Не будемо продавати те, що вже працює.') + chips(HAS, s.has, true, 'Що вже є');
+      case 2: return head('Крок 3 з 3', 'Що для вас головне?', 'Оберіть усе, що важливо, — калькулятор підбере інструменти.') + chips(GOALS, s.goals, true, 'Цілі') + contacts();
       case 3: return head('Крок 4 з 5', 'Деталі сайту', 'Головна сторінка вже входить у базу.') +
         '<div class="sc-row"><div><b>Окремі сторінки під послуги</b><small>Для кожної ключової послуги — своя сторінка: її краще знаходить Google.</small></div><div class="sc-stepper"><button type="button" class="sc-step-btn" data-pages="-1" aria-label="Менше сторінок">−</button><output aria-live="polite">' + s.pages + '</output><button type="button" class="sc-step-btn" data-pages="1" aria-label="Більше сторінок">+</button></div></div>' +
         '<div class="sc-row"><div><b>Підтримка після запуску</b><small>Правки, нові ціни й акції — без окремих рахунків. ' + fmt(P.support.price) + '/міс.</small></div>' + sw('support', s.support) + '</div>';
@@ -121,12 +121,16 @@
   }
   function head(l, q, h) { return '<p class="sc-step-label">' + l + '</p><h3 class="sc-q">' + q + '</h3><p class="sc-hint">' + h + '</p>'; }
   function sw(name, on) { return '<div class="sc-switch" role="group" aria-label="' + name + '"><button type="button" data-sw="' + name + '" data-v="1" aria-pressed="' + !!on + '">Так</button><button type="button" data-sw="' + name + '" data-v="0" aria-pressed="' + !on + '">Ні</button></div>'; }
-  function canNext() { return s.step === 0 ? !!s.biz : s.step === 2 ? s.goals.length > 0 : true; }
+  function phoneOk(p) { return String(p).replace(/\D/g, '').length >= 10; }
+  function canNext() { return s.step === 0 ? !!s.biz : s.step === 2 ? (s.goals.length > 0 && s.name.trim().length > 1 && phoneOk(s.phone) && !s.sending) : true; }
+  function contacts() {
+    return '<div class="sc-contacts"><p class="sc-hint" style="margin:22px 0 12px">Куди надіслати розрахунок? Дмитро зателефонує й зафіксує ціну.</p><div class="sc-fields"><label class="sc-field"><span>Ім\'я</span><input id="scName" class="sc-input" autocomplete="name" value="' + esc(s.name) + '" placeholder="Ваше ім\'я"></label><label class="sc-field"><span>Телефон</span><input id="scPhone" class="sc-input" type="tel" inputmode="tel" autocomplete="tel" value="' + esc(s.phone) + '" placeholder="+380"></label></div>' + (s.error ? '<p class="sc-err">Не вдалося надіслати. Напишіть нам у <a href="https://t.me/cryptomaus" target="_blank" rel="noopener">Telegram</a> — розрахунок збережено.</p>' : '') + '</div>';
+  }
 
   /* --- рендер --- */
   root.className = 'sc';
   root.innerHTML = '<div class="sc-main"><div class="sc-progress" aria-hidden="true">' + Array(STEPS + 1).join('<span></span>') + '</div><div id="scStep"></div><div class="sc-live" aria-hidden="true">Зараз: <b id="scMOnce"></b> <span id="scMMonthly"></span></div><div class="sc-nav"><button type="button" class="sc-btn" id="scBack">← Назад</button><button type="button" class="sc-btn primary" id="scNext">Далі →</button></div></div>' +
-    '<aside class="sc-side" aria-label="Ваш розрахунок"><span class="sc-pkg" id="scPkg">ПАКЕТ ЕКОНОМ</span><div class="sc-sub">Разово</div><div class="sc-total" id="scOnce" aria-live="polite">' + fmt(P.base.price) + '</div><div class="sc-sub" id="scMonthly"></div><ul class="sc-items" id="scItems"></ul><div class="sc-line"><span>Передоплата 50%</span><strong id="scAdv"></strong></div><div class="sc-line"><span>Після здачі</span><strong id="scRest"></strong></div><p class="sc-time" id="scTime"></p><a class="sc-btn primary" id="scOrder" href="client-brief.html?calc=b">Замовити за цим розрахунком →</a></aside>' +
+    '<aside class="sc-side" aria-label="Ваш розрахунок"><span class="sc-pkg" id="scPkg">ПАКЕТ ЕКОНОМ</span><div class="sc-sub">Разово</div><div class="sc-total" id="scOnce" aria-live="polite">' + fmt(P.base.price) + '</div><div class="sc-sub" id="scMonthly"></div><ul class="sc-items" id="scItems"></ul><div class="sc-line"><span>Передоплата 50%</span><strong id="scAdv"></strong></div><div class="sc-line"><span>Після здачі</span><strong id="scRest"></strong></div><p class="sc-time" id="scTime"></p><p class="sc-sub" id="scSideHint">Відповідайте на 3 питання — розрахунок оновлюється одразу.</p></aside>' +
     '';
 
   var stepEl = root.querySelector('#scStep');
@@ -137,7 +141,7 @@
     root.querySelector('#scBack').style.visibility = s.step === 0 ? 'hidden' : 'visible';
     var next = root.querySelector('#scNext');
     next.disabled = !canNext();
-    next.textContent = s.step === STEPS - 1 ? 'Готово ✓' : 'Далі →';
+    next.textContent = s.step === STEPS - 1 ? (s.sending ? 'Надсилаємо…' : 'Готово — отримати розрахунок ✓') : 'Далі →';
   }
   function renderSide() {
     var list = items(), t = totals(list);
@@ -149,12 +153,43 @@
     root.querySelector('#scAdv').textContent = fmt(t.once / 2);
     root.querySelector('#scRest').textContent = fmt(t.once - Math.round(t.once / 2));
     root.querySelector('#scTime').textContent = '⏱ ' + timeline(list);
-    root.querySelector('#scOrder').href = code(list);
     root.querySelector('#scItems').innerHTML = list.map(function (it) {
       var p = P[it.k], sum = p.price * (it.qty || 1), id = 'sci-' + it.k;
       var name = (SHORT[it.k] || p.name) + (it.k === 'page' ? ' × ' + it.qty : '');
       return '<li class="sc-item' + (it.on ? '' : ' off') + '"><input type="checkbox" id="' + id + '" data-item="' + it.k + '"' + (it.on ? ' checked' : '') + (it.fixed ? ' disabled' : '') + '><label for="' + id + '">' + esc(name) + '<span class="why">' + esc(it.why) + '</span></label><span class="pr">' + fmt(sum) + (p.kind === 'monthly' ? '/міс' : '') + '</span></li>';
     }).join('');
+  }
+
+  var BIZ_T = {}, GOAL_T = {}, HAS_T = {};
+  BIZ.forEach(function (b) { BIZ_T[b.id] = b.t; }); GOALS.forEach(function (g) { GOAL_T[g.id] = g.t; }); HAS.forEach(function (h) { HAS_T[h.id] = h.t; });
+  function leadText() {
+    var list = items(), t = totals(list), lines = [];
+    lines.push('🧮 *Заявка з калькулятора — StartAI*', '');
+    lines.push('🏢 *Бізнес:* ' + (BIZ_T[s.biz] || '—'));
+    lines.push('📦 *Вже є:* ' + (s.has.length ? s.has.map(function (h) { return HAS_T[h]; }).join(', ') : '—'));
+    lines.push('🎯 *Цілі:* ' + s.goals.map(function (g) { return GOAL_T[g]; }).join(', '));
+    lines.push('', '🧾 *' + pkg(list) + '*');
+    list.forEach(function (it) { if (!it.on) return; var p = P[it.k]; lines.push('• ' + (SHORT[it.k] || p.name) + (it.k === 'page' ? ' × ' + it.qty : '') + ' — ' + fmt(p.price * (it.qty || 1)) + (p.kind === 'monthly' ? '/міс' : '')); });
+    lines.push('', '💰 *Разово:* ' + fmt(t.once) + (t.monthly ? '\n🔁 *Щомісяця:* ' + fmt(t.monthly) : ''));
+    lines.push('', '👤 *Ім\'я:* ' + s.name.trim().replace(/[*_`\[\]]/g, ''), '📞 *Телефон:* ' + s.phone.trim().replace(/[*_`\[\]]/g, ''));
+    return lines.join('\n');
+  }
+  function send() {
+    if (!canNext()) return;
+    s.sending = true; s.error = false; renderStep();
+    var p = typeof window.STARTAI_SEND_LEAD === 'function' ? window.STARTAI_SEND_LEAD(leadText()) : Promise.reject(new Error('no sender'));
+    Promise.resolve(p).then(function () {
+      s.sending = false; s.sent = true;
+      try { if (window.ttq) window.ttq.track('SubmitForm'); } catch (e) {}
+      try { if (window.gtag) window.gtag('event', 'generate_lead', { value: totals(items()).once, currency: 'UAH' }); } catch (e) {}
+      done();
+    }, function () { s.sending = false; s.error = true; renderStep(); });
+  }
+  function done() {
+    var first = esc(s.name.trim().split(' ')[0] || '');
+    root.querySelector('.sc-main').innerHTML = '<p class="sc-step-label">Готово</p><h3 class="sc-q">Дякуємо' + (first ? ', ' + first : '') + '!</h3><p class="sc-hint">Розрахунок уже в Дмитра. Він зателефонує найближчим часом, уточнить деталі й зафіксує ціну в договорі.</p><div class="sc-forecast"><strong>Що далі:</strong> дзвінок і уточнення → договір і передоплата 50% → запуск → решта 50% після здачі.</div><div class="sc-nav"><a class="sc-btn" href="https://t.me/cryptomaus" target="_blank" rel="noopener">Написати в Telegram</a></div>';
+    root.querySelectorAll('.sc-item input').forEach(function (i) { i.disabled = true; });
+    var h = root.querySelector('#scSideHint'); if (h) h.textContent = '✓ Розрахунок надіслано';
   }
   function render() { renderStep(); renderSide(); }
 
@@ -171,7 +206,7 @@
     if (pg) { s.pages = Math.max(0, Math.min(10, s.pages + Number(pg.dataset.pages))); delete s.off.page; render(); var b = stepEl.querySelector('[data-pages="' + pg.dataset.pages + '"]'); if (b) b.focus(); return; }
     var sv = e.target.closest('[data-sw]');
     if (sv) { var v = sv.dataset.v === '1', n = sv.dataset.sw; s[n] = v; delete s.off[n]; if (n === 'ads') delete s.off.adsMonthly; render(); var f = stepEl.querySelector('[data-sw="' + n + '"][data-v="' + sv.dataset.v + '"]'); if (f) f.focus(); return; }
-    if (e.target.id === 'scNext') { if (s.step < STEPS - 1) { s.step++; render(); stepEl.querySelector('.sc-q').focus && stepEl.querySelector('.sc-q').setAttribute('tabindex', '-1'); stepEl.querySelector('.sc-q').focus(); } else { var o = root.querySelector('#scOrder'); o.scrollIntoView({ behavior: 'smooth', block: 'center' }); o.focus(); } return; }
+    if (e.target.id === 'scNext') { if (s.step < STEPS - 1) { s.step++; render(); stepEl.querySelector('.sc-q').focus && stepEl.querySelector('.sc-q').setAttribute('tabindex', '-1'); stepEl.querySelector('.sc-q').focus(); } else { send(); } return; }
     if (e.target.id === 'scBack') { if (s.step > 0) { s.step--; render(); } return; }
   });
   root.addEventListener('change', function (e) {
@@ -179,8 +214,10 @@
     if (k) { s.off[k] = !e.target.checked; if (k === 'adsMonthly') s.adsMonthly = e.target.checked; if (k === 'support') s.support = e.target.checked; renderSide(); if (s.step >= 3) renderStep(); var c = root.querySelector('[data-item="' + k + '"]'); if (c) c.focus(); }
   });
   root.addEventListener('input', function (e) {
+    if (e.target.id === 'scName' || e.target.id === 'scPhone') { s[e.target.id === 'scName' ? 'name' : 'phone'] = e.target.value; s.error = false; var nb = root.querySelector('#scNext'); nb.disabled = !canNext(); return; }
     if (e.target.id === 'scBudget') { s.budget = Number(e.target.value); root.querySelector('#scBudgetVal').textContent = fmt(s.budget); root.querySelector('#scForecast').innerHTML = forecast(); renderSide(); }
     if (e.target.id === 'scCheck') { var v = Number(e.target.value); s.check = v > 0 ? v : null; root.querySelector('#scForecast').innerHTML = forecast(); }
   });
+  root.addEventListener('keydown', function (e) { if (e.key === 'Enter' && (e.target.id === 'scName' || e.target.id === 'scPhone')) { e.preventDefault(); if (canNext()) send(); } });
   render();
 })();

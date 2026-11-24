@@ -114,6 +114,7 @@
 </div>
 
 <script src="assets/prices.js"></script>
+<script src="assets/lead.js"></script>
 <div class="progress-wrap"><div id="quoteBox" class="quote-box" hidden aria-live="polite"></div>
   <div class="progress-top">
     <span id="progLabel">Крок 1 з 3</span>
@@ -255,14 +256,9 @@ async function submitBrief() {
   const adBudget = Number(briefParams.get('adbudget'));
   if (Number.isFinite(adBudget) && adBudget > 0) contextLines.push('📣 *Рекламний бюджет:* ' + Math.round(adBudget).toLocaleString('uk-UA').replace(/\u00a0/g, ' ') + ' грн/міс');
   const contextText = contextLines.length ? '\n\n' + contextLines.join('\n') : '';
-  const BOT='8741925031:AAHacGEzHZFa3OHe81g1C07tTEBEr-jVaHk';
-  const CHAT='503549265';
   const text='🔥 *Нова заявка — StartAI*\n\n🏢 *Бізнес:* '+(answers.step1||'—')+'\n💰 *Бюджет:* '+(quote?'Розрахунок з калькулятора':answers.step2||'—')+(biz?'\n📛 *Назва:* '+biz:'')+'\n\n👤 *Ім\'я:* '+name+'\n📞 *Телефон:* '+phone+contextText+(quote?'\n\n🧾 *Ваш розрахунок:*\n'+quote.items.map(i=>'• '+i.name+' — '+fmtPrice(i.subtotal)+(i.kind==='monthly'?' / міс':'')).join('\n')+'\nРазово: '+fmtPrice(quote.once)+(quote.monthly?'\nЩомісяця: '+fmtPrice(quote.monthly):'')+'\nПередоплата 50%: '+fmtPrice(quote.advance):'');
   try {
-    await fetch('https://api.telegram.org/bot'+BOT+'/sendMessage',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({chat_id:CHAT,text,parse_mode:'Markdown'})
-    });
+    await window.STARTAI_SEND_LEAD(text);
     if(typeof ttq!=='undefined') ttq.track('SubmitForm');
   } catch(e){console.error(e);}
 }
